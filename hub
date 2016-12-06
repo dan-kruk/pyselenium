@@ -1,0 +1,55 @@
+#!/bin/bash
+
+usage='
+	hub 			install and run hub + local node
+	hub [hub|node]		install and run hub or node alone
+	hub node [host:port]	install and run node pointed to remote host:port hub
+	env var: [host]		define host/ip for the node (may be needed on vpn)
+'
+
+host=${host:-$(hostname -i|grep -o '10.130[^ ]*')} #vpn/intranet
+host=${host:-$HOSTNAME} #home
+
+trap 'kill -9 $(cat hpid) 2>/dev/null' INT TERM ERR
+
+ss="selenium-server-*"
+
+test -f $ss || wget -c --trust-server-names https://goo.gl/Lyo36k
+
+test -f geckodriver.exe || { 
+	wget -c https://github.com/mozilla/geckodriver/releases/download/v0.11.1/geckodriver-v0.11.1-win64.zip
+	jar -xvf geckodriver-v0.11.1-win64.zip
+}
+test -f chromedriver.exe || {
+	wget -c http://chromedriver.storage.googleapis.com/2.25/chromedriver_win32.zip
+	jar -xvf chromedriver_win32.zip
+}
+test -f IEDriverServer.exe || {
+	wget -c http://selenium-release.storage.googleapis.com/2.53/IEDriverServer_Win32_2.53.1.zip
+	jar -xvf IEDriverServer_Win32_2.53.1.zip
+}
+
+test ${1:-hub} = hub && { java -jar $ss -role hub -timeout 10 & echo $!>hpid; }
+test ${1:-node} = node && { java -jar $ss -role node -timeout 30 -port 5554 -hub http://${2:-localhost:4444}/grid/register -host $host -maxSession 10 & echo $!>>hpid; }
+#-browser browserName=firefox,maxInstances=10 
+wait -n || kill -TERM $$
+
+#instructions: https://github.com/SeleniumHQ/selenium/wiki/Grid5
+
+#examples:
+
+	#-browser browserName=firefox,version=3.6,maxInstances=5,platform=LINUX
+	#-browser browserName=firefox,version=3.6,firefox_binary=/home/myhomedir/firefox36/firefox,maxInstances=3,platform=LINUX -browser browserName=firefox,version=4,firefox_binary=/home/myhomedir/firefox4/firefox,maxInstances=4,platform=LINUX
+	#-browser “browserName=firefox,version=3.6,firefox_binary=c:\Program Files\firefox ,maxInstances=3, platform=WINDOWS”
+	#By default, starting the node allows for concurrent use of 11 browsers... : 5 Firefox, 5 Chrome, 1 Internet Explorer. The maximum number of concurrent tests is set to 5 by default. To change this and other browser settings, you can pass in parameters to each -browser switch (each switch represents a node based on your parameters). If you use the -browser parameter, the default browsers will be ignored and only what you specify command line will be used.
+	#-registerCycle N = how often in ms the node will try to register itself again.Allow to restart the hub without having to restart the nodes.
+
+	#Really large (>50 node) Hub installations may need to increase the jetty threads by setting -DPOOL_MAX=512 (or larger) on the java command line.
+
+	#Optional:
+
+	#-port [4444]
+	#-host [localhost]
+	#-timeout [300s] - hub releases node w/o any requests
+	#-maxSession [5] - max n all kinds of  browsers run parallel
+
