@@ -9,7 +9,7 @@ import os, sys, traceback, json
 from src import res #mws page resources, links etc
 
 #boilerplate globs
-driver = wait = wait3 = ret = FF = None
+driver = wait = wait3 = ret = FF = env = None
 
 #cfg defaults all almost
 cfg = {
@@ -23,9 +23,11 @@ cfg = {
 }
 
 def loadenv(p, d={}): #grab json'ish env var
+    global env
     v = os.environ.get(p); print ('*env:',p,'=',v)
     if v is None: return d 
-    return json.loads(v)
+    env = json.loads(v)
+    return env
 
 cfg = dict(cfg, **loadenv('cfg')) #merge env over defaults
 for i in ['browser']: cfg[i] = cfg[i].lower() #normilize
