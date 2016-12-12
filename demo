@@ -21,7 +21,7 @@ cfgx='{
 url='rdvmden120 rdvmden53 rdvmva81 rdvmden14 rdvmden40'
 browser='chrome firefox ie chrome firefox'
 
-url='rdvmden120'
+url='rdvmden28'
 browser='firefox'
 
 export db users; echo users=$users db=$db

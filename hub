@@ -18,7 +18,7 @@ test -f $ss || wget -c --trust-server-names https://goo.gl/Lyo36k
 
 test -f geckodriver.exe || { 
 	wget -c https://github.com/mozilla/geckodriver/releases/download/v0.11.1/geckodriver-v0.11.1-win64.zip
-	jar -xvf geckodriver-v0.11.1-win64.zip
+	jar -xvf geckodriver-v0.11.1-win64.zip || { echo  "unzip error, check bin/jar is in PATH"; kill -TERM $$; }
 }
 test -f chromedriver.exe || {
 	wget -c http://chromedriver.storage.googleapis.com/2.25/chromedriver_win32.zip

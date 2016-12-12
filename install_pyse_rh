@@ -1,0 +1,12 @@
+#!/bin/bash
+
+#install py and selenium from source on rhel or centos
+
+yum install gcc zlib-devel bzip2-devel sqlite sqlite-devel openssl-devel
+cd /usr/src
+wget https://www.python.org/ftp/python/3.5.2/Python-3.5.2.tgz -O - | tar -xzf -
+cd Python-3.5.2
+./configure
+make altinstall
+python3.5 -m pip install selenium
+
