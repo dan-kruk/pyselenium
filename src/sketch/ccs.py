@@ -1,6 +1,7 @@
-import glob as g #globs: driver, wait, wait3, FF, ...
+import g #globs: driver, wait, wait3, FF, ...
+from mwsm import nav
 
-from glob import tc
+from g import tc
 import re, time
 from selenium.common.exceptions import StaleElementReferenceException as stale
 from selenium.common.exceptions import WebDriverException
@@ -188,15 +189,15 @@ def deploy(d,a='Deploy All'): #a: Deploy Updates | Deploy All
 def mapendpoints(d):
     pass
 
-def ccs ():
+def ccs (): #TODO - mv t/mws/bvtccs.py
     """
     complete ccs configure thing
     """
-    g.nav("db")
+    nav("db")
     g.loadenv("db")
     createdbpools()
 
-    g.nav("ccs")
+    nav("ccs")
     g.loadenv("ccs")
     create()
     nav()
@@ -207,6 +208,6 @@ def ccs ():
     mapendpoints()
     mapdbpools()
 
-    g.nav("ccs")
+    nav("ccs")
     checkserverstatus()
 

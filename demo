@@ -15,26 +15,27 @@ db='[
 
 #cfg template
 cfgx='{
-	"wait":60,"remote":true,"hub":"http://localhost:4444/wd/hub"
+	"wait":10,"remote":true,"hub":"http://localhost:4444/wd/hub"
 '
 
 url='rdvmden120 rdvmden53 rdvmva81 rdvmden14 rdvmden40'
 browser='chrome firefox ie chrome firefox'
 
-url='rdvmden28'
-browser='firefox'
+url=' rdvmden120 '
+browser=' chrome '
 
 export db users; echo users=$users db=$db
 
-SECONDS=0; s=0; p=0; f=-1;  browser=($browser)
+SECONDS=0; s=0; p=0; f=-1; browser=($browser)
 
 for u in $url; do	#kick tests parallel for urls all over the browsers
+	((k++))
 	b=${browser[$bi]}
 	cfg="$cfgx,\"url\":\"http://$u:8585\",\"browser\":\"$b\"}"
 	bi=$((++i%${#browser[*]}))
 	echo cfg=$cfg
-	export cfg
-	(python demo.py; s=$?; echo $u on $b ret $s took $SECONDS; exit $s)&
+	export cfg PYTHONPATH=src
+	(time python -u t/mws/demo.py | tee /tmp/slog$k; s=$PIPESTATUS; echo $u on $b ret $s took $SECONDS; exit $s)&
 
 done
 

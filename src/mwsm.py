@@ -1,5 +1,5 @@
-import glob as g #globs: driver, cfg, wait, wait3, FF, ...
-from glob import tc,prep
+import g #globs: driver, cfg, wait, wait3, FF, ...
+from g import tc,prep
 EC=g.EC; By=g.By; Keys=g.Keys #selenium statics
 
 from mws import res #mws page resources, links etc
