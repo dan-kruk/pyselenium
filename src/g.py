@@ -5,7 +5,7 @@ from selenium.webdriver.common.desired_capabilities import DesiredCapabilities a
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.alert import Alert
-import os, sys, time, traceback, json
+import os,sys,time,traceback,json,re
 
 #boilerplate globs
 driver = wait = wait3 = FF = env = None
@@ -67,7 +67,7 @@ def tc(tc='',s='pass'):
     elif s in ['fail']: 
         print('*TC %-30s%6s%8.3f' % (tc_name,s,now - tc_time)) #report previous tc or this fatal
         tcases['pass'] = tcases.get('pass',0)-1
-        if driver is not None: driver.save_screenshot('./screenshot-'+tc_name+'.png')
+        if driver is not None: driver.save_screenshot('./screenshot-'+re.sub('[^a-zA-Z0-9]-',"_",tc_name)+'.png')
         tcases[tc_name] = { s, now - tc_time } #save previous tc
     elif tc_status in ['pass']:
         print('*TC %-30s%6s%8.3f' % (tc_name,tc_status,now - tc_time)) #report previous tc or this fatal
@@ -80,7 +80,7 @@ def error():
     global ret; ret = 1
     traceback.print_exc(file=sys.stdout)
     #exc_type, exc_value, exc_traceback = sys.exc_info(); print (exc_value)
-    if driver is not None: driver.save_screenshot('./screenshot.png')
+    if driver is not None: driver.save_screenshot('./screenshot-'+re.sub('[^a-zA-Z0-9-]',"_",tc_name)+'.png')
     tc('','fatal')
 
 def clean():
