@@ -20,11 +20,13 @@ prepend system env `PATH` variable with the following:
 `C:\Users\Administrator\AppData\Local\Programs\Python\Python35-32\Scripts\;C:\Users\Administrator\AppData\Local\Programs\Python\Python35-32\;c:\cygwin64\bin;`
 
 
-install ie, firefox, chrome on your node box(s). You may also install these on your laptop for local work
+install ie, firefox, chrome on your node box(s)
+
+You may also install all browsers on your laptop for local testing
 
 ---
 
-Optional(but cool): install and start the hub/node(s) with the following command:
+Optional: install and start the hub/node(s) with the following command:
 
 `hub`		#starts hub and node
 
@@ -34,11 +36,15 @@ Optional(but cool): install and start the hub/node(s) with the following command
 
 ---
 
-Optional on `Windows` (for brave and productive):
+Optional on `Windows`:
 
 download [cygwin](http://cygwin.com/setup-x86_64.exe)
 
 and install `setup-x86_64.exe -q -P nc,wget,vim,git,subversion,openssh` 
+
+The above `hub` script and some demo test ruller scripts are shell scripts.
+
+You may do it (script runners) your way as well
 
 ---
 
@@ -92,7 +98,7 @@ time python -u t/mws/chroot.py
 
 - document TC names short and precise
 
-- bundle up tests into sets with python or just shell scripts -it is easy clean fast w/o use of any "fancy messy frameworks"
+- bundle up tests into sets with python or just shell scripts -it is easy clean fast w/o use of any "fancy frameworks"
 
 - don't use bulky (or any at all) config files, csv, xls, xml - or you gonna start to suffer from day 1 w/o even noticing it
 
