@@ -1,5 +1,6 @@
 import g #globs: driver, wait, wait3, g.FF, ...
 EC=g.EC; By=g.By; Keys=g.Keys #selenium statics
+from g import tc
 
 from time import sleep
 

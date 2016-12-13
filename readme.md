@@ -1,6 +1,6 @@
 ##NAME
 
-**pyselenium** - get all UI test done
+**pyselenium** - get all UI testing done
 
 ##SETUP
 
