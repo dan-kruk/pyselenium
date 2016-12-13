@@ -11,6 +11,7 @@ def chroot (d={"root":"alt"}):
     """
     create/update/clear mws cluster root context; '' - clears context
     """
+    tc('change mwsroot '+d.get('root'))
     if type(d) is str: d={'root':d}
     x=".//*[contains (@id, 'clusteredSetupPanel')]"; e = g.wait.until(EC.element_to_be_clickable((By.XPATH, x))); e.click()
     sleep(1) #dom mutations TODO fix

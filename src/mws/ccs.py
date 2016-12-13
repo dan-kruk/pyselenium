@@ -47,7 +47,7 @@ def createpool (d={}):
     x="//*[contains (@id, 'zzz4')]"; g.driver.find_element(By.XPATH, x).send_keys(Keys.RETURN)
     #bug1: just created pool put at bottom, bug2: pool order link can click 1 time only, then disabled (seen in ff)
     #bug1 workaround - renav db page:
-    sleep (.1); e = g.driver.find_element(By.XPATH,"//*/a[text()='My Profile']").send_keys(Keys.RETURN)
+    g.wait.until(EC.element_to_be_clickable((By.XPATH,"//*/a[text()='My Profile']"))).send_keys(Keys.RETURN)
     nav('DatabasePoolConfiguration')
     x="//*[text() = '"+name+"']"; g.wait.until(EC.element_to_be_clickable((By.XPATH, x)))
 

@@ -181,6 +181,11 @@ def deploy(d,a='Deploy All'): #a: Deploy Updates | Deploy All
     x="//*[@value='"+a+"']"; g.wait.until(EC.element_to_be_clickable((By.XPATH, x))).send_keys(Keys.RETURN) 
     tc('check deployment status')
     x="//*/b[text()='Successfully deployed environment.']"; g.wait.until(EC.element_to_be_clickable((By.XPATH, x)))
+    #may check just specific server deploy status
+    #x="//*/textarea[@name='deployResult']"; e = g.wait.until(EC.element_to_be_clickable((By.XPATH, x)))
+    #print(e.get_attribute('value'));
+    #assert 'Deployed logical server \"Analytic Engine v' in e.get_attribute('value') #focus on ok for one server
+         
     tc('return to env list');
     x="//*[@type='submit' and @value='Close']"; g.wait.until(EC.element_to_be_clickable((By.XPATH, x))).send_keys(Keys.RETURN)
     l = d.get('name','AAenv'); tc('locate env link '+l)
