@@ -2,7 +2,7 @@ import g #globs: driver, wait, wait3, FF, ...
 from mwsm import nav
 
 from g import tc
-import re, time
+import re,time
 from selenium.common.exceptions import StaleElementReferenceException as stale
 from selenium.common.exceptions import WebDriverException
 EC=g.EC; By=g.By; Keys=g.Keys; Alert=g.Alert #selenium statics
@@ -158,6 +158,7 @@ def modmwspath(d={}):
     tc('click save mapendpoints');
     x="//*[@type='submit' and @value='Save']"; g.wait.until(EC.element_to_be_clickable((By.XPATH, x))).send_keys(Keys.RETURN)
     tc('check saved mwspath')
+    time.sleep(.3)
     x="//*[contains(@name,'MWS_path') and @type='text']"; e = g.wait.until(EC.element_to_be_clickable((By.XPATH, x)))
     assert e.get_attribute('value') == r
 
