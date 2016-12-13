@@ -59,7 +59,7 @@ add your own modules in src/...
 and build more tests in t/...
 
 
-this is a simple instant example to embed MWS and AE change root test into any automation, jenkins job or into superior framework - your command line :)
+this is a simple instant example to embed MWS and AE change root test into any automation, jenkins job or just a command line :)
 
 ```bash
 cd; cd pyselenium && git pull || { git clone http://irepo.eur.ad.sag/scm/~dkrukov/pyselenium.git && cd pyselenium; } 
@@ -80,7 +80,7 @@ time python -u t/mws/chroot.py
 
 ```
 
-YOU NOW CAN:
+**"You now can**
 
 - do lots of tests just as simple to use as shown
 
@@ -94,10 +94,10 @@ YOU NOW CAN:
 
 - bundle up tests into sets with python or just shell scripts -it is easy clean fast w/o use of any "fancy messy frameworks"
 
-- don't use bulky (or any at all) config files, csv, xls, xml - you gonna start to suffer from day 1 w/o noticing it
+- don't use bulky (or any at all) config files, csv, xls, xml - or you gonna start to suffer from day 1 w/o even noticing it
 
-- json snippets passed in env vars puts all config hassle out
+- json snippets passed in env vars puts all config hassle away for good
 
-- be productive
+**"Be productive**
 
 
