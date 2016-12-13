@@ -7,11 +7,11 @@
 ```sh 
 git clone http://irepo.eur.ad.sag/scm/~dkrukov/pyselenium.git
 ```
-install python:		https://www.python.org/downloads
+install [python 3.5](https://www.python.org/downloads)
 
 install selenium:	`python -m pip install selenium`
 
-_on rh linux may use:_ `install_pyse_rh` instead of the above 2 steps
+_on `RH/Centos linux` may use:_ `install_pyse_rh` instead of the above 2 steps
 
 `On Windows`
 
@@ -20,9 +20,10 @@ prepend system env `PATH` variable with the following:
 `C:\Users\Administrator\AppData\Local\Programs\Python\Python35-32\Scripts\;C:\Users\Administrator\AppData\Local\Programs\Python\Python35-32\;c:\cygwin64\bin;`
 
 
-install ie, firefox, chrome on your node box(s). You may also install it on your laptop
+install ie, firefox, chrome on your node box(s). You may also install these on your laptop for local work
 
 ---
+
 Optional(but cool): install and start the hub/node(s) with the following command:
 
 `hub`		#starts hub and node
@@ -33,9 +34,11 @@ Optional(but cool): install and start the hub/node(s) with the following command
 
 ---
 
-Optional on `Windows` (be productive):
+Optional on `Windows` (for brave and productive):
 
-download [cygwin](http://cygwin.com/setup-x86_64.exe) and install `setup-x86_64.exe -q -P nc,wget,vim,git,subversion,openssh` 
+download [cygwin](http://cygwin.com/setup-x86_64.exe)
+
+and install `setup-x86_64.exe -q -P nc,wget,vim,git,subversion,openssh` 
 
 ---
 
@@ -77,9 +80,9 @@ time python -u t/mws/chroot.py
 
 ```
 
-Now you can:
+YOU NOW CAN:
 
-- do any test(s) just as simple as shown
+- do lots of tests just as simple to use as shown
 
 - I recommend all tests to be tiny (dozen lines), very focused on 1 thing done well and complete in ~<1min
 
@@ -89,9 +92,11 @@ Now you can:
 
 - document TC names short and precise
 
-- bundle up tests into sets with python or shell scripts -it is easy clean fast w/o use of any "fancy mean frameworks"
+- bundle up tests into sets with python or just shell scripts -it is easy clean fast w/o use of any "fancy messy frameworks"
 
 - don't use bulky (or any at all) config files, csv, xls, xml - you gonna start to suffer from day 1 w/o noticing it
+
+- json snippets passed in env vars puts all config hassle out
 
 - be productive
 
