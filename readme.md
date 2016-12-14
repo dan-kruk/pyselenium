@@ -9,16 +9,15 @@ git clone http://irepo.eur.ad.sag/scm/~dkrukov/pyselenium.git
 ```
 install [python 3.5](https://www.python.org/downloads)
 
-install selenium:	`python -m pip install selenium`
+install selenium `python -m pip install selenium`
 
-_on `RH/Centos linux` may use:_ `install_pyse_rh` instead of the above 2 steps
+_on `RH/Centos linux` may use_ `install_pyse_rh` instead of the above 2 steps
 
 `On Windows`
 
-prepend system env `PATH` variable with the following:
+prepend system env `PATH` variable with the following
 
 `C:\Users\Administrator\AppData\Local\Programs\Python\Python35-32\Scripts\;C:\Users\Administrator\AppData\Local\Programs\Python\Python35-32\;c:\cygwin64\bin;`
-
 
 install ie, firefox, chrome on your node box(s)
 
@@ -26,25 +25,25 @@ You may also install all browsers on your laptop for local testing
 
 ---
 
-Optional: install and start the hub/node(s) with the following command:
+Recommended - install and start selenium
 
-`hub`		#starts hub and node
+`hub`		#hub and node
 
-`hub hub`	#starts just hub
+`hub hub`	#just hub
 
-`hub node`	#starts just node
+`hub node`	#just node, pass 2nd param host:port which would point node to remote hub
 
 ---
 
-Optional on `Windows`:
+Optional on `Windows`
 
 download [cygwin](http://cygwin.com/setup-x86_64.exe)
 
 and install `setup-x86_64.exe -q -P nc,wget,vim,git,subversion,openssh` 
 
-The above `hub` script and some demo test runner scripts are shell scripts.
+The above `hub` script and some demo test runner scripts are shell scripts
 
-You may do it - script runners etc, some other funny way
+Or you may do it, like script runners etc, by some other funny way
 
 ---
 
