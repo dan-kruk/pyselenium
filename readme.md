@@ -42,9 +42,9 @@ download [cygwin](http://cygwin.com/setup-x86_64.exe)
 
 and install `setup-x86_64.exe -q -P nc,wget,vim,git,subversion,openssh` 
 
-The above `hub` script and some demo test ruller scripts are shell scripts.
+The above `hub` script and some demo test runner scripts are shell scripts.
 
-You may do it (script runners) your way as well
+You may do it - script runners etc, some other funny way
 
 ---
 
@@ -65,7 +65,7 @@ add your own modules in src/...
 and build more tests in t/...
 
 
-this is a simple instant example to embed MWS and AE change root test into any automation, jenkins job or just a command line :)
+this is a simple instant example to embed MWS and AE change root test into any automation, jenkins job or just a cmd line :)
 
 ```bash
 cd; cd pyselenium && git pull || { git clone http://irepo.eur.ad.sag/scm/~dkrukov/pyselenium.git && cd pyselenium; } 
@@ -82,27 +82,42 @@ export ccs='{
 
 export PYTHONPATH=src
 
-time python -u t/mws/chroot.py
+python -u t/mws/chroot.py
 
 ```
 
-**"You now can**
+take a look at t/mws/chroot.py and just a several functions it refers to
+it is a full blown, well focused, complex test - all is tiny, thin, dry
 
-- do lots of tests just as simple to use as shown
+**"We now can**
 
-- I recommend all tests to be tiny (dozen lines), very focused on 1 thing done well and complete in ~<1min
 
-- run and tune tests on all 3 (or more) browsers
+- do lots of tests just as simple to use as shown above
 
-- run and tune tests under stress load conditions on hub or local
+- focus on building a very specific tests starting far deep down under well implemented thin functional layers of UI navigation
 
-- document TC names short and precise
+- utilize clean functional composition test design, rather than object oriented bloater
 
-- bundle up tests into sets with python or just shell scripts -it is easy clean fast w/o use of any "fancy frameworks"
+- do all tests tiny (dozen lines), razor sharp focused on 1 thing done very well, lightning fast (run for 30-60s or so)
 
-- don't use bulky (or any at all) config files, csv, xls, xml - or you gonna start to suffer from day 1 w/o even noticing it
+- enjoy breezy maintanance
 
-- json snippets passed in env vars puts all config hassle away for good
+- run and tune tests on all 3 (or more) browser types equally
+
+- run and tune tests under stress load conditions on beefy hub or local w/o any special arrangement or effort
+
+- document TC names natural as they are rather than typical tower of object hierarchy abstraction
+
+- bundle tests up into arbitrary sized sets and loop, run it all parallel with python and/or just shell scripts
+
+- the above is easy-clean-fast w/o use of any so-called "tooling, frameworking, dependencies etc etc etc"
+
+- stop using bulky (or any at all) prop, csv, xls, xml, whatever config files
+
+- ..or me gonna start to suffer from day 1 w/o even noticing it
+
+- pass json snippets in env vars - it just works for ~all small or tough layered config needs
+
 
 **"Be productive**
 
