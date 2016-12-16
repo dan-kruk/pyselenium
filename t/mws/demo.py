@@ -1,8 +1,9 @@
 
-from src.common import cfg,loadenv,prep,login,nav,logout,error,clean
-from src.ccs import delpools,createpools
-from src.users import createusers,delusers
-from src.cluster import chroot
+from g import cfg,loadenv,prep,error,clean
+from mwsm import login,nav,logout
+from mws.ccs import delpools,createpools
+from mws.users import createusers,delusers
+from mws.cluster import chroot
 
 try:
 
