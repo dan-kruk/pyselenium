@@ -6,12 +6,13 @@ import re,time
 from selenium.common.exceptions import StaleElementReferenceException as stale
 from selenium.common.exceptions import WebDriverException
 EC=g.EC; By=g.By; Keys=g.Keys; Alert=g.Alert #selenium statics
+from selenium.webdriver.support.select import Select
 
 #oh my ccs it is
 ccs = '{ "name":"AAZ", "desc":"AAZ env" }'
 ccs = g.json.loads(ccs)
 
-#"servers":["ae","ae1","dc","mws"],
+#"servers":{ "ae":"Analytic Engine v10", "ae1":"","dc":"","mws":"" },
 #"serversl":["Analytic Engine v9.12.0.0","ae1","dc","mws"],
 #"template":["o4p","o4i"],
 #"config":{
@@ -53,7 +54,6 @@ def tst():
     time.sleep(2)
     tc('case 4'); time.sleep(.1); tc('','end');
     time.sleep(3)
-
 
 def create(d=ccs):
     """
@@ -117,19 +117,52 @@ def navenv(d=ccs):
     g.wait.until(EC.element_to_be_clickable((By.LINK_TEXT,l))).send_keys(Keys.RETURN)
     x="//*[@name='environmentName']"; e = g.wait.until(EC.element_to_be_clickable((By.XPATH, x)))
     
-def servers():
-    pass
-    #click Add..
-    #fuzzy multi-select servers in alert->select input
-    #click ok
-    #check servers showup (fuzzy)
-    #find env ids and names in server links
-    #add to env: "servers_":{"ae":{"id":"1","name":"Analytic Engine v9.12.0.0"},"infradc":{}}
-    #check green tag mark
+def addservers(d=ccs):
 
-def config ():
-    pass
-    #loop over config keys -> href contains logicalServerID=2 -> text() = Collector Settings
+    hb=g.driver.window_handles[0]
+    x="//*[contains(@name, 'addLogicalServer')]"; g.wait.until(EC.element_to_be_clickable((By.XPATH, x))).send_keys(Keys.RETURN)
+    ha=g.driver.window_handles[1]
+    g.driver.switch_to_window(ha)
+
+    x="//*[contains(@name, 's')]"; e = g.wait.until(EC.element_to_be_clickable((By.XPATH, x)))
+    for s in d.get('servers').values(): #multiselect
+        print ('select',s)
+        Select(e).select_by_value(s) 
+    x="//*[@value='OK']"; g.wait.until(EC.element_to_be_clickable((By.XPATH, x))).send_keys(Keys.RETURN)
+
+    g.driver.switch_to_window(hb)
+    x="//*[contains(@name, 'addLogicalServer')]"; g.wait.until(EC.element_to_be_clickable((By.XPATH, x)))
+
+def serverids(): #ret: {} all existing server ids
+        x="//*[contains(@href,'doEditLogicalServerPopup')]";
+        pass
+
+    #Actions actions = new Actions(g.driver)
+    #actions.keyDown(Keys.LEFT_CONTROL)
+    #for s in d.get('servers').values(): #multiselect
+    #    x="//*[contains(@id,'"+u+"')]"; e = g.driver.find_element(By.XPATH, x)
+    #    e.click()
+    #actions.keyUp(Keys.LEFT_CONTROL)
+    #actions.build()
+    #actions.perform()
+
+def toggledls ():
+    sx="//*[@name='samlEnforced_boolean']"
+    dx="//*[@name='dlsEnabled_boolean']"
+    s0 = g.wait.until(EC.element_to_be_clickable((By.XPATH, x))).get_attribute('checked')
+    tc('toggle saml from '+s0); e=g.wait.until(EC.element_to_be_clickable((By.XPATH, sx))).click()
+    tc('toggle dls'); g.wait.until(EC.element_to_be_clickable((By.XPATH, dx))).click()
+    tc('click save')
+    x="//*[@value='Save' and @type='submit']"; e=g.driver.find_element(By.XPATH, x)
+    tc('check saved change')
+    s1 = g.wait.until(EC.element_to_be_clickable((By.XPATH, sx))).get_attribute('checked')
+    tc('saml is '+s1)
+    assert s0 != s1
+     
+def navconfig (c):
+    """take envid and config name, nav to that config"""
+    tc('nav '+c)
+    g.wait.until(EC.element_to_be_clickable((By.LINK_TEXT,c))).send_keys(Keys.RETURN)
 
 def navtab(t):
     tc('click tab '+t)
@@ -142,6 +175,8 @@ def navtab(t):
         e = g.wait.until(EC.element_to_be_clickable((By.XPATH, x))).send_keys(Keys.RETURN)
     if t == 'Validate': #piggyback
         x="//*[@name='validateResult']"; g.wait.until(EC.element_to_be_clickable((By.XPATH, x)))
+    elif t == 'Configure Servers': #click to expand tree
+        x="//*/img[@title='Expand All']"; g.wait.until(EC.element_to_be_clickable((By.XPATH, x))).send_keys(Keys.RETURN)
 
 def modmwspath(d={}):
     navtab('Map Endpoints')

@@ -8,44 +8,50 @@ from selenium.webdriver.common.alert import Alert
 import os,sys,time,traceback,json,re
 
 #boilerplate globs
-driver = wait = wait3 = FF = env = None
+driver = wait = wait3 = FF = None
 tcases = {}; tc_name = 'Begin'; tc_status = 'pass'; tc_time = time.time()
 ret=0
 
 
-#cfg defaults everything
+#cfg default
 cfg = {
-    'url':'http://usvardvmden141:8585',
-    'username':'Administrator',
-    'password':'manage',
     'browser':'firefox',
-    'version':None,
-    'capabilities':{'requireWindowFocus':'true','InternetExplorerDriver.INTRODUCE_FLAKINESS_BY_IGNORING_SECURITY_DOMAINS':'true'},
-    'remote':True,
+    'capabilities':{},
+    'remote':False,
     'hub':'http://127.0.0.1:4444/wd/hub',
     'wait':10
 }
 
-def loadenv(p, d={}): #grab json'ish env var
-    global env
-    v = os.environ.get(p); print ('*env:',p,'=',v)
-    if v is None: return d 
-    env = json.loads(v)
-    return env
+def loadenv(p, d={}): #$1: env var name with json'ish content, $2: default dict, ret: dict merge of var with default
+    v = os.environ.get(p); print ('*env:',p,v)
+    if v:
+        # ' -> " and &apos; -> ' - allows useful shell expansions
+        v=v.replace('\'','"'); v=v.replace('&apos;',"'")
+        ret=dict(d, **json.loads(v))
+    else: ret=d
+    print ('+env:',p,ret)
+    return ret
 
-cfg = dict(cfg, **loadenv('cfg')) #merge env over defaults
-for i in ['browser']: cfg[i] = cfg[i].lower() #normilize
+cfg = loadenv('cfg',cfg) 
+
+for i in ['browser']: cfg[i] = cfg[i].lower() #normalize
 
 def prep():
     global driver, wait, wait3, FF #globs
     if driver is not None: driver.quit(); driver = None #reenter
-    print ('*cfg"',cfg)
-    capabilities = {'ie':cpb.INTERNETEXPLORER,'firefox':cpb.FIREFOX,'chrome':cpb.CHROME} [cfg['browser']]
-    capabilities.update(cfg['capabilities'])
     #hub or local driver
     tc('init '+cfg['browser'])
-    if cfg.get('remote'): print ('*capabilities:',capabilities); driver = wd.Remote(cfg['hub'], capabilities)
-    else: driver = {'firefox':wd.Firefox,'chrome':wd.Chrome,'ie': wd.Ie} [cfg['browser']] ()
+    if cfg.get('remote'): 
+        if cfg['browser'] == 'ie':  #ie needs some tweaks
+            cfg['capabilities'].update(
+                {'requireWindowFocus':'true','InternetExplorerDriver.INTRODUCE_FLAKINESS_BY_IGNORING_SECURITY_DOMAINS':'true'}
+        )
+        capabilities = {'ie':cpb.INTERNETEXPLORER,'firefox':cpb.FIREFOX,'chrome':cpb.CHROME} [cfg['browser']]
+        capabilities.update(cfg['capabilities'])
+        print ('*capabilities:',capabilities)
+        driver = wd.Remote(cfg['hub'], capabilities)
+    else:
+        driver = {'firefox':wd.Firefox,'chrome':wd.Chrome,'ie': wd.Ie} [cfg['browser']] ()
 
     FF = True if cfg['browser'] == 'firefox' else False
 
@@ -80,7 +86,9 @@ def error():
     global ret; ret = 1
     traceback.print_exc(file=sys.stdout)
     #exc_type, exc_value, exc_traceback = sys.exc_info(); print (exc_value)
-    if driver is not None: driver.save_screenshot('./screenshot-'+re.sub('[^a-zA-Z0-9-]',"_",tc_name)+'.png')
+    try: 
+        if driver is not None: driver.save_screenshot('./screenshot-'+re.sub('[^a-zA-Z0-9-]',"_",tc_name)+'.png')
+    except: print(':( failed take screenshot')
     tc('','fatal')
 
 def clean():
@@ -90,7 +98,7 @@ def clean():
         total+=tcases.get(t,0)
         print ('*TC %s count\t%s' % (t,tcases.get(t,0)))
     print ('*TC total count\t',total)
-    print (tcases)
+    ##print (tcases)
     if driver is not None: driver.quit()
     sys.exit(ret)
 
