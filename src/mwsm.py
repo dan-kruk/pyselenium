@@ -19,7 +19,7 @@ def login(d={}):
     x="//*/a[contains (@title, 'Logout')]"; g.wait.until(EC.element_to_be_clickable((By.XPATH, x)))
 
 def nav(link=''): #mapped res.links or "link"
-    tc('nav'+link)
+    tc('nav '+link)
     g.driver.get(cfg['url']+'/'+res.links.get(link,link))
 
 def logout():
