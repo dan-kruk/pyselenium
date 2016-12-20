@@ -137,7 +137,9 @@ def serverids(): #ret: {} all existing server ids
         x="//*[contains(@href,'doEditLogicalServerPopup')]";
         pass
 
-    #Actions actions = new Actions(g.driver)
+    #e=g.wait.until(EC.element_to_be_clickable((By.LINK_TEXT,c)))
+    #actions = ActionChains(g.driver)
+    #actions.move_to_element(e).click().perform()
     #actions.keyDown(Keys.LEFT_CONTROL)
     #for s in d.get('servers').values(): #multiselect
     #    x="//*[contains(@id,'"+u+"')]"; e = g.driver.find_element(By.XPATH, x)
@@ -146,19 +148,39 @@ def serverids(): #ret: {} all existing server ids
     #actions.build()
     #actions.perform()
 
-def toggledls ():
+def toggledls (s=True):
     sx="//*[@name='samlEnforced_boolean']"
     dx="//*[@name='dlsEnabled_boolean']"
-    s0 = g.wait.until(EC.element_to_be_clickable((By.XPATH, x))).get_attribute('checked')
-    tc('toggle saml from '+s0); e=g.wait.until(EC.element_to_be_clickable((By.XPATH, sx))).click()
-    tc('toggle dls'); g.wait.until(EC.element_to_be_clickable((By.XPATH, dx))).click()
+    se = g.wait.until(EC.element_to_be_clickable((By.XPATH, sx)))
+    de = g.wait.until(EC.element_to_be_clickable((By.XPATH, dx)))
+    s0=se.is_selected()
+    d0=de.is_selected()
+    if s and not s0:
+        tc('toggle saml from '+str(s0)); se.click()
+    if s is not d0:
+        tc('toggle dls from '+str(d0)); de.click()
     tc('click save')
-    x="//*[@value='Save' and @type='submit']"; e=g.driver.find_element(By.XPATH, x)
+    x="//*[@value='Save' and @type='submit']"; g.driver.find_element(By.XPATH, x).send_keys(Keys.RETURN)
     tc('check saved change')
-    s1 = g.wait.until(EC.element_to_be_clickable((By.XPATH, sx))).get_attribute('checked')
-    tc('saml is '+s1)
-    assert s0 != s1
+    se = g.wait.until(EC.element_to_be_clickable((By.XPATH, sx))).is_selected()
+    de = g.wait.until(EC.element_to_be_clickable((By.XPATH, dx))).is_selected()
+    tc('saml/dls is '+str(se)+str(de))
+    if s: assert se
+    assert s is de
      
+def togglesaml (s=True):
+    sx="//*[@name='samlEnforced_boolean']"
+    se = g.wait.until(EC.element_to_be_clickable((By.XPATH, sx)))
+    s0=se.is_selected()
+    if s is not s0:
+        tc('toggle saml from '+str(s0)); se.click()
+    tc('click save')
+    x="//*[@value='Save' and @type='submit']"; g.driver.find_element(By.XPATH, x).send_keys(Keys.RETURN)
+    tc('check saved change')
+    se = g.wait.until(EC.element_to_be_clickable((By.XPATH, sx))).is_selected()
+    tc('saml is '+str(se))
+    assert s is se
+
 def navconfig (c):
     """take envid and config name, nav to that config"""
     tc('nav '+c)
@@ -176,7 +198,7 @@ def navtab(t):
     if t == 'Validate': #piggyback
         x="//*[@name='validateResult']"; g.wait.until(EC.element_to_be_clickable((By.XPATH, x)))
     elif t == 'Configure Servers': #click to expand tree
-        x="//*/img[@title='Expand All']"; g.wait.until(EC.element_to_be_clickable((By.XPATH, x))).send_keys(Keys.RETURN)
+        x="//*/img[@title='Expand All']"; g.wait.until(EC.element_to_be_clickable((By.XPATH, x))).click()
 
 def modmwspath(d={}):
     navtab('Map Endpoints')

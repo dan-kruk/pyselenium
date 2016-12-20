@@ -17,6 +17,7 @@ links={ 'DatabasePoolConfiguration':'webm.apps.config.db',
         'DimensionHierarchies':'webm.apps.config.kpi.hierarchy',
         'IntelligentLinks':'webm.apps.config.kpi.intellinks',
         'EventSubscription':'webm.apps.config.admin.eda.subscription',
+        'BusinessProcesses':'webm.apps.config.process.list',
 
         'Problems':'webm.apps.mon.webm.apps.mon.problem.report',
         'AnalyticsOverview':'webm.apps.mon.webm.apps.mon.overview',
