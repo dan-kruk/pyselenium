@@ -121,5 +121,5 @@ def logjunit(name, status, time):
         s='<failure message="'+status+' level error" type="reserved">\n'
         s+='trace details\n'
         s+='</failure>\n'
-    junitfile.write('<testcase classname="'+MODULE+'" name="'+name+'" time="'+str(time)+'">\n'+s+'</testcase>\n')
+    junitfile.write('<testcase classname="'+str(os.getpid())+'-'+MODULE+'" name="'+name+'" time="'+str(time)+'">\n'+s+'</testcase>\n')
 
