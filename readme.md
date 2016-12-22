@@ -31,7 +31,9 @@ Recommended - install and start selenium
 
 `hub hub`	#just hub
 
-`hub node`	#just node, pass 2nd param host:port which would point node to remote hub
+`hub node`	#just node which points to local hub
+
+`hub node host:port`	#just node, which points remote host:port hub
 
 ---
 
@@ -53,18 +55,7 @@ run: `demo`
 
 ##USAGE
 
-using `demo` loop runner try any existing tests found in t/... on all browsers with any number of rounds
-
-build own tests like those seen in t/...
-
-expand existing modules found in src/...
-
-add your own modules in src/...
-
-and build more tests in t/...
-
-
-this is a simple instant example to embed MWS and AE change root test into any automation, jenkins job or just a cmd line :)
+simple instant example to embed MWS and AE change root test into any automation, jenkins job or just a cmd line :)
 
 ```bash
 cd; cd pyselenium && git pull || { git clone http://irepo.eur.ad.sag/scm/~dkrukov/pyselenium.git && cd pyselenium; } 
@@ -81,17 +72,35 @@ export ccs='{
 
 export PYTHONPATH=src
 
-python -u t/mws/chroot.py
+python -u t/mws/rootcontext/chroot.py
 
 ```
 
-take a look at t/mws/chroot.py and just a several functions it refers to
-it is a full blown, well focused, complex test - all is tiny, thin, dry
+take a look at various other tests at t/mws/**
+
+they are well focused on a specific crosscut UI functionalities
+
+they are small, fast, modular and easy to read
+
+to run use command like: `python -u /t/mws/.../<testname.py>`
+
+using `demo` loop runner try any existing tests found in t/... on all browsers with any number of rounds
+
+##DEVEL
+
+build own tests like those seen in t/**
+
+expand existing modules found in src/**
+
+add your own modules in src/**
+
+and build more cool tests in t/**
+
 
 **"We now can**
 
 
-- do lots of tests just as simple to use as shown above
+- do lots of tests which are just as simple to use as shown above
 
 - focus on building a very specific tests starting far deep down under well implemented thin functional layers of UI navigation
 
