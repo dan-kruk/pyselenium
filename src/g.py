@@ -119,7 +119,7 @@ def logjunit(name, status, time):
     #print (inspect.stack())
     if status in ['fail','fatal']:
         s='<failure message="'+status+' level error" type="reserved">\n'
-        s+='trace details\n'
+        s+='trace details...\nscreenshot '+LOGS+'/screenshot-'+re.sub('[^a-zA-Z0-9-]',"_",tc_name)+'.png'+'\n'
         s+='</failure>\n'
-    junitfile.write('<testcase classname="'+str(os.getpid())+'-'+MODULE+'" name="'+name+'" time="'+str(time)+'">\n'+s+'</testcase>\n')
+    junitfile.write('<testcase classname="'+MODULE+'.'+str(os.getpid())+'" name="'+name+'" time="'+str(time)+'">\n'+s+'</testcase>\n')
 
