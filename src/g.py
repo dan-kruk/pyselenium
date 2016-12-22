@@ -11,11 +11,15 @@ import os,sys,time,traceback,inspect,json,re
 driver = wait = wait3 = FF = None
 tcases={}; tc_name='Begin'; tc_status='pass'; tc_time=time.time(); tcnt=0; junitfile=None  #test rep stuff
 ret=0
-#LOGS=${LOGS:-${JENKINS_HOME:+$WORKSPACE/$BUILD_NUMBER}}
-LOGS=os.environ.get('LOGS','.')
-MODULE=os.path.basename(sys.argv[0]).replace('.py','')
+LOGS=os.environ.get('LOGS','.') #LOGS=${LOGS:-${JENKINS_HOME:+$WORKSPACE/$BUILD_NUMBER}}
 if not os.path.exists(LOGS): os.makedirs(LOGS)
-
+MODULE=os.environ.get('MODULE')
+if MODULE is None:
+    MODULE=sys.argv[0].split('/')
+    if len(MODULE) >1:
+        MODULE=MODULE[-2]+'.'+MODULE[-1].replace('.py','') #like feature.module
+    elif len(MODULE) == 1:
+        MODULE=MODULE[0].replace('.py','') #just module
 
 #cfg default
 cfg = {
@@ -121,5 +125,5 @@ def logjunit(name, status, time):
         s='<failure message="'+status+' level error" type="reserved">\n'
         s+='trace details...\nscreenshot '+LOGS+'/screenshot-'+re.sub('[^a-zA-Z0-9-]',"_",tc_name)+'.png'+'\n'
         s+='</failure>\n'
-    junitfile.write('<testcase classname="'+MODULE+'.'+str(os.getpid())+'" name="'+name+'" time="'+str(time)+'">\n'+s+'</testcase>\n')
+    junitfile.write('<testcase classname="'+MODULE+'/'+str(os.getpid())+'" name="'+name+'" time="'+str(time)+'">\n'+s+'</testcase>\n')
 
