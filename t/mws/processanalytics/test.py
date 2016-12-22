@@ -4,6 +4,8 @@ from mwsm import login,nav,logout
 from mws.processanalytics import selectprocess,selectrange,selectvolume,nav as pa_nav
 from mws.procinstdetail import validateid as val_piinstdetail
 #from mws.busconsole import validateid as val_pibusconsole
+from mws.busproc import search,nav as bp_nav
+from mws.editprocess import toggleexecution
 from time import sleep
 
 
@@ -18,21 +20,26 @@ try:
 	
 	login()
 
-	nav('ProcessAnalytics')
-	selectprocess('OTC_Bus_Designer')
-	selectrange('4 Weeks')
-	selectvolume('All')
-	pi=pa_nav()
-	val_piinstdetail(pi)
+	nav('BusinessProcesses')
+	search('complex')
+	bp_nav('complex')
+	toggleexecution()
 	
-	nav('ProcessAnalytics')
-	selectprocess('complex')
-	selectrange('4 Weeks')
-	selectvolume('All')
-	pi=pa_nav()
-	val_piinstdetail(pi)
+	#nav('ProcessAnalytics')
+	#selectprocess('OTC_Bus_Designer')
+	#selectrange('4 Weeks')
+	#selectvolume('All')
+	#pi=pa_nav()
+	#val_piinstdetail(pi)
+	
+	#nav('ProcessAnalytics')
+	#selectprocess('complex')
+	#selectrange('4 Weeks')
+	#selectvolume('All')
+	#pi=pa_nav()
+	#val_piinstdetail(pi)
 
-	nav('ProcessAnalytics')
+	#nav('ProcessAnalytics')
 	#selectprocess('ipe')
 	#selectrange('4 Weeks')
 	#selectvolume('All')
