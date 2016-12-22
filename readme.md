@@ -49,13 +49,9 @@ Or you may do it, like script runners etc, by some other funny way
 
 ---
 
-##SYNOPSYS
-
-run: `demo`
-
 ##USAGE
 
-simple instant example to embed MWS and AE change root test into any automation, jenkins job or just a cmd line :)
+simple instant test example to embed MWS and AE change root test into any automation, jenkins job or just a cmd line :)
 
 ```bash
 cd; cd pyselenium && git pull || { git clone http://irepo.eur.ad.sag/scm/~dkrukov/pyselenium.git && cd pyselenium; } 
@@ -82,7 +78,7 @@ they are well focused on a specific crosscut UI functionalities
 
 they are small, fast, modular and easy to read
 
-to run use command like: `python -u /t/mws/.../<testname.py>`
+to run use command like: `python -u t/mws/.../<testname.py>`
 
 using `demo` loop runner try any existing tests found in t/... on all browsers with any number of rounds
 
