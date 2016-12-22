@@ -13,6 +13,7 @@ tcases={}; tc_name='Begin'; tc_status='pass'; tc_time=time.time(); tcnt=0; junit
 ret=0
 #LOGS=${LOGS:-${JENKINS_HOME:+$WORKSPACE/$BUILD_NUMBER}}
 LOGS=os.environ.get('LOGS','.')
+MODULE=os.path.basename(sys.argv[0]).replace('.py','')
 if not os.path.exists(LOGS): os.makedirs(LOGS)
 
 
@@ -43,8 +44,8 @@ def prep():
     global driver, wait, wait3, FF, junitfile #globs
     if driver is not None: driver.quit(); driver = junitfile = None #reenter
     if os.environ.get('JENKINS_URL') is not None:
-        junitfile = open(LOGS+'/junit-'+str(os.getpid())+'-'+re.sub('[.]','_',sys.argv[0])+'.xml','w')
-        junitfile.write('<testsuite name="'+sys.argv[0]+'">\n')
+        junitfile = open(LOGS+'/junit-'+str(os.getpid())+'-'+MODULE+'.xml','w')
+        junitfile.write('<testsuite name="'+MODULE+'">\n')
     #hub or local driver
     tc('init '+cfg['browser'])
     if cfg.get('remote'): 
@@ -120,5 +121,5 @@ def logjunit(name, status, time):
         s='<failure message="'+status+' level error" type="reserved">\n'
         s+='trace details\n'
         s+='</failure>\n'
-    junitfile.write('<testcase classname="'+re.sub('[.]','_',sys.argv[0])+'" name="'+name+'" time="'+str(time)+'">\n'+s+'</testcase>\n')
+    junitfile.write('<testcase classname="'+MODULE+'" name="'+name+'" time="'+str(time)+'">\n'+s+'</testcase>\n')
 
