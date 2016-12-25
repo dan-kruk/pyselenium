@@ -7,9 +7,11 @@
 ```sh 
 git clone http://irepo.eur.ad.sag/scm/~dkrukov/pyselenium.git
 ```
+---
+
 install [python 3.5](https://www.python.org/downloads)
 
-install selenium `python -m pip install selenium`
+install selenium modules `python -m pip install selenium`
 
 _on `RH/Centos linux` may use_ `install_pyse_rh` instead of the above 2 steps
 
@@ -19,13 +21,13 @@ prepend system env `PATH` variable with the following
 
 `C:\Users\Administrator\AppData\Local\Programs\Python\Python35-32\Scripts\;C:\Users\Administrator\AppData\Local\Programs\Python\Python35-32\;c:\cygwin64\bin;`
 
-install ie, firefox, chrome on your node box(s)
+install ie, firefox, chrome browsers on your node box(s)
 
 You may also install all browsers on your laptop for local testing
 
 ---
 
-Recommended - install and start selenium
+install browser drivers and start selenium
 
 `hub`		#hub and node
 
@@ -35,56 +37,52 @@ Recommended - install and start selenium
 
 `hub node host:port`	#just node, which points remote host:port hub
 
+_Note: stop the above selenium hub/node cmd if remote test exec is not needed_
+
 ---
 
 Optional on `Windows`
 
 download [cygwin](http://cygwin.com/setup-x86_64.exe)
 
-and install `setup-x86_64.exe -q -P nc,wget,vim,git,subversion,openssh` 
+install `setup-x86_64.exe -q -P nc,wget,vim,git,subversion,openssh` 
 
-The above `hub` script and some demo test runner scripts are shell scripts
+The above mentioned `hub` script is a nice shell script, which can now be run on windows
 
-Or you may do it, like script runners etc, by some other funny way
+Or you may run hub and test suite runner scripts, using your comfort way (bas/gradle/ant/bat/jenkins whatever else)
 
 ---
 
 ##USAGE
 
-simple instant test example to embed MWS and AE change root test into any automation, jenkins job or just a cmd line :)
+look at well commented feature test example: (../t/mws/examples/feature.py)
+
+run it:
 
 ```bash
-cd; cd pyselenium && git pull || { git clone http://irepo.eur.ad.sag/scm/~dkrukov/pyselenium.git && cd pyselenium; } 
 
 export cfg='{  
-	"url":"http://rdvmden28:8585","username":"Administrator","password":"manage",
-	"browser":"ie", "remote":true,"hub":"http://usvardvmden141:4444/wd/hub","wait":10
+	"url":"http://rdvmden40:8585",
+	"browser":"chrome"
     }'
 
-export ccs='{
-	"name":"BVTEnv",
-	"mapendpoints":{"mwspath":"alta" }
-    }'
+export PYTHONPATH=src PATH=drivers:$PATH
 
-export PYTHONPATH=src
-
-python -u t/mws/rootcontext/chroot.py
+python t/mws/examples/feature.py
 
 ```
 
-take a look at various other tests at t/mws/**
+find and try lot more tests under t/mws dir
 
-they are well focused on a specific crosscut UI functionalities
+run it as bat or sh script:
 
-they are small, fast, modular and easy to read
+`t\test.bat`
 
-to run use command like: `python -u t/mws/.../<testname.py>`
-
-using `demo` loop runner try any existing tests found in t/... on all browsers with any number of rounds
+`t/test`
 
 ##DEVEL
 
-build own tests like those seen in t/**
+build own tests like those seen in [t](../t/mws/)
 
 expand existing modules found in src/**
 
@@ -96,33 +94,34 @@ and build more cool tests in t/**
 **"We now can**
 
 
-- do lots of tests which are just as simple to use as shown above
+- do lots of tests which are just as simple and informal to use as shown above
 
-- focus on building a very specific tests starting far deep down under well implemented thin functional layers of UI navigation
+- focus on building a very specific feature tests rather than object abstruction maintanace
 
-- utilize clean functional composition test design, rather than object oriented bloater
+- start coding far deep down under well implemented thin functional layers of UI navigation
 
-- do all tests tiny (dozen lines), razor sharp focused on 1 thing done very well, lightning fast (run for 30-60s or so)
+- utilize imperative/functional composition test design, rather than object oriented bloater
+
+- do all tests tiny (a few lines), razor sharp focused on 1 thing done very well, lightning fast (run for 30-60s or so)
+
+- no state, concurrency concerns
 
 - enjoy breezy maintanance
 
 - run and tune tests on all 3 (or more) browser types equally
 
-- run and tune tests under stress load conditions on beefy hub or local w/o any special arrangement or effort
+- run and tune tests under stress load conditions on beefy hub or local -no special arrangement or effort needed
 
-- document TC names natural as they are rather than typical tower of object hierarchy abstraction
+- document TC steps natural and ordered as they are rather than typical tower of object hierarchy abstraction
 
-- bundle tests up into arbitrary sized sets and loop, run it all parallel with python and/or just shell scripts
+- bundle tests up into arbitrary sized sets, loop and run it all parallel with simple scripts
 
-- the above is easy-clean-fast w/o use of any so-called "tooling, frameworking, dependencies etc etc etc"
+- stop using clumsy prop, csv, xls, xml, whatever config files
 
-- stop using bulky (or any at all) prop, csv, xls, xml, whatever config files
+- pass json snippets in env vars - it just works for ~all small, complex layered or iterative config needs
 
-- ..or me gonna start to suffer from day 1 w/o even noticing it
-
-- pass json snippets in env vars - it just works for ~all small or tough layered config needs
+- "tooling, frameworking, ide-ing, dependencies and so on" - it is all your choice and is not mandatory or pushed by any means
 
 
 **"Be productive**
-
 

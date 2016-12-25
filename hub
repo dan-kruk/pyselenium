@@ -7,10 +7,13 @@ usage='
 	env var: [host]		define host/ip for the node (may be needed on vpn)
 '
 
+mkdir -p drivers
+cd drivers
+
 host=${host:-$(hostname -i|grep -o '10.130[^ ]*')} #vpn/intranet
 host=${host:-$HOSTNAME} #home
 
-trap 'kill -9 $(cat hpid) 2>/dev/null' INT TERM ERR
+trap 'kill -9 $(cat hpid) 2>/dev/null; cd -' INT TERM ERR
 
 ss="selenium-server-*"
 
