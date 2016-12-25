@@ -55,7 +55,7 @@ Or you may run hub and test suite runner scripts, using your comfort way (bas/gr
 
 ##USAGE
 
-look at well commented feature test example: (../t/mws/examples/feature.py)
+look at well commented feature test example: [t/mws/examples/feature.py](../t/mws/examples/feature.py)
 
 run it:
 
@@ -72,9 +72,9 @@ python t/mws/examples/feature.py
 
 ```
 
-find and try lot more tests under t/mws dir
+find and try lot more tests at [t/mws](../browse/t/mws)
 
-run it as bat or sh script:
+put and run tests in bat or sh script:
 
 `t\test.bat`
 
@@ -82,13 +82,13 @@ run it as bat or sh script:
 
 ##DEVEL
 
-build own tests like those seen in [t](../t/mws/)
+build own tests like those seen in [t/mws](../browse/t/mws)
 
-expand existing modules found in src/**
+expand existing modules found in [src/mws](../browse/src/mws)
 
-add your own modules in src/**
+add your own modules in [src/mws](../browse/src/mws)
 
-and build more cool tests in t/**
+and build more cool tests in [t/mws](../browse/t/mws)
 
 
 **"We now can**
