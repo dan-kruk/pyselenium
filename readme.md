@@ -55,7 +55,7 @@ Or you may run hub and test suite runner scripts, using your comfort way (bas/gr
 
 ##USAGE
 
-look at well commented feature test example: [t/mws/examples/feature.py](../t/mws/examples/feature.py)
+look at well commented feature test example: [t/mws/examples/feature.py](../browse/t/mws/examples/feature.py)
 
 run it:
 
@@ -90,6 +90,7 @@ add your own modules in [src/mws](../browse/src/mws)
 
 and build more cool tests in [t/mws](../browse/t/mws)
 
+check doc at [Selenium with Python](http://selenium-python.readthedocs.io)
 
 **"We now can**
 
