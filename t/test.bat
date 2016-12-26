@@ -1,5 +1,4 @@
 
-set PATH=drivers;%PATH%
 set PYTHONPATH=src
 
 set cfg={ "browser":"chrome" }

@@ -1,6 +1,6 @@
 #!/bin/bash
 
-export PYTHONPATH=src PATH=drivers:$PATH
+export PYTHONPATH=src
 export PYTHONIOENCODING=utf-8
 export JENKINS_URL=fakeone
 export LOGS=/tmp/junit

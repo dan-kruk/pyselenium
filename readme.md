@@ -19,7 +19,7 @@ _on `RH/Centos linux` may use_ `install_pyse_rh` instead of the above 2 steps
 
 prepend system env `PATH` variable with the following
 
-`C:\Users\Administrator\AppData\Local\Programs\Python\Python35-32\Scripts\;C:\Users\Administrator\AppData\Local\Programs\Python\Python35-32\;c:\cygwin64\bin;`
+`%HOMEDRIVE%%HOMEPATH%\AppData\Local\Programs\Python\Python35-32\Scripts\;%HOMEDRIVE%%HOMEPATH%\AppData\Local\Programs\Python\Python35-32\;c:\cygwin64\bin;`
 
 install ie, firefox, chrome browsers on your node box(s)
 
@@ -66,7 +66,7 @@ export cfg='{
 	"browser":"chrome"
     }'
 
-export PYTHONPATH=src PATH=drivers:$PATH
+export PYTHONPATH=src
 
 python t/mws/examples/feature.py
 
