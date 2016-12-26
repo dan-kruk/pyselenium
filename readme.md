@@ -57,20 +57,7 @@ Or you may run hub and test suite runner scripts, using your comfort way (bas/gr
 
 look at well commented feature test example: [t/mws/examples/feature.py](../browse/t/mws/examples/feature.py)
 
-run it on linux:
-
-```bash
-export cfg='{  
-	"url":"http://rdvmden40:8585",
-	"browser":"chrome"
-    }'
-
-export PYTHONPATH=src
-
-python t/mws/examples/feature.py
-```
-
-or windows:
+run on windows:
 
 ```bat
 set cfg={ "browser":"chrome" }
@@ -83,7 +70,21 @@ set PYTHONPATH=src
 python t/mws/examples/feature.py
 
 ```
-put it in bat or sh script:
+or linux at remote browser:
+
+```bash
+export cfg="{ 'remote'='true', 'hub':'http://usvardvmden141:4444/wd/hub',
+	'browser':'chrome'
+    }"
+
+export login="{ 'url':"http://rdvmden40:8585" }
+
+export PYTHONPATH=src
+
+python t/mws/examples/feature.py
+```
+
+or run with bat or sh script like in:
 
 `t\test.bat`
 
