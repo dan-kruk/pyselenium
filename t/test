@@ -3,7 +3,7 @@
 export PYTHONPATH=src
 export PYTHONIOENCODING=utf-8
 export JENKINS_URL=fakeone
-export LOGS=/tmp/junit
+export LOGS=c:/tmp/junit
 SECONDS=0
 
 bs='firefox'

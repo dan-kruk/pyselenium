@@ -12,7 +12,7 @@ driver = wait = wait3 = FF = None
 #test rep stuff
 tcases={}; tc_name='Begin'; tc_status='pass'; tc_time=time.time(); tcnt=0; junitfile=None  
 ret=0
-LOGS=os.environ.get('LOGS','logs') #LOGS=${LOGS:-${JENKINS_HOME:+$WORKSPACE/$BUILD_NUMBER}}
+LOGS=os.environ.get('LOGS','./logs') #LOGS=${LOGS:-${JENKINS_HOME:+$WORKSPACE/$BUILD_NUMBER}}
 os.environ["PATH"] += os.pathsep + os.pathsep.join(['drivers'])
 if not os.path.exists(LOGS): os.makedirs(LOGS)
 MODULE=os.environ.get('MODULE')
