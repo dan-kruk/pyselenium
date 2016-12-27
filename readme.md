@@ -102,7 +102,7 @@ add your own modules in [src/mws](../browse/src/mws)
 
 and build more cool tests in [t/mws](../browse/t/mws)
 
-check doc at [Selenium with Python](http://selenium-python.readthedocs.io)
+check doc at [Selenium with Python](https://seleniumhq.github.io/selenium/docs/api/py/index.html)
 
 **"We now can**
 
