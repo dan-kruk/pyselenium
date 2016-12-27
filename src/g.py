@@ -5,7 +5,7 @@ from selenium.webdriver.common.desired_capabilities import DesiredCapabilities a
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.alert import Alert
-import os,sys,time,traceback,inspect,json,re
+import os,sys,time,traceback,json,re
 
 #boilerplate globs
 driver = wait = wait3 = FF = None
@@ -125,7 +125,7 @@ def logjunit(name, status, time):
     #print (inspect.stack())
     if status in ['fail','fatal']:
         s='<failure message="'+status+' level error" type="reserved">\n'
-        s+='trace details...\nscreenshot '+LOGS+'/screenshot-'+re.sub('[^a-zA-Z0-9-]',"_",tc_name)+'.png'+'\n'
+        s+='\nscreenshot '+LOGS+'/screenshot-'+re.sub('[^a-zA-Z0-9-]',"_",tc_name)+'.png'+'\n\n'+re.sub('[<>]','~',traceback.format_exc())
         s+='</failure>\n'
     junitfile.write('<testcase classname="'+MODULE+'/'+str(os.getpid())+'" name="'+name+'" time="'+str(time)+'">\n'+s+'</testcase>\n')
 

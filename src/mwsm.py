@@ -3,9 +3,11 @@ from g import tc,prep,loadenv
 EC=g.EC; By=g.By; Keys=g.Keys #selenium statics
 
 from mws import res #mws page resources, links etc
+from os import environ as e
 
+H=e.get('HOSTNAME', e.get('COMPUTERNAME','localhost')) #guess
 
-cfg = loadenv('login',{'url':'http://localhost:8585','username':'Administrator','password':'manage'})
+cfg = loadenv('login',{'url':'http://'+H+':8585','username':'Administrator','password':'manage'})
 
 def login(d={}):
     global cfg
@@ -21,6 +23,13 @@ def login(d={}):
 def nav(link=''): #mapped res.links or "link"
     tc('nav '+link)
     g.driver.get(cfg['url']+'/'+res.links.get(link,link))
+
+def navauth(link=''): #include user/pass in url
+    if g.driver is None: prep()
+    tc('get url '+cfg['url'])
+    tc('login '+cfg['username']+'&'+cfg['password']) 
+    tc('navauth '+link)
+    g.driver.get(cfg['url']+'/'+res.links.get(link,link)+'?username='+cfg['username']+'&password='+cfg['password'])
 
 def logout():
     tc('logout')

@@ -1,7 +1,7 @@
 
 import g
 from g import error,clean,loadenv
-from mwsm import login,nav,logout
+from mwsm import nav,navauth
 from mws.cluster import chroot
 from sketch.ccs import navenv,modmwspath,validate,finish,deploy
 
@@ -14,8 +14,7 @@ try:
         }
     )
 
-    login()
-    nav('DefineEnvironments')
+    navauth('DefineEnvironments')
     navenv(x)
     modmwspath(x)
     validate()
@@ -23,7 +22,6 @@ try:
     deploy(x,'Deploy Updates')
     nav("ClusterSettings")
     chroot(x['mapendpoints']['mwspath'])
-    logout()
 
 except:
     error()
