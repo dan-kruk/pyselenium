@@ -156,9 +156,9 @@ def toggledls (s=True):
     s0=se.is_selected()
     d0=de.is_selected()
     if s and not s0:
-        tc('toggle saml from '+str(s0)); se.click()
+        tc('toggle saml to '+str(s)+' from '+str(s0)); se.click()
     if s is not d0:
-        tc('toggle dls from '+str(d0)); de.click()
+        tc('toggle dls to '+str(s)+' from '+str(d0)); de.click()
     tc('click save')
     x="//*[@value='Save' and @type='submit']"; g.driver.find_element(By.XPATH, x).send_keys(Keys.RETURN)
     tc('check saved change')
@@ -198,7 +198,9 @@ def navtab(t):
     if t == 'Validate': #piggyback
         x="//*[@name='validateResult']"; g.wait.until(EC.element_to_be_clickable((By.XPATH, x)))
     elif t == 'Configure Servers': #click to expand tree
-        x="//*/img[@title='Expand All']"; g.wait.until(EC.element_to_be_clickable((By.XPATH, x))).click()
+        x="//*/img[@title='Expand All' or @title='Collapse All']"; e=g.wait.until(EC.element_to_be_clickable((By.XPATH, x)))
+        if e.get_attribute('title') == 'Expand All': #click if needed
+            e.click()
 
 def modmwspath(d={}):
     navtab('Map Endpoints')

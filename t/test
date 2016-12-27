@@ -1,6 +1,5 @@
 #!/bin/bash
 
-export PYTHONPATH=src
 export PYTHONIOENCODING=utf-8
 export JENKINS_URL=fakeone
 #export LOGS=c:/tmp/junit
@@ -15,9 +14,9 @@ export login='{"url":"http://rdvmden40:8585","Xusername":"dkrukov","Xpassword":"
 #t=./t/mws/demo2.py
 #t=./t/mws/dls/checkprocs.py
 #t=./t/mws/dls/toggle.py
-#t=./t/mws/examples/feature.py
+t=./t/mws/examples/feature.py
 #t=./t/mws/processanalytics/test.py
-t=./t/mws/rootcontext/chroot.py
+#t=./t/mws/rootcontext/chroot.py
 
 for b in $bs; do
  export cfg="{ 'capabilities':{'Xplatform':'VISTA'},'wait':20,'remote':$remote,'hub':'http://usvardvmden141:4444/wd/hub','browser':'$b'}"

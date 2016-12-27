@@ -11,19 +11,25 @@ git clone http://irepo.eur.ad.sag/scm/~dkrukov/pyselenium.git
 
 install [python 3.5](https://www.python.org/downloads)
 
-install selenium modules `python -m pip install selenium`
+install selenium module `python -m pip install selenium`
 
-_on `RH/Centos linux` may use_ `install_pyse_rh` instead of the above 2 steps
+_on `RH/Centos linux` may run_ `install_pyse_rh` instead of the above 2 steps
 
 `On Windows`
 
-prepend system env `PATH` variable with the following
+prepend system env `PATH` variable with the following:
 
 `%HOMEDRIVE%%HOMEPATH%\AppData\Local\Programs\Python\Python35-32\Scripts\;%HOMEDRIVE%%HOMEPATH%\AppData\Local\Programs\Python\Python35-32\;c:\cygwin64\bin;`
 
-install ie, firefox, chrome browsers on your node box(s)
+add `PATHONPATH=src` system env variable
 
-You may also install all browsers on your laptop for local testing
+`on linux`
+
+add to ~/.bashrc: `export PYTHONPATH=src`
+
+install ie, firefox, chrome browsers on your remote node machines
+
+You may also install all or needed browsers on your laptop for local testing
 
 ---
 
@@ -37,7 +43,7 @@ install browser drivers and start selenium
 
 `hub node host:port`	#just node, which points remote host:port hub
 
-_Note: stop the above selenium hub/node cmd if remote test exec is not needed_
+_Note: stop(ctrl-c) the above selenium hub/node cmd if remote test exec is not needed_
 
 ---
 
@@ -49,15 +55,15 @@ install `setup-x86_64.exe -q -P nc,wget,vim,git,subversion,openssh`
 
 The above mentioned `hub` script is a nice shell script, which can now be run on windows
 
-Or you may run hub and test suite runner scripts, using your comfort way (bas/gradle/ant/bat/jenkins whatever else)
+Or you may run hub and test suite runner scripts, using your comfort way such as bat/bas/gradle/ant/jenkins etc
 
 ---
 
 ##USAGE
 
-look at well commented feature test example: [t/mws/examples/feature.py](../browse/t/mws/examples/feature.py)
+look at full blown well explained feature test example: [t/mws/examples/feature.py](../browse/t/mws/examples/feature.py)
 
-run on windows:
+run it on windows:
 
 ```bat
 set cfg={ "browser":"chrome" }
@@ -65,32 +71,30 @@ set cfg={ "browser":"chrome" }
 set login={  "url":"http://rdvmden40:8585", ^
 	"username":"Administrator","password":"manage" } 
 
-set PYTHONPATH=src
-
 python t/mws/examples/feature.py
 
 ```
-or linux at remote browser:
+or on linux (or cygwin) pointing to a remote browser:
 
 ```bash
-export cfg="{ 'remote'='true', 'hub':'http://usvardvmden141:4444/wd/hub',
+export cfg="{ 'remote':'true', 'hub':'http://usvardvmden141:4444/wd/hub',
 	'browser':'chrome'
     }"
 
-export login="{ 'url':"http://rdvmden40:8585" }
+export login="{ 'url':'http://rdvmden40:8585' }"
 
-export PYTHONPATH=src
-
-python t/mws/examples/feature.py
+python -u t/mws/examples/feature.py
 ```
 
-or run with bat or sh script like in:
+or run using `test.bat` on windows or `test` shell script on linux or cygwin:
 
 `t\test.bat`
 
 `t/test`
 
-find and try lot more tests at [t/mws](../browse/t/mws)
+_Note: use 'browser':'firefox|chrome|ie' param to run on desired browser_
+
+check and try lot more tests at [t/mws](../browse/t/mws)
 
 ##DEVEL
 
