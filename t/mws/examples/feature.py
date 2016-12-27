@@ -6,8 +6,9 @@ as a bonus it then reverts all the root context changes and re-deploys CCS
 
 run it as follows:
 
-    python t/mws/examples/feature.py
+    export login="{ 'url':'http://<mwshost>:8585' }" #optional
 
+    python t/mws/examples/feature.py
 
 How it works as 1-2-3
 
@@ -77,7 +78,6 @@ try: #handle any rough errors
     ccs.deploy(x,'Deploy Updates')
     nav("ClusterSettings")
     chroot(x['mapendpoints']['mwspath'])
-
 
 except:
     error()

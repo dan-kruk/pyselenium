@@ -23,7 +23,7 @@ prepend system env `PATH` variable with the following:
 
 add `PATHONPATH=src` system env variable
 
-`on linux`
+`on linux (or cygwin)`
 
 add to ~/.bashrc: `export PYTHONPATH=src`
 
@@ -84,15 +84,16 @@ export cfg="{ 'remote':'true', 'hub':'http://usvardvmden141:4444/wd/hub',
 export login="{ 'url':'http://rdvmden40:8585' }"
 
 python -u t/mws/examples/feature.py
+
 ```
 
-or run using `test.bat` on windows or `test` shell script on linux or cygwin:
+or run using `test.bat` on windows or `test` shell script on linux (or cygwin):
 
 `t\test.bat`
 
 `t/test`
 
-_Note: use 'browser':'firefox|chrome|ie' param to run on desired browser_
+_Note: use 'browser':'firefox|chrome|ie|edge(beta)' param to run on desired browser_
 
 check and try lot more tests at [t/mws](../browse/t/mws)
 
