@@ -43,7 +43,7 @@ install browser drivers and start selenium
 
 `hub node host:port`	#just node, which points remote host:port hub
 
-_Note: stop(ctrl-c) the above selenium hub/node cmd if remote test exec is not needed_
+_Note: the above hub/node cmd enters selenium service mode after installing drivers. So term it if remote test execution on a hub is not needed_
 
 ---
 

@@ -30,23 +30,6 @@ def searchcnt(cnt=0,text=None):
     tc('act/exp proc list '+str(c)+' '+str(cnt))
     if cnt != c: tc('','fail')
 
-def search(text):
-    """search for process model(s)"""
-    tc('search '+text)
-    x="//*[contains (@name,'keywordsTextInput')]";
-    g.wait.until(EC.element_to_be_clickable((By.XPATH, x))).send_keys(text)
-    x="//*[contains (@name,'asyncSimpleSearchGoButton')]"
-    g.driver.find_element(By.XPATH, x).click()
-    sleep(3)
-    x="//*/button[contains (@id,'showExportDialogButton')]";
-    try:
-        e=g.wait.until(EC.element_to_be_clickable((By.XPATH, x)))
-    except stale:
-        tc('stale elem retry')
-        sleep(1)
-        tc('check process list is visible')
-        e=g.wait.until(EC.element_to_be_clickable((By.XPATH, x)))
-
 def nav(name):
     """navigate to process model"""
     tc('click process model '+name)
