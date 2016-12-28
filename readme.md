@@ -9,7 +9,7 @@ git clone http://irepo.eur.ad.sag/scm/~dkrukov/pyselenium.git
 ```
 ---
 
-install [python 3.5](https://www.python.org/downloads)
+install [python 3.5+](https://www.python.org/downloads)
 
 install selenium module `python -m pip install selenium`
 
@@ -21,7 +21,7 @@ prepend system env `PATH` variable with the following:
 
 `%HOMEDRIVE%%HOMEPATH%\AppData\Local\Programs\Python\Python35-32\Scripts\;%HOMEDRIVE%%HOMEPATH%\AppData\Local\Programs\Python\Python35-32\;c:\cygwin64\bin;`
 
-add `PATHONPATH=src` system env variable
+add `PYTHONPATH=src` system env variable
 
 `on linux (or cygwin)`
 
