@@ -36,3 +36,18 @@ def nav(name):
     x="//*/a[contains(@id,'_"+name+"') and contains(@id, 'htmlCommandLink')]"
     g.wait.until(EC.element_to_be_clickable((By.XPATH, x))).click()
     
+def toggleexecution(s=True):
+    """enable / disable execution for model"""
+    tc('enable execution for model')
+    x="//*[contains (@id, 'executionEnabledIcon')]"
+    se=g.wait.until(EC.element_to_be_clickable((By.XPATH, x)))
+    s0=se.is_selected()
+    if s is not s0:
+        tc('toggle execution enabled from '+str(s0)); se.click()
+        tc('click save')
+        x="//*[contains (@id, 'saveButton')]"; g.driver.find_element(By.XPATH, x).send_keys(Keys.RETURN)
+    else: 
+        tc('click cancel')
+        x="//*[contains (@id, 'htmlCommandButton')]"; g.driver.find_element(By.XPATH, x).send_keys(Keys.RETURN)
+
+

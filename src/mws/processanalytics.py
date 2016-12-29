@@ -57,7 +57,7 @@ def nav(p='0'):
     click on Process Instance ID link
     """
     tc('nav instance '+p)
-    x="//*/a[contains (@id, 'resultsTable:__row"+p+":instanceIdLink')]"
+    x="//*/a[contains (@id, 'resultsTable:__row"+p+":instanceId')]"
     e=g.wait.until(EC.element_to_be_clickable((By.XPATH, x)))
     e.click()
     return e.text

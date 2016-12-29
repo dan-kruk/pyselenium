@@ -15,9 +15,25 @@ def toggleexecution(s=True):
         tc('toggle execution enabled from '+str(s0)); se.click()
         tc('click save')
         x="//*[contains (@id, 'saveButton')]"; g.driver.find_element(By.XPATH, x).send_keys(Keys.RETURN)
-    #tc('check saved change')
+    else: 
+        tc('click cancel')
+        x="//*[contains (@id, 'htmlCommandButton')]"; g.driver.find_element(By.XPATH, x).send_keys(Keys.RETURN)
+	#tc('check saved change')
     #se = g.wait.until(EC.element_to_be_clickable((By.XPATH, sx))).is_selected()
     #tc('saml is '+str(se))
     #assert s is se
 
+def toggleanalysis(s=True):
+    """enable / disable analysis for model"""
+    tc('enable analysis for model')
+    x="//*[contains (@id, 'trackingEnabledCheck') and @type='checkbox']"
+    se=g.wait.until(EC.element_to_be_clickable((By.XPATH, x)))
+    s0=se.is_selected()
+    if s is not s0:
+        tc('toggle execution enabled from '+str(s0)); se.click()
+        tc('click save')
+        x="//*[contains (@id, 'saveButton')]"; g.driver.find_element(By.XPATH, x).send_keys(Keys.RETURN)
+    else: 
+        tc('click cancel')
+        x="//*[contains (@id, 'htmlCommandButton')]"; g.driver.find_element(By.XPATH, x).send_keys(Keys.RETURN)
 

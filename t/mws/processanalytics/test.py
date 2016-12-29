@@ -1,11 +1,12 @@
 
 from g import cfg,loadenv,prep,error,clean
-from mwsm import login,nav,logout
-from mws.processanalytics import selectprocess,selectrange,selectvolume,nav as pa_nav
-from mws.procinstdetail import validateid as val_piinstdetail
-#from mws.busconsole import validateid as val_pibusconsole
-from mws.busproc import search,nav as bp_nav
-from mws.editprocess import toggleexecution
+from mwsm import login,nav,navauth,logout
+from mws.processanalytics import selectprocess,selectrange,selectvolume,nav as panav
+from mws.procinstdetail import validateid as valpidetail
+import bc.steps as bc
+from mws.search import search
+import mws.busproc as bp
+import mws.editprocess as ep
 from time import sleep
 
 
@@ -19,34 +20,41 @@ try:
 	#x = loadenv('process')
 	
 	login()
-
-	nav('BusinessProcesses')
-	search('complex')
-	bp_nav('complex')
-	toggleexecution()
+	#navauth('BusinessProcesses')
+	#search('DBM_Process')
+	#bp.toggleexecution()
+	#bp.nav('DBM_Process')
+	#ep.toggleanalysis()
+	
+	#navauth('BusinessProcesses')
+	#search('DBM_Process')
+	#bp.nav('DBM_Process')
+	#ep.toggleexecution()
+	#bp.nav('DBM_Process')
+	#ep.toggleanalysis()
 	
 	#nav('ProcessAnalytics')
 	#selectprocess('OTC_Bus_Designer')
 	#selectrange('4 Weeks')
 	#selectvolume('All')
-	#pi=pa_nav()
-	#val_piinstdetail(pi)
+	#pi=panav()
+	#valpidetail(pi)
 	
 	#nav('ProcessAnalytics')
 	#selectprocess('complex')
 	#selectrange('4 Weeks')
 	#selectvolume('All')
-	#pi=pa_nav()
-	#val_piinstdetail(pi)
+	#pi=panav()
+	#valpidetail(pi)
 
-	#nav('ProcessAnalytics')
-	#selectprocess('ipe')
-	#selectrange('4 Weeks')
-	#selectvolume('All')
-	#pi=pa_nav()
-	#val_pibusconsole(pi)
+	nav('ProcessAnalytics')
+	selectprocess('DBM_Process')
+	selectrange('4 Weeks')
+	selectvolume('All')
+	pi=panav()
+	bc.check()
 	
-	logout()
+	#logout()
 
     #login()
     #nav('Users')
