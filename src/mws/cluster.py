@@ -26,9 +26,9 @@ def chroot (d='alt'):
         tc('change feurl to '+fe)
         e1.clear(); e1.send_keys(fe)
     e.clear(); e.send_keys(d)
-        
-    #x=".//*[contains (@id, 'submitButton')]"; g.driver.find_element(By.XPATH, x).send_keys(Keys.RETURN)
-    #x=".//*[text()='Changes to Cluster Node roles or ports are only effective after the Node restart']"; e = g.wait.until(EC.element_to_be_clickable((By.XPATH, x)))
-    #x=".//*[contains (@id, 'standaloneSetupPanel')]"; e = g.wait.until(EC.element_to_be_clickable((By.XPATH, x))); e.click()
+    tc('submit and check changes')        
+    x=".//*[contains (@id, 'submitButton')]"; g.driver.find_element(By.XPATH, x).send_keys(Keys.RETURN)
+    x=".//*[text()='Changes to Cluster Node roles or ports are only effective after the Node restart']"; e = g.wait.until(EC.element_to_be_clickable((By.XPATH, x)))
+    x=".//*[contains (@id, 'standaloneSetupPanel')]"; e = g.wait.until(EC.element_to_be_clickable((By.XPATH, x))); e.click()
     sleep(1) #dom mutations TODO fix
 
