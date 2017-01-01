@@ -22,6 +22,9 @@ if MODULE is None:
         MODULE=MODULE[-2]+'.'+MODULE[-1].replace('.py','') #like feature.module
     elif len(MODULE) == 1:
         MODULE=MODULE[0].replace('.py','') #just module
+if os.environ.get('JENKINS_URL') is not None:
+    junitfile = open(LOGS+'/junit-'+str(os.getpid())+'-'+MODULE+'.xml','w')
+    junitfile.write('<testsuite name="'+MODULE+'">\n')
 
 #cfg default
 cfg = {
@@ -47,11 +50,8 @@ cfg = loadenv('cfg',cfg)
 for i in ['browser']: cfg[i] = cfg[i].lower() #normalize
 
 def prep():
-    global driver, wait, wait3, FF, junitfile #globs
-    if driver is not None: driver.quit(); driver = junitfile = None #reenter
-    if os.environ.get('JENKINS_URL') is not None:
-        junitfile = open(LOGS+'/junit-'+str(os.getpid())+'-'+MODULE+'.xml','w')
-        junitfile.write('<testsuite name="'+MODULE+'">\n')
+    global driver, wait, wait3, FF #globs
+    if driver is not None: driver.quit(); driver = None #reenter
     #hub or local driver
     tc('init '+cfg['browser'])
     if cfg.get('remote'): 
@@ -73,37 +73,43 @@ def prep():
     wait = WebDriverWait(driver, int(cfg['wait']))
     wait3 = WebDriverWait(driver, 3)
 
+def screenshot(act=True):
+    x=LOGS+'/screenshot-'+str(os.getpid())+'-'+re.sub('[^a-zA-Z0-9-]',"_",tc_name)+'.png'
+    try: 
+        if driver is not None:
+            if act: driver.save_screenshot(x); print('screenshot: '+x+'\n') 
+            return x
+    except: print('screenshot failed: '+x+'\n')
+    
 def tc(tc='',s='pass'):
     """ log test case """
     now = time.time(); _s = None
     global tc_name, tc_time, tc_status, tcases, ret, tcnt
-    tc = tc[:40] or tc_name #limit name
+    tc = tc[:40] or tc_name #limit case name
     if s in ['fatal']: 
-        if tc_status == 'fatal': return
+        #if tc_status == 'fatal': return
         tc_status = s
         tcases[tc_name] = { tc_status, now - tc_time } #save previous tc
     elif s in ['fail']: 
         _s=s
         tcases['pass'] = tcases.get('pass',0)-1
-        if driver is not None: driver.save_screenshot(LOGS+'/screenshot-'+re.sub('[^a-zA-Z0-9]-',"_",tc_name)+'.png')
+        screenshot()
         tcases[tc_name] = { s, now - tc_time } #save previous tc
     elif tc_status in ['pass']:
         tcases[tc_name] = { tc_status, now - tc_time } #save previous tc
     
     print('*TC %-40s%6s%8.3f' % (tc_name,_s or tc_status,now - tc_time)) #report previous tc or this fatal
     tcnt+=1
-    logjunit(str(tcnt).zfill(3)+': '+tc_name, _s or tc_status, now - tc_time)
+    if not _s: #skip dup fail case log
+        logjunit(str(tcnt).zfill(3)+': '+tc_name, _s or tc_status, now - tc_time)
 
     tcases[s] = tcases.get(s,0)+1
     tc_name = tc; tc_status = s; tc_time = now #save this tc
 
 def error():
     global ret; ret = 1
-    traceback.print_exc(file=sys.stdout)
-    #exc_type, exc_value, exc_traceback = sys.exc_info(); print (exc_value)
-    try: 
-        if driver is not None: driver.save_screenshot(LOGS+'/screenshot-'+re.sub('[^a-zA-Z0-9-]',"_",tc_name)+'.png')
-    except: print(':( failed take screenshot')
+    print('\n'+traceback.format_exc())
+    screenshot()
     tc('','fatal')
 
 def clean():
@@ -113,19 +119,22 @@ def clean():
         total+=tcases.get(t,0)
         print ('*TC %s count\t%s' % (t,tcases.get(t,0)))
     print ('*TC total count\t',total)
+    print()
     ##print (tcases)
     if driver is not None: driver.quit()
-    if junitfile is not None: junitfile.write('</testsuite>\n'); junitfile.close()
+    if junitfile is not None:
+        junitfile.write('</testsuite>\n'); junitfile.close()
+        print('junit: '+junitfile.name)
     sys.exit(ret)
 
 def logjunit(name, status, time):
-    global junitfile
-    s=''
     if junitfile is None: return
-    #print (inspect.stack())
+    s=''
     if status in ['fail','fatal']:
-        s='<failure message="'+status+' level error" type="reserved">\n'
-        s+='\nscreenshot '+LOGS+'/screenshot-'+re.sub('[^a-zA-Z0-9-]',"_",tc_name)+'.png'+'\n\n'+re.sub('[<>&]','~',traceback.format_exc())
+        s='<failure message="error" type="'+status+'">\n'
+        x=screenshot(False)
+        if x: s+='\nscreenshot '+x+'\n\n'
+        if not traceback.format_exc().startswith('NoneType'): s+=re.sub('[<>&]','~',traceback.format_exc())
         s+='</failure>\n'
     junitfile.write('<testcase classname="'+MODULE+'/'+str(os.getpid())+'" name="'+re.sub('[<>&]','~',name)+'" time="'+str(time)+'">\n'+s+'</testcase>\n')
 
