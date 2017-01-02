@@ -5,6 +5,7 @@ from selenium.webdriver.common.desired_capabilities import DesiredCapabilities a
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.alert import Alert
+from selenium.webdriver.support.select import Select
 import os,sys,time,traceback,json,re
 
 #boilerplate globs

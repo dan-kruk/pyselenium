@@ -1,6 +1,6 @@
 import g #globs: driver, wait...
 from g import tc,prep,loadenv
-EC=g.EC; By=g.By; Keys=g.Keys #selenium statics
+EC=g.EC; By=g.By; Keys=g.Keys; Select=g.Select #selenium statics
 
 from mws import res #mws page resources, links etc
 from os import environ as e
@@ -30,6 +30,12 @@ def navauth(link=''): #include user/pass in url
     tc('login '+cfg['username']+'&'+cfg['password']) 
     tc('navauth '+link)
     g.driver.get(cfg['url']+'/'+res.links.get(link,link)+'?username='+cfg['username']+'&password='+cfg['password'])
+
+def server(name): #BPM and BAM|BPM only|BAM only|BVTEnv
+    """select server dropdown on many optimize (usually) pages"""
+    tc('select server '+name)
+    x="//*[@name='serverNameInput']"; e=g.wait.until(EC.element_to_be_clickable((By.XPATH, x)))
+    Select(e).select_by_visible_text(name)
 
 def logout():
     tc('logout')
