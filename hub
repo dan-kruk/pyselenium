@@ -31,6 +31,9 @@ test -f IEDriverServer.exe || {
 	wget -c http://selenium-release.storage.googleapis.com/2.53/IEDriverServer_Win32_2.53.1.zip
 	jar -xvf IEDriverServer_Win32_2.53.1.zip
 }
+test -f MicrosoftWebDriver.exe || {
+	wget -c https://download.microsoft.com/download/3/2/D/32D3E464-F2EF-490F-841B-05D53C848D15/MicrosoftWebDriver.exe
+}
 
 test ${1:-hub} = hub && { java -jar $ss -role hub -timeout 10 & echo $!>hpid; }
 test ${1:-node} = node && { java -jar $ss -role node -timeout 30 -port 5554 -hub http://${2:-localhost:4444}/grid/register -host $host -maxSession 10 & echo $!>>hpid; }
