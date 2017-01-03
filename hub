@@ -13,6 +13,13 @@ cd drivers
 host=${host:-$(hostname -i|grep -o '10.130[^ ]*')} #vpn/intranet
 host=${host:-$HOSTNAME} #home
 
+#edge opts
+cmd /c ver|grep 'Version 10'
+if [ $? = 0 ]; then
+ EDGE_DRV="-Dwebdriver.edge.driver=$(cygpath -m $(pwd))/MicrosoftWebDriver.exe"
+ EDGE_CAP="-browser browserName=MicrosoftEdge,platform=WINDOWS,maxInstances=5"
+fi
+
 trap 'kill -9 $(cat hpid) 2>/dev/null; cd -' INT TERM ERR
 
 ss="selenium-server-*"
@@ -36,7 +43,7 @@ test -f MicrosoftWebDriver.exe || {
 }
 
 test ${1:-hub} = hub && { java -jar $ss -role hub -timeout 10 & echo $!>hpid; }
-test ${1:-node} = node && { java -jar $ss -role node -timeout 30 -port 5554 -hub http://${2:-localhost:4444}/grid/register -host $host -maxSession 10 & echo $!>>hpid; }
+test ${1:-node} = node && { java $EDGE_DRV -jar $ss -role node -timeout 30 -port 5554 -hub http://${2:-localhost:4444}/grid/register -host $host -maxSession 10 $EDGE_CAP& echo $!>>hpid; }
 #-browser browserName=firefox,maxInstances=10 
 wait -n || kill -TERM $$
 
