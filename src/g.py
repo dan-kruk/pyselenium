@@ -60,7 +60,7 @@ def prep():
             cfg['capabilities'].update(
                 {'requireWindowFocus':'true','InternetExplorerDriver.INTRODUCE_FLAKINESS_BY_IGNORING_SECURITY_DOMAINS':'true'}
         )
-        capabilities = {'ie':cpb.INTERNETEXPLORER,'firefox':cpb.FIREFOX,'chrome':cpb.CHROME} [cfg['browser']]
+        capabilities = {'ie':cpb.INTERNETEXPLORER,'firefox':cpb.FIREFOX,'chrome':cpb.CHROME, 'edge':cpb.EDGE} [cfg['browser']]
         capabilities.update(cfg['capabilities'])
         print ('*capabilities:',capabilities)
         driver = wd.Remote(cfg['hub'], capabilities)
