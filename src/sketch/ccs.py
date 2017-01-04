@@ -217,7 +217,7 @@ def modmwspath(d={}):
     tc('click save mapendpoints');
     x="//*[@type='submit' and @value='Save']"; g.wait.until(EC.element_to_be_clickable((By.XPATH, x))).send_keys(Keys.RETURN)
     tc('check saved mwspath')
-    time.sleep(.3)
+    time.sleep(1)
     x="//*[contains(@name,'MWS_path') and @type='text']"; e = g.wait.until(EC.element_to_be_clickable((By.XPATH, x)))
     assert e.get_attribute('value') == r
 
