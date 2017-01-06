@@ -19,9 +19,32 @@ try:
 
 	#x = loadenv('process')
 	
-	login()
-	#navauth('BusinessProcesses')
-	#search('DBM_Process')
+	x = {'execution':False,'analysis':False}
+	#y = {'execution':True,'analysis':True}
+
+	
+	navauth('BusinessProcesses')
+	search('DBM_Process')
+	bp.nav('DBM_Process')
+	ep.toggle_execution_analysis ()
+	search('DBM_Process')
+	bp.nav('DBM_Process')
+	ep.check_execution_analysis ()
+	
+	'''search('DBM_Process')
+	bp.nav('DBM_Process')
+	ep.toggle_execution_analysis (x)
+	search('DBM_Process')
+	bp.nav('DBM_Process')
+	ep.check_execution_analysis (x)
+
+	search('DBM_Process')
+	bp.nav('DBM_Process')
+	ep.toggle_execution_analysis ()
+	search('DBM_Process')
+	bp.nav('DBM_Process')
+	ep.check_execution_analysis ()'''
+		
 	#bp.toggleexecution()
 	#bp.nav('DBM_Process')
 	#ep.toggleanalysis()
@@ -47,34 +70,14 @@ try:
 	#pi=panav()
 	#valpidetail(pi)
 
-	nav('ProcessAnalytics')
-	selectprocess('DBM_Process')
-	selectrange('4 Weeks')
-	selectvolume('All')
-	pi=panav()
-	bc.check()
+	#nav('ProcessAnalytics')
+	#selectprocess('DBM_Process')
+	#selectrange('4 Weeks')
+	#selectvolume('All')
+	#pi=panav()
+	#bc.check()
 	
 	#logout()
-
-    #login()
-    #nav('Users')
-    #c = loadenv('users')
-    #delusers(c)
-    #createusers(c)
-    #logout()
-
-    #login()
-    #for r in range(0,2):
-    #    for b,u in zip(['ie','chrome','firefox'],['rdvmva88','usvardvmden141','rdvmden53']):
-    #        print (r,b,u)
-    #        cfg['browser'] = b; cfg['url'] = 'http://'+u+':8585'
-    #        prep()
-    #        login()
-    #        nav("ClusterSettings")
-    #        chroot('/altroot44')
-    #        chroot('')
-    #        chroot()
-    #        logout()
 
 except:
     error()

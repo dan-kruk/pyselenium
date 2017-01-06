@@ -39,15 +39,12 @@ def nav(name):
 def toggleexecution(s=True):
     """enable / disable execution for model"""
     tc('enable execution for model')
-    x="//*[contains (@id, 'executionEnabledIcon')]"
+    x="//*/img[contains (@id, 'executionEnabledIcon') and contains (@id, 'DBM_Process')]"
     se=g.wait.until(EC.element_to_be_clickable((By.XPATH, x)))
     s0=se.is_selected()
     if s is not s0:
         tc('toggle execution enabled from '+str(s0)); se.click()
-        tc('click save')
-        x="//*[contains (@id, 'saveButton')]"; g.driver.find_element(By.XPATH, x).send_keys(Keys.RETURN)
-    else: 
-        tc('click cancel')
-        x="//*[contains (@id, 'htmlCommandButton')]"; g.driver.find_element(By.XPATH, x).send_keys(Keys.RETURN)
+    tc('check model is execution enabled')
+    assert s is se
 
 
