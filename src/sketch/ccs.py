@@ -44,17 +44,6 @@ ccs = g.json.loads(ccs)
 #		},
 #"mapdbpools":{ "analysis.engine.ae1":"p1","common.directory.ae1":"p2" }
 
-def tst():
-    tc('case 1')
-    time.sleep(1)
-    tc('case 2')
-    time.sleep(2); #assert False,'oops had to quit'
-    tc('case 3'); tc('','fail')
-    time.sleep(.2); tc('','end')
-    time.sleep(2)
-    tc('case 4'); time.sleep(.1); tc('','end');
-    time.sleep(3)
-
 def create(d=ccs):
     """
     create env
@@ -178,7 +167,7 @@ def togglesaml (s=True):
     x="//*[@value='Save' and @type='submit']"; g.driver.find_element(By.XPATH, x).send_keys(Keys.RETURN)
     tc('check saved change')
     se = g.wait.until(EC.element_to_be_clickable((By.XPATH, sx))).is_selected()
-    tc('saml is '+str(se))
+    tc('act/exp saml '+str(se)+str(s))
     assert s is se
 
 def navconfig (c):
