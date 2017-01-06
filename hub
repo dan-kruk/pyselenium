@@ -17,7 +17,7 @@ host=${host:-$HOSTNAME} #home
 cmd /c ver|grep 'Version 10'
 if [ $? = 0 ]; then
  EDGE_DRV="-Dwebdriver.edge.driver=$(cygpath -m $(pwd))/MicrosoftWebDriver.exe"
- EDGE_CAP="-browser browserName=MicrosoftEdge,platform=WINDOWS,maxInstances=5"
+ EDGE_CAP="-browser browserName=MicrosoftEdge,platform=WINDOWS,maxInstances=1"
 fi
 
 trap 'kill -9 $(cat hpid) 2>/dev/null; cd -' INT TERM ERR
