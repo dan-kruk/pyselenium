@@ -23,13 +23,13 @@ try:
 	#y = {'execution':True,'analysis':True}
 
 	
-	navauth('BusinessProcesses')
+	'''navauth('BusinessProcesses')
 	search('DBM_Process')
 	bp.nav('DBM_Process')
 	ep.toggle_execution_analysis ()
 	search('DBM_Process')
 	bp.nav('DBM_Process')
-	ep.check_execution_analysis ()
+	ep.check_execution_analysis ()'''
 	
 	'''search('DBM_Process')
 	bp.nav('DBM_Process')
@@ -44,10 +44,19 @@ try:
 	search('DBM_Process')
 	bp.nav('DBM_Process')
 	ep.check_execution_analysis ()'''
-		
-	#bp.toggleexecution()
-	#bp.nav('DBM_Process')
-	#ep.toggleanalysis()
+
+	navauth('BusinessProcesses')
+	search('DBM_Process')
+	bp.toggleexecution('DBM_Process')
+	bp.checkexecution('DBM_Process')
+	bp.toggleanalysis('DBM_Process')
+	bp.checkanalysis('DBM_Process')
+	nav('ProcessAnalytics')
+	selectprocess('DBM_Process')
+	selectrange('4 Weeks')
+	selectvolume('All')
+	pi=panav()
+	bc.check()
 	
 	#navauth('BusinessProcesses')
 	#search('DBM_Process')
@@ -70,13 +79,6 @@ try:
 	#pi=panav()
 	#valpidetail(pi)
 
-	#nav('ProcessAnalytics')
-	#selectprocess('DBM_Process')
-	#selectrange('4 Weeks')
-	#selectvolume('All')
-	#pi=panav()
-	#bc.check()
-	
 	#logout()
 
 except:
