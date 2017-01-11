@@ -15,11 +15,11 @@ try:
     )
 
     navauth('DefineEnvironments')
-    navenv(x)
-    modmwspath(x)
-    validate()
-    finish(x)
-    deploy(x,'Deploy Updates')
+    #navenv(x)
+    #modmwspath(x)
+    #validate()
+    #finish(x)
+    #deploy(x,'Deploy Updates')
     nav("ClusterSettings")
     chroot(x['mapendpoints']['mwspath'])
 

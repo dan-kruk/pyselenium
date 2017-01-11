@@ -17,7 +17,7 @@ def search(text):
     x="//*[contains(@id,'overlay')]"; 
     o=g.wait.until(EC.presence_of_element_located((By.XPATH, x)))
     g.wait.until(EC.staleness_of(o))
-    sleep (1)
+    sleep (.5) #some div overlays in chrome
 	#tc('check under overlay area')
     #x="//*[text()='No matches found']";
     #g.wait.until(EC.visibility_of_element_located((By.XPATH, x)))
