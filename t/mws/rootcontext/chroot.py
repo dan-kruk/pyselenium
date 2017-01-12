@@ -1,13 +1,12 @@
 
 import g
-from g import error,clean,loadenv
-from mwsm import nav,navauth
+from mwsm import navauth
 from mws.cluster import chroot
-from sketch.ccs import navenv,modmwspath,validate,finish,deploy
+import mws.ccs as c
 
 try:
 
-    x = loadenv('ccs',
+    x = g.loadenv('ccs',
 
         {'name':'BVTEnv',
          'mapendpoints':{'mwspath':'alta'}
@@ -15,16 +14,16 @@ try:
     )
 
     navauth('DefineEnvironments')
-    #navenv(x)
-    #modmwspath(x)
-    #validate()
-    #finish(x)
-    #deploy(x,'Deploy Updates')
-    nav("ClusterSettings")
+    c.navenv(x)
+    c.modmwspath(x)
+    c.validate()
+    c.finish(x)
+    c.deploy(x,'Deploy Updates')
+    c.nav("ClusterSettings")
     chroot(x['mapendpoints']['mwspath'])
 
 except:
-    error()
+    g.error()
 finally:
-    clean()
+    g.clean()
 
