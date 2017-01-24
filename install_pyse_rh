@@ -5,10 +5,11 @@
 test "$USER" = root || { echo error: run as root; exit 1; }
 yum install gcc zlib-devel bzip2-devel sqlite sqlite-devel openssl-devel
 cd /usr/src
-wget https://www.python.org/ftp/python/3.5.2/Python-3.5.2.tgz -O - | tar -xzf -
+wget https://www.python.org/ftp/python/3.5.2/Python-3.5.2.tgz -O - | tar -zx 
 cd Python-3.5.2
 ./configure
 make altinstall
-python3.5 -m pip install selenium
 ln -s /usr/local/bin/python3.5 /usr/local/bin/python
+python -V | grep 3.5.2 || { echo error: wrong py version in path; exit 1; }
+python -m pip install selenium
 

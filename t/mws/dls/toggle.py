@@ -1,25 +1,23 @@
 
-from g import error,clean,loadenv
-from mwsm import login,nav,logout
-from sketch.ccs import navenv,navtab,navconfig,toggledls,togglesaml,validate,finish,deploy
+import g
+import mwsm as m
+import mws.ccs as c
 
 try:
 
-    x = loadenv('ccs', {'name':'BVTEnv','dls':True})
+    x = g.loadenv('ccs', {'name':'BVTEnv'})
 
-    login()
-    nav('DefineEnvironments')
-    navenv(x)
-    navtab('Configure Servers')
-    navconfig('Station Settings')
-    toggledls(x.get('dls',True))
-    validate()
-    finish(x)
-    deploy(x,'Deploy Updates')
-    logout()
+    m.navauth('DefineEnvironments')
+    c.navenv(x)
+    c.navtab('Configure Servers')
+    c.navconfig('Station Settings')
+    c.toggle_saml_dls(x)
+    c.validate()
+    c.finish(x)
+    c.deploy(x,'Deploy Updates')
 
 except:
-    error()
+    g.error()
 finally:
-    clean()
+    g.clean()
 

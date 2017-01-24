@@ -59,6 +59,7 @@ def piidlink(p='0'):
     tc('click on process instance ID link '+p)
     x="//*/a[contains (@id, 'resultsTable:__row"+p+":instanceId')]"
     e=g.wait.until(EC.element_to_be_clickable((By.XPATH, x)))
+    sleep(1)  #element obscured issue on edge
     e.click()
     return e.text
 

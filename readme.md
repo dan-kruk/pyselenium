@@ -1,3 +1,4 @@
+
 ##NAME
 
 **pyselenium** - productive UI testing
@@ -19,7 +20,7 @@ _on `RH/Centos linux` may run_ `install_pyse_rh` instead of the above 2 steps
 
 prepend system env `PATH` variable with the following:
 
-`%HOMEDRIVE%%HOMEPATH%\AppData\Local\Programs\Python\Python35-32\Scripts\;%HOMEDRIVE%%HOMEPATH%\AppData\Local\Programs\Python\Python35-32\;c:\cygwin64\bin;`
+`%HOMEDRIVE%%HOMEPATH%\AppData\Local\Programs\Python\Python36-32\Scripts\;%HOMEDRIVE%%HOMEPATH%\AppData\Local\Programs\Python\Python36-32\;c:\cygwin64\bin;`
 
 add `PYTHONPATH=src` system env variable
 
