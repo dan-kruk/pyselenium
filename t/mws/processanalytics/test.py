@@ -1,7 +1,7 @@
 
 from g import cfg,loadenv,prep,error,clean
 from mwsm import login,nav,navauth,logout
-from mws.processanalytics import selectprocess,selectrange,selectvolume,nav as panav
+from mws.processanalytics import selectprocess,selectrange,selectvolume,nav as panav,piidlink,magglasslink
 from mws.procinstdetail import validateid as valpidetail
 import bc.steps as bc
 from mws.search import search
@@ -45,7 +45,7 @@ try:
 	bp.nav('DBM_Process')
 	ep.check_execution_analysis ()'''
 
-	navauth('BusinessProcesses')
+	'''navauth('BusinessProcesses')
 	search('DBM_Process')
 	bp.toggleexecution('DBM_Process')
 	bp.checkexecution('DBM_Process')
@@ -55,8 +55,16 @@ try:
 	selectprocess('DBM_Process')
 	selectrange('4 Weeks')
 	selectvolume('All')
-	pi=panav()
+	pi=piidlink()
+	bc.check()'''
+
+	nav('ProcessAnalytics')
+	selectprocess('DBM_Process')
+	selectrange('4 Weeks')
+	selectvolume('All')
+	pi=piidlink()
 	bc.check()
+
 	
 	#navauth('BusinessProcesses')
 	#search('DBM_Process')
@@ -69,14 +77,14 @@ try:
 	#selectprocess('OTC_Bus_Designer')
 	#selectrange('4 Weeks')
 	#selectvolume('All')
-	#pi=panav()
+	#pi=piidlink()
 	#valpidetail(pi)
 	
 	#nav('ProcessAnalytics')
 	#selectprocess('complex')
 	#selectrange('4 Weeks')
 	#selectvolume('All')
-	#pi=panav()
+	#pi=piidlink()
 	#valpidetail(pi)
 
 	#logout()

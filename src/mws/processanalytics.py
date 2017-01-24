@@ -52,12 +52,22 @@ def selectvolume(p):
     elif p=='Completed': x="//*/a[contains (@id, 'volCompLink')]"
     g.wait.until(EC.element_to_be_clickable((By.XPATH, x))).click()
 	
-def nav(p='0'):
+def piidlink(p='0'):
     """
     click on Process Instance ID link
     """
-    tc('nav instance '+p)
+    tc('click on process instance ID link '+p)
     x="//*/a[contains (@id, 'resultsTable:__row"+p+":instanceId')]"
+    e=g.wait.until(EC.element_to_be_clickable((By.XPATH, x)))
+    e.click()
+    return e.text
+
+def magglasslink(p='0'):
+    """
+    click on magnifying glass link
+    """
+    tc('nav instance '+p)
+    x="//*/img[contains (@id, 'resultsTable:__row"+p+":detailIcon')]"
     e=g.wait.until(EC.element_to_be_clickable((By.XPATH, x)))
     e.click()
     return e.text
