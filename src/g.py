@@ -9,7 +9,7 @@ from selenium.webdriver.support.select import Select
 import os,sys,time,traceback,json,re
 
 #boilerplate globs
-driver = wait = wait3 = wait20 = FF = None
+driver = wait = wait3 = wait20 = wait60 = FF = None
 #test rep stuff
 tcases={}; tc_name='Begin'; tc_status='pass'; tc_time=time.time(); tcnt=0; junitfile=None  
 ret=0
@@ -51,7 +51,7 @@ cfg = loadenv('cfg',cfg)
 for i in ['browser']: cfg[i] = cfg[i].lower() #normalize
 
 def prep():
-    global driver, wait, wait3, wait20, FF #globs
+    global driver, wait, wait3, wait20, wait60, FF #globs
     if driver is not None: driver.quit(); driver = None #reenter
     #hub or local driver
     tc('init '+cfg['browser'])
@@ -74,6 +74,7 @@ def prep():
     wait = WebDriverWait(driver, int(cfg['wait']))
     wait3 = WebDriverWait(driver, 3)
     wait20 = WebDriverWait(driver, 20)
+    wait60 = WebDriverWait(driver, 60)
 
 def screenshot(act=True):
     x=LOGS+'/screenshot-'+str(os.getpid())+'-'+re.sub('[^a-zA-Z0-9-]',"_",tc_name)+'.png'
