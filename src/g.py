@@ -11,7 +11,7 @@ import os,sys,time,traceback,json,re
 #boilerplate globs
 driver = wait = wait3 = wait20 = wait60 = FF = None
 #test rep stuff
-tcases={}; tc_name='Begin'; tc_status='pass'; tc_time=time.time(); tcnt=0; junitfile=None  
+tcases={}; tc_name='Begin'; tc_status='pass'; tc_time=time.time(); tcnt=0; junitfile=None
 ret=0
 LOGS=os.environ.get('LOGS','./logs') #LOGS=${LOGS:-${JENKINS_HOME:+$WORKSPACE/$BUILD_NUMBER}}
 os.environ["PATH"] += os.pathsep + os.pathsep.join(['drivers'])
@@ -35,8 +35,8 @@ cfg = {
     'hub':'http://127.0.0.1:4444/wd/hub',
     'wait':10
 }
-
-def loadenv(p, d={}): #$1: env var name with json'ish content, $2: default dict, ret: dict merge of var with default
+def loadenv(p, d={}):
+    #$1: env var name with json'ish content, $2: default dict, ret: dict merge of var with default
     v = os.environ.get(p); print ('*env:',p,v)
     if v:
         # ' -> " and &apos; -> ' - allows useful shell expansions
@@ -46,7 +46,7 @@ def loadenv(p, d={}): #$1: env var name with json'ish content, $2: default dict,
     print ('+env:',p,ret)
     return ret
 
-cfg = loadenv('cfg',cfg) 
+cfg = loadenv('cfg',cfg)
 
 for i in ['browser']: cfg[i] = cfg[i].lower() #normalize
 
@@ -55,7 +55,7 @@ def prep():
     if driver is not None: driver.quit(); driver = None #reenter
     #hub or local driver
     tc('init '+cfg['browser'])
-    if cfg.get('remote'): 
+    if cfg.get('remote'):
         if cfg['browser'] == 'ie':  #ie needs some tweaks
             cfg['capabilities'].update(
                 {'requireWindowFocus':'true','InternetExplorerDriver.INTRODUCE_FLAKINESS_BY_IGNORING_SECURITY_DOMAINS':'true'}
@@ -78,36 +78,45 @@ def prep():
 
 def screenshot(act=True):
     x=LOGS+'/screenshot-'+str(os.getpid())+'-'+re.sub('[^a-zA-Z0-9-]',"_",tc_name)+'.png'
-    try: 
+    try:
         if driver is not None:
-            if act: driver.save_screenshot(x); print('screenshot: '+x+'\n') 
+            if act: driver.save_screenshot(x); print('screenshot: '+x+'\n')
             return x
     except: print('screenshot failed: '+x+'\n')
-    
+
 def tc(tc='',s='pass'):
     """ log test case """
     now = time.time(); _s = None
     global tc_name, tc_time, tc_status, tcases, ret, tcnt
-    tc = tc[:40] or tc_name #limit case name
-    if s in ['fatal']: 
+    tc = tc[:60] or tc_name #limit case name
+    if s in ['fatal']:
         #if tc_status == 'fatal': return
         tc_status = s
         tcases[tc_name] = { tc_status, now - tc_time } #save previous tc
-    elif s in ['fail']: 
+    elif s in ['fail']:
         _s=s
         tcases['pass'] = tcases.get('pass',0)-1
         screenshot()
         tcases[tc_name] = { s, now - tc_time } #save previous tc
     elif tc_status in ['pass']:
         tcases[tc_name] = { tc_status, now - tc_time } #save previous tc
-    
-    print('*TC %-40s%6s%8.3f' % (tc_name,_s or tc_status,now - tc_time)) #report previous tc or this fatal
+
+    #report previous tc or this fatal
+    print('*TC %-60s%6s%8.3f' % (tc_name,_s or tc_status,now - tc_time))
     tcnt+=1
+
     if not _s: #skip dup fail case log
         logjunit(str(tcnt).zfill(3)+': '+tc_name, _s or tc_status, now - tc_time)
 
     tcases[s] = tcases.get(s,0)+1
     tc_name = tc; tc_status = s; tc_time = now #save this tc
+
+def focus_iframe():
+    tc('focus on iframe')
+    driver.switch_to_frame(wait.until(EC.element_to_be_clickable((By.TAG_NAME, 'iframe'))))
+
+def focus_main():
+    driver.switch_to.window(driver.window_handles[-1])
 
 def error():
     global ret; ret = 1

@@ -39,19 +39,44 @@ def selectrange(p):
     if select.first_selected_option.text != p:
         tc('','fail')
 
-def selectvolume(p):
+def selectvolume(p,step=False):
     """
-    select a range from dropdown
+    select a range from dropdown for process or step
     """
-    tc('select volume '+p)
-    x="//*/a[contains (@id, 'volumeValueText')]"
+    #alts for process or step selector
+
+    alt={ True:['stepVolumeValueText','step'], False:['volumeValueText','vol'] }
+    x="//*/a[contains (@id, '"+alt[step][0]+"')]"
     g.wait.until(EC.element_to_be_clickable((By.XPATH, x))).click()
-    if p=='All': x="//*/a[contains (@id, 'volTotalLink')]"
-    elif p=='Started': x="//*/a[contains (@id, 'volStartLink')]"
-    elif p=='In Progress': x="//*/a[contains (@id, 'volInProgLink')]"
-    elif p=='Completed': x="//*/a[contains (@id, 'volCompLink')]"
+    if p=='All': x="//*/a[contains (@id, '"+alt[step][1]+"TotalLink')]"
+    elif p=='Started': x="//*/a[contains (@id, '"+alt[step][1]+"StartLink')]"
+    elif p=='In Progress': x="//*/a[contains (@id, '"+alt[step][1]+"InProgLink')]"
+    elif p=='Completed': x="//*/a[contains (@id, '"+alt[step][1]+"CompLink')]"
     g.wait.until(EC.element_to_be_clickable((By.XPATH, x))).click()
-	
+
+def selectvolumes(d={'level':'proc','range':'curr','status':'All'}):
+    """
+    select volume for 3 different combos:
+    {'level':'proc|step','range':'curr|prev','status:'All|Started|In Progress|Completed'}
+    """
+    tc('select volume->'+d['level']+'->'+d['range']+'->'+d['status']);
+    if d['range'] == 'curr':
+        level={ 'step':['stepVolumeValueText','step'],
+                'proc':['volumeValueText','vol'] }
+    else:
+        level={ 'step':['stepVolumePreviousValueText','stepPrevious'],
+                'proc':['volumePreviousValueText','volPrevious'] }
+    x="//*/a[contains (@id, '" + level[d['level']][0] + "')]" #
+    g.wait.until(EC.element_to_be_clickable((By.XPATH, x))).click()
+
+    status={'All':'TotalLink','Started':'StartedLink',
+        'In Progress':'InProgressLink','Completed':'CompLink'}
+    if d['level'] == 'step':
+        status['Started']='StartLink'
+        status['In Progress']='InProgLink'
+    x="//*/a[contains (@id, '" + level[d['level']][1] + status[d['status']] + "')]"
+    g.wait.until(EC.element_to_be_clickable((By.XPATH, x))).click()
+
 def piidlink(p='0'):
     """
     click on Process Instance ID link
@@ -72,3 +97,37 @@ def magglasslink(p='0'):
     e=g.wait.until(EC.element_to_be_clickable((By.XPATH, x)))
     e.click()
     return e.text
+
+def navstep(step):
+    #make sure to call g.focus_iframe() to focus on iframe
+    tc('click step '+step+' on proc diagram')
+    if step == '': #avoid blank steps
+        tc('Warn: step is blank, skip')
+        return
+    e=g.wait.until(EC.element_to_be_clickable((By.XPATH,
+        "//*/div[.='"+step+"']/preceding::div[1]/img[contains (@style,'cursor')]")))
+    e.click()
+
+def findsteps():
+    tc('find all steps on proc diagram')
+    #select all step images //*/img[contains (@style,'cursor')]
+    #select all step labels (which contain their names)
+    x="//*/img[contains (@style,'cursor')]/ancestor::div[2]/following-sibling::div[1]"
+    es=g.driver.find_elements_by_xpath(x)
+    steps=[]
+    for s in es: steps.append(s.text)
+    tc('found steps on proc diagram '+str(len(steps)))
+    return steps
+
+def zoomprocdiag(times):
+    """
+    zooms proc diagram in/reset/out times (-N/0/N)
+    """
+    if   times < 0: y='zoomOut'
+    elif times > 0: y='zoomIn'
+    else          : y='zoomReset'; times=1
+    tc(y+' proc diagram '+str(times)+' times')
+    for x in range(abs(times)):
+        e=g.wait.until(EC.element_to_be_clickable((By.XPATH,"//*[@id='"+y+"']")))
+        e.click()
+
