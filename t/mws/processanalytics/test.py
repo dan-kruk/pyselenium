@@ -1,12 +1,15 @@
 
 from g import cfg,loadenv,prep,error,clean
 from mwsm import login,nav,navauth,logout
-from mws.processanalytics import selectprocess,selectrange,selectvolume,nav as panav,piidlink,magglasslink
+from mws.processanalytics import selectprocess,selectrange,selectprocessvolume,processpiidlink,processmagglasslink,selectstepinmodel,selectstepvolume,steppiidlink,stepmagglasslink
 from mws.procinstdetail import validateid as valpidetail
 import bc.steps as bc
 from mws.search import search
 import mws.busproc as bp
 import mws.editprocess as ep
+import mws.overviewdashboard as od
+import mws.stageinstancesdashboard as sid
+import mws.processinstancesdashboard as pid
 from time import sleep
 
 
@@ -45,26 +48,33 @@ try:
 	bp.nav('DBM_Process')
 	ep.check_execution_analysis ()'''
 
-	'''navauth('BusinessProcesses')
-	search('DBM_Process')
-	bp.toggleexecution('DBM_Process')
-	bp.checkexecution('DBM_Process')
-	bp.toggleanalysis('DBM_Process')
-	bp.checkanalysis('DBM_Process')
-	nav('ProcessAnalytics')
+	'''nav('ProcessAnalytics')'''
+	#navauth('BusinessProcesses')
+	#search('DBM_Process')
+	#bp.toggleexecution('DBM_Process')
+	#bp.checkexecution('DBM_Process')
+	#bp.toggleanalysis('DBM_Process')
+	#bp.checkanalysis('DBM_Process')
+	'''navauth('ProcessAnalytics')
 	selectprocess('DBM_Process')
-	selectrange('4 Weeks')
-	selectvolume('All')
-	pi=piidlink()
-	bc.check()'''
-
-	nav('ProcessAnalytics')
-	selectprocess('DBM_Process')
-	selectrange('4 Weeks')
-	selectvolume('All')
-	pi=piidlink()
-	bc.check()
-
+	selectrange('4 Weeks')'''
+	#selectprocessvolume('All')
+	#processpiidlink()
+	#processmagglasslink()
+	'''selectstepinmodel()
+	selectstepvolume('All')
+	steppiidlink()'''
+	#stepmagglasslink()
+	#pi=processpiidlink()
+	#bc.check()
+	
+	navauth('ProcessDashboards')
+	sleep(60)
+	od.selectprocess('DBM_Process')	
+	od.selectinterval('4 weeks')
+	sid.navsidashboard()
+	pid.navpidashboard()
+	pid.piidlink()
 	
 	#navauth('BusinessProcesses')
 	#search('DBM_Process')
@@ -77,14 +87,14 @@ try:
 	#selectprocess('OTC_Bus_Designer')
 	#selectrange('4 Weeks')
 	#selectvolume('All')
-	#pi=piidlink()
+	#pi=processpiidlink()
 	#valpidetail(pi)
 	
 	#nav('ProcessAnalytics')
 	#selectprocess('complex')
 	#selectrange('4 Weeks')
 	#selectvolume('All')
-	#pi=piidlink()
+	#pi=processpiidlink()
 	#valpidetail(pi)
 
 	#logout()
