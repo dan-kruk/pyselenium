@@ -39,11 +39,11 @@ def selectrange(p):
     if select.first_selected_option.text != p:
         tc('','fail')
 
-def selectvolume(p):
+def selectprocessvolume(p):
     """
-    select a range from dropdown
+    select a process volume option
     """
-    tc('select volume '+p)
+    tc('select process volume '+p)
     x="//*/a[contains (@id, 'volumeValueText')]"
     g.wait.until(EC.element_to_be_clickable((By.XPATH, x))).click()
     if p=='All': x="//*/a[contains (@id, 'volTotalLink')]"
@@ -52,23 +52,71 @@ def selectvolume(p):
     elif p=='Completed': x="//*/a[contains (@id, 'volCompLink')]"
     g.wait.until(EC.element_to_be_clickable((By.XPATH, x))).click()
 	
-def piidlink(p='0'):
+def processpiidlink(p='0'):
     """
-    click on Process Instance ID link
+    click Process Instance ID link to BC
     """
-    tc('click on process instance ID link '+p)
-    x="//*/a[contains (@id, 'resultsTable:__row"+p+":instanceId')]"
+    tc('click on instance ID linkfor process '+p)
+    x="//*/a[contains (@id, 'resultsTable:__row"+p+":instanceIdBCLink')]"
     e=g.wait.until(EC.element_to_be_clickable((By.XPATH, x)))
     sleep(1)  #element obscured issue on edge
     e.click()
     return e.text
 
-def magglasslink(p='0'):
+def processmagglasslink(p='0'):
     """
-    click on magnifying glass link
+    click magnifying glass link to BC
     """
-    tc('nav instance '+p)
-    x="//*/img[contains (@id, 'resultsTable:__row"+p+":detailIcon')]"
+    tc('click on magnifying glass link for process '+p)
+    x="//*/img[contains (@id, 'resultsTable:__row"+p+":detailIconBC')]"
     e=g.wait.until(EC.element_to_be_clickable((By.XPATH, x)))
+    sleep(1)  #element obscured issue on edge
     e.click()
     return e.text
+
+def selectstepinmodel():
+    """
+    click on Service Task 1 step
+    """
+    tc('click on Service Task 1 step')
+    x="//*/img[contains(@src, 'images/icons/')]"
+    e=g.wait.until(EC.element_to_be_clickable((By.XPATH, x)))
+    e.click()
+
+def selectstepvolume(s):
+    """
+    select a step volume option
+    """
+    tc('select step volume '+s)
+    x="//*/a[contains (@id, 'stepVolumeValueText')]"
+    g.wait.until(EC.element_to_be_clickable((By.XPATH, x))).click()
+    if s=='All': x="//*/a[contains (@id, 'stepTotalLink')]"
+    elif s=='Started': x="//*/a[contains (@id, 'stepStartedLink')]"
+    elif s=='In Progress': x="//*/a[contains (@id, 'stepInProgressLink')]"
+    elif s=='Completed': x="//*/a[contains (@id, 'stepCompLink')]"
+    g.wait.until(EC.element_to_be_clickable((By.XPATH, x))).click()
+
+def steppiidlink(s='0'):
+    """
+    click Process Instance ID link to BC
+    """
+    tc('click on instance ID link for step '+s)
+    x="//*/a[contains (@id, 'resultsTable:__row"+s+":processInstanceBCLink')]"
+    e=g.wait.until(EC.element_to_be_clickable((By.XPATH, x)))
+    sleep(1)  #element obscured issue on edge
+    e.click()
+    return e.text
+
+def stepmagglasslink(s='0'):
+    """
+    click magnifying glass link to BC
+    """
+    tc('click on magnifying glass link for step '+s)
+    x="//*/img[contains (@id, 'resultsTable:__row"+s+":detailBCIcon')]"
+    #MUST VALIDATE HERE THAT THE MAGNIFYING GLASS LINK TO BUSINESS CONSOLE IS DISABLED
+    e=g.wait.until(EC.element_to_be_clickable((By.XPATH, x)))
+    sleep(1)  #element obscured issue on edge
+    e.click()
+    return e.text
+	
+	
