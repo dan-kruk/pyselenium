@@ -82,22 +82,33 @@ def piidlink(p='0'):
     click Process Instance ID link to BC
     """
     tc('click on instance ID linkfor process '+p)
-    x="//*/a[contains (@id, 'resultsTable:__row"+p+":instanceIdBCLink')]"
+    x="//*/a[contains (@id, 'resultsTable:__row"+p+":instanceIdBCLink') or contains (@id, 'resultsTable:__row"+p+":processInstanceBCLink')]"
     e=g.wait.until(EC.element_to_be_clickable((By.XPATH, x)))
     sleep(1)  #element obscured issue on edge
     e.click()
     return e.text
 
-def processmagglasslink(p='0'):
+def magglass(p='0'):
     """
     click magnifying glass link to BC
     """
     tc('click on magnifying glass link for process '+p)
-    x="//*/img[contains (@id, 'resultsTable:__row"+p+":detailIconBC')]"
+    x="//*/img[contains (@id, 'resultsTable:__row"+p+":detailIconBC')] or contains (@id, 'resultsTable:__row"+p+":detailBCIcon')]"
     e=g.wait.until(EC.element_to_be_clickable((By.XPATH, x)))
     sleep(1)  #element obscured issue on edge
     e.click()
     return e.text
+
+def magglasscheck(p='0', status=True):
+    """
+    check status of magnifying glass link with expected status = True|False
+    """
+    tc('check status of magnifying glass link '+p+ 'expected ' + str(status))
+    x="//*/img[contains (@id, 'resultsTable:__row"+p+":detailIconBC')] or contains (@id, 'resultsTable:__row"+p+":detailBCIcon')]"
+    e=g.wait.until(EC.presence_of_element_located((By.XPATH, x)))
+    sleep(1)  #element obscured issue on edge
+    if status != e.is_enabled():
+        tc('','fail')
 
 def navstep(step):
     #make sure to call g.focus_iframe() to focus on iframe
