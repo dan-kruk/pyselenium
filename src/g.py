@@ -7,6 +7,7 @@ from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.alert import Alert
 from selenium.webdriver.support.select import Select
 import os,sys,time,traceback,json,re
+from time import sleep
 
 #boilerplate globs
 driver = wait = wait3 = wait20 = wait60 = FF = None
@@ -77,10 +78,14 @@ def prep():
     wait60 = WebDriverWait(driver, 60)
 
 def screenshot(act=True):
-    x=LOGS+'/screenshot-'+str(os.getpid())+'-'+re.sub('[^a-zA-Z0-9-]',"_",tc_name)+'.png'
+    x=LOGS+'/screenshot-'+str(os.getpid())+'-'+re.sub('[^a-zA-Z0-9-]',"_",tc_name)
     try:
         if driver is not None:
-            if act: driver.save_screenshot(x); print('screenshot: '+x+'\n')
+            if act:
+                driver.save_screenshot(x+'.png'); print('screenshot: '+x+'.png\n')
+                #save page src as well
+                f = open(x+'.html','w')
+                f.write(driver.page_source); f.close()
             return x
     except: print('screenshot failed: '+x+'\n')
 
@@ -112,11 +117,15 @@ def tc(tc='',s='pass'):
     tc_name = tc; tc_status = s; tc_time = now #save this tc
 
 def focus_iframe():
-    tc('focus on iframe')
     driver.switch_to_frame(wait.until(EC.element_to_be_clickable((By.TAG_NAME, 'iframe'))))
+    tc('focused on iframe:'+driver.current_window_handle+' '+driver.title)
 
-def focus_main():
-    driver.switch_to.window(driver.window_handles[-1])
+def focus(n=0):
+    i=0 #timeout check on nth handle presence
+    while i<5 and len(driver.window_handles)<n:
+        print('re-focus window..'); sleep(1); i+=1
+    driver.switch_to.window(driver.window_handles[n])
+    tc('focused on window:'+str(n)+' '+driver.current_window_handle+' '+driver.title)
 
 def error():
     global ret; ret = 1
