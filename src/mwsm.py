@@ -36,8 +36,9 @@ def navauth(link=''): #include user/pass in url
 def server(name): #BPM and BAM|BPM only|BAM only|BVTEnv
     """select server dropdown on many optimize (usually) pages"""
     tc('select server '+name)
-    x="//*[@name='serverNameInput']"; e=g.wait.until(EC.element_to_be_clickable((By.XPATH, x)))
+    x="//select[@name='serverNameInput']"; e=g.wait.until(EC.element_to_be_clickable((By.XPATH, x)))
     Select(e).select_by_visible_text(name)
+    sleep(1) #page flicks
 
 def logout():
     tc('logout')

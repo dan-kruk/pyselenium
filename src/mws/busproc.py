@@ -4,16 +4,12 @@ EC=g.EC; By=g.By
 from selenium.common.exceptions import StaleElementReferenceException as stale
 from time import sleep
 from mwsm import overlay_handler
+from mws.search import search
 
 
-def searchcnt(cnt=0,text=None):
+def searchcnt(cnt=0,text=''):
     """validate count of processes, search text first, optional"""
-    if text:
-        tc('search '+text)
-        x="//*[contains (@name,'keywordsTextInput')]";
-        g.wait.until(EC.element_to_be_clickable((By.XPATH, x))).send_keys(text)
-        x="//*[contains (@name,'asyncSimpleSearchGoButton')]"
-        g.driver.find_element(By.XPATH, x).click()
+    search(text)
     tc('check proc cnt in list')
     x="//*[contains(@id,'dataTotal__primary')]"
     sleep(.1)
@@ -37,7 +33,7 @@ def nav(name):
     tc('click process model '+name)
     x="//*/a[contains(@id,'_"+name+"') and contains(@id, 'htmlCommandLink')]"
     g.wait.until(EC.element_to_be_clickable((By.XPATH, x))).click()
-    
+
 def toggleexecution(p,s=True):
     """enable / disable execution for model"""
     tc('enable execution for model')
