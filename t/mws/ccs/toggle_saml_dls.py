@@ -11,7 +11,7 @@ try:
     ccs.navenv(x)
     ccs.navtab('Configure Servers')
     ccs.navconfig('Station Settings')
-    ccs.toggle_saml_dls(x)
+    ccs.station_settings(x)
     ccs.validate()
     ccs.finish(x)
     ccs.deploy(x,'Deploy Updates')

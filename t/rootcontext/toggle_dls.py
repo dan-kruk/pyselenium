@@ -11,7 +11,7 @@ try:
     c.navenv(x)
     c.navtab('Configure Servers')
     c.navconfig('Station Settings')
-    c.toggle_saml_dls(x)
+    c.station_settings(x)
     c.validate()
     c.finish(x)
     c.deploy(x,'Deploy Updates')
