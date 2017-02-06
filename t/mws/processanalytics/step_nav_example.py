@@ -15,14 +15,14 @@ try:
     ui.navauth('ProcessAnalytics')
     pa.selectprocess('complex')
     pa.selectrange('4 Weeks')
-    pa.selectvolume('All')
+    pa.selectvolumes({'level':'proc','range':'prev','status':'Completed'}) #select volume for step
 
     #nav through the step
     g.focus_iframe() #jump to diagram
     pa.zoomprocdiag(-8) #shrink diagram
     pa.navstep('Verify Info') #click on step
+    g.focus() #back to main page from iframe
     sleep(4) #mutations on volume section
-    g.focus_main() #back to main page from iframe
     pa.selectvolumes({'level':'step','range':'curr','status':'All'}) #select volume for step
 
     #optional

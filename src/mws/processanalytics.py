@@ -67,7 +67,9 @@ def selectvolumes(d={'level':'proc','range':'curr','status':'All'}):
         level={ 'step':['stepVolumePreviousValueText','stepPrevious'],
                 'proc':['volumePreviousValueText','volPrevious'] }
     x="//*/a[contains (@id, '" + level[d['level']][0] + "')]" #
-    g.wait.until(EC.element_to_be_clickable((By.XPATH, x))).click()
+    e=g.wait.until(EC.element_to_be_clickable((By.XPATH, x)))
+    #sleep(1) #click jitter?
+    e.click()
 
     status={'All':'TotalLink','Started':'StartedLink',
         'In Progress':'InProgressLink','Completed':'CompLink'}
@@ -84,7 +86,7 @@ def piidlink(p='0'):
     tc('click on instance ID linkfor process '+p)
     x="//*/a[contains (@id, 'resultsTable:__row"+p+":instanceIdBCLink') or contains (@id, 'resultsTable:__row"+p+":processInstanceBCLink')]"
     e=g.wait.until(EC.element_to_be_clickable((By.XPATH, x)))
-    sleep(1)  #element obscured issue on edge
+    sleep(1.5)  #element obscured issue on edge
     e.click()
     return e.text
 
@@ -118,7 +120,9 @@ def navstep(step):
         return
     e=g.wait.until(EC.element_to_be_clickable((By.XPATH,
         "//*/div[.='"+step+"']/preceding::div[1]/img[contains (@style,'cursor')]")))
+    e.location_once_scrolled_into_view
     e.click()
+    #sleep(4) #yellow mutation
 
 def findsteps():
     tc('find all steps on proc diagram')

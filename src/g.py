@@ -117,13 +117,17 @@ def tc(tc='',s='pass'):
     tc_name = tc; tc_status = s; tc_time = now #save this tc
 
 def focus_iframe():
-    driver.switch_to_frame(wait.until(EC.element_to_be_clickable((By.TAG_NAME, 'iframe'))))
+    driver.switch_to_frame(wait.until(
+        EC.element_to_be_clickable((By.TAG_NAME, 'iframe'))))
     tc('focused on iframe:'+driver.current_window_handle+' '+driver.title)
 
+def focus_main():
+    driver.switch_to.default_content()
+
 def focus(n=0):
-    i=0 #timeout check on nth handle presence
-    while i<5 and len(driver.window_handles)<n:
-        print('re-focus window..'); sleep(1); i+=1
+    #i=0 #timeout check on nth handle presence
+    #while i<5 and len(driver.window_handles)<n:
+    #    print('re-focus window..'); sleep(1); i+=1
     driver.switch_to.window(driver.window_handles[n])
     tc('focused on window:'+str(n)+' '+driver.current_window_handle+' '+driver.title)
 
