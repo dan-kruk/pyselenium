@@ -6,7 +6,6 @@ from time import sleep
 from mwsm import overlay_handler
 from mws.search import search
 
-
 def searchcnt(cnt=0,text=''):
     """validate count of processes, search text first, optional"""
     search(text)
@@ -31,13 +30,13 @@ def searchcnt(cnt=0,text=''):
 def nav(name):
     """navigate to process model"""
     tc('click process model '+name)
-    x="//*/a[contains(@id,'_"+name+"') and contains(@id, 'htmlCommandLink')]"
+    x="//a[contains(@id,'_"+name+"') and contains(@id, 'htmlCommandLink')]"
     g.wait.until(EC.element_to_be_clickable((By.XPATH, x))).click()
 
 def toggleexecution(p,s=True):
     """enable / disable execution for model"""
     tc('enable execution for model')
-    x="//*/img[contains (@id, 'executionEnabledIcon') and contains (@id, '"+p+"')]"
+    x="//img[contains (@id,'executionEnabledIcon') and contains (@id,'"+p+"')]"
     se=g.wait.until(EC.element_to_be_clickable((By.XPATH, x)))
     s0=se.get_attribute('src')
     if 'Icon_Configured.png' in s0:
@@ -51,7 +50,7 @@ def toggleexecution(p,s=True):
 def toggleanalysis(p,s=True):
     """enable / disable analysis for model"""
     tc('enable analysis for model')
-    x="//*/img[contains (@id, 'analysisEnabledIcon') and contains (@id, '"+p+"')]"
+    x="//img[contains (@id,'analysisEnabledIcon') and contains (@id,'"+p+"')]"
     se=g.wait.until(EC.element_to_be_clickable((By.XPATH, x)))
     s0=se.get_attribute('src')
     if 'Icon_Configured.png' in s0:
@@ -60,12 +59,12 @@ def toggleanalysis(p,s=True):
         s0=False
     if s is not s0:
         tc('toggle analysis enabled from '+str(s0)); se.click()
-        overlay_handler(4)
+        overlay_handler(.5)
 
 def checkexecution(p,s=True):
     """validate execution flag"""
     tc('check execution flag for model')
-    x="//*/img[contains (@id, 'executionEnabledIcon') and contains (@id, '"+p+"')]"
+    x="//img[contains (@id,'executionEnabledIcon') and contains (@id,'"+p+"')]"
     se=g.wait.until(EC.element_to_be_clickable((By.XPATH, x)))
     s0=se.get_attribute('src')
     if 'Icon_Configured.png' in s0:
@@ -77,7 +76,7 @@ def checkexecution(p,s=True):
 def checkanalysis(p,s=True):
     """validate analysis flag"""
     tc('check analysis flag for model')
-    x="//*/img[contains (@id, 'analysisEnabledIcon') and contains (@id, '"+p+"')]"
+    x="//img[contains (@id,'analysisEnabledIcon') and contains (@id,'"+p+"')]"
     se=g.wait.until(EC.element_to_be_clickable((By.XPATH, x)))
     s0=se.get_attribute('src')
     #print(s0,'-----')'''
