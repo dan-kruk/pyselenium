@@ -275,9 +275,14 @@ def pt_settings(x={}):
     """
     if x.get('mapi_eda',None):
         x['mapi_eda']={'eda':' eda'}.get(x['mapi_eda'],'mapi') #remap ' eda'
-        tc('click radiobutton='+x['mapi_eda'])
-        g.wait.until(EC.element_to_be_clickable((By.XPATH,
-            "//input[@value='"+x[ 'mapi_eda' ]+"']"))).click()
+        tc('locate radiobutton='+x['mapi_eda'])
+        e=g.wait.until(EC.visibility_of_element_located((By.XPATH,
+            "//input[@value='"+x[ 'mapi_eda' ]+"' and @type='radio']")))
+        if e.is_selected():
+            tc('radiobutton already selected='+x['mapi_eda'])
+        else:
+            tc('select radiobutton='+x['mapi_eda'])
+            e.click()
     for x1 in ['processInstanceCacheSize','modelRefreshInterval'
         ,'maxStagingDataQueueSize','stagingDataQueueConsumptionSize'
         ,'stagingDataDelay']:
