@@ -66,7 +66,7 @@ def selectvolumes(d={'level':'proc','range':'curr','status':'All'}):
     else:
         level={ 'step':['stepVolumePreviousValueText','stepPrevious'],
                 'proc':['volumePreviousValueText','volPrevious'] }
-    x="//*/a[contains (@id, '" + level[d['level']][0] + "')]" #
+    x="//a[contains (@id, '" + level[d['level']][0] + "')]" #
     e=g.wait.until(EC.element_to_be_clickable((By.XPATH, x)))
     #sleep(1) #click jitter?
     e.click()
@@ -84,7 +84,7 @@ def piidlink(p='0'):
     click Process Instance ID link to BC
     """
     tc('click on instance ID link for process '+p)
-    x="//*/a[contains (@id, 'resultsTable:__row"+p+":instanceIdBCLink') or contains (@id, 'resultsTable:__row"+p+":processInstanceBCLink')]"
+    x="//a[contains (@id, 'resultsTable:__row"+p+":instanceIdBCLink') or contains (@id, 'resultsTable:__row"+p+":processInstanceBCLink')]"
     e=g.wait.until(EC.element_to_be_clickable((By.XPATH, x)))
     sleep(1.5)  #element obscured issue on edge
     e.click()
@@ -95,7 +95,7 @@ def magglass(p='0'):
     click magnifying glass link to BC
     """
     tc('click on magnifying glass link for process '+p)
-    x="//*/img[contains (@id, 'resultsTable:__row"+p+":detailIconBC')] or contains (@id, 'resultsTable:__row"+p+":detailBCIcon')]"
+    x="//a[contains (@id, 'resultsTable:__row"+p+":detailIconBC') or contains (@id, 'resultsTable:__row"+p+":detailBCIcon')]"
     e=g.wait.until(EC.element_to_be_clickable((By.XPATH, x)))
     sleep(1)  #element obscured issue on edge
     e.click()
@@ -105,11 +105,14 @@ def magglasscheck(p='0', status=True):
     """
     check status of magnifying glass link with expected status = True|False
     """
-    tc('check status of magnifying glass link '+p+ 'expected ' + str(status))
-    x="//*/img[contains (@id, 'resultsTable:__row"+p+":detailIconBC')] or contains (@id, 'resultsTable:__row"+p+":detailBCIcon')]"
+    tc('check status of magnifying glass link '+p+ ' expected ' + str(status))
+    x="//a[contains (@id, 'resultsTable:__row"+p+":detailIconBC') or contains (@id, 'resultsTable:__row"+p+":detailBCIcon')]"
     e=g.wait.until(EC.presence_of_element_located((By.XPATH, x)))
     sleep(1)  #element obscured issue on edge
-    if status != e.is_enabled():
+    #class attr for disabled link is set (to "disabled disabled-img")
+    act_status = True
+    if e.get_attribute('class') == "disabled disabled-img": act_status = False
+    if status != act_status:
         tc('','fail')
 
 def navstep(step):

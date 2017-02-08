@@ -5,24 +5,44 @@ export JENKINS_URL=fakeone
 #export LOGS=c:/tmp/junit
 SECONDS=0
 
-bs='edge'
+bs='firefox'
 remote=true
+url=http://rdvmden53:8585
+#caps="{'platform':'ANY','version':'51.0.1','firefox_binary':'c:/Users/Administrator/Downloads/drivers/firefox/firefox.exe'}"
+#caps="{'firefox_binary':'c:/Users/Administrator/Downloads/drivers/firefox/firefox.exe'}"
+caps="{'platform':''}"
 
-export login='{"url":"http://rdvmden103:8585","Xusername":"dkrukov","Xpassword":"dkrukov"}'
+export login="{ 'url':'$url', 'Xusername':'dkrukov','Xpassword':'dkrukov' }"
+
+export ccs="{ 'mapi_eda':'eda','dls':true,'Xdlscache':true,'saml':true }"
 
 
+
+#t=t/dashboards/example.py
+#t=t/dbo_optimize_integration/enable_process.py
+#t=t/dbo_optimize_integration/focus_example.py
+#t=t/dbo_optimize_integration/play.py
+t=t/dbo_optimize_integration/process_analytics.py
+#t=t/dbo_optimize_integration/process_dashboards.py
+#t=t/dbo_optimize_integration/toggle_mapi_eda.py
 #t=t/mws/ccs/toggle_saml_dls.py
-#t=t/mws/dls/checkprocs.py
-#t=t/mws/dls/toggle.py
 #t=t/mws/examples/feature.py
-t=t/mws/processanalytics/test.py
-#t=t/mws/rootcontext/chroot.py
+#t=t/mws/processanalytics/play.py
+#t=t/mws/processanalytics/step_nav_example.py
+#t=t/mws/processanalytics/test.py
+#t=t/rootcontext/checkprocs.py
+#t=t/rootcontext/chroot.py
+#t=t/rootcontext/toggle_dls.py
 #t=t/test.py
 #t=t/unit/tc.py
 
 for b in $bs; do
- export cfg="{ 'capabilities':{'platform':'ANY'},'Xwait':20,'remote':$remote,'hub':'http://usvardvmden141:4444/wd/hub','browser':'$b'}"
+
+ export cfg="{ 'capabilities':$caps,'Xwait':20,'remote':$remote, 'hub':'http://usvardvmden141:4444/wd/hub','browser':'$b'}"
+ echo "$cfg"
+
  (python -u $t | tee /tmp/slog; echo $b $? done $SECONDS)&
+
 done
 
 wait
