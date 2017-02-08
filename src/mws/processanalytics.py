@@ -83,7 +83,7 @@ def piidlink(p='0'):
     """
     click Process Instance ID link to BC
     """
-    tc('click on instance ID linkfor process '+p)
+    tc('click on instance ID link for process '+p)
     x="//*/a[contains (@id, 'resultsTable:__row"+p+":instanceIdBCLink') or contains (@id, 'resultsTable:__row"+p+":processInstanceBCLink')]"
     e=g.wait.until(EC.element_to_be_clickable((By.XPATH, x)))
     sleep(1.5)  #element obscured issue on edge
