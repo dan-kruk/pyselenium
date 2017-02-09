@@ -21,7 +21,7 @@ try:
     pa.selectrange('4 Weeks')
 
     ##nav through the process
-    pa.selectvolumes({'level':'proc','range':'curr','status':'Completed'})
+    pa.selectvolumes({'level':'proc','range':'curr','status':'All'})
     pa.magglasscheck()
     pi = pa.piidlink()
     bc.focus()
@@ -53,7 +53,7 @@ try:
     pa.navstep('Service Task 1') #click on step
     g.focus_main() #back to main page from iframe
     sleep(4) #mutations on volume section
-    pa.selectvolumes({'level':'step','range':'curr','status':'Completed'})
+    pa.selectvolumes({'level':'step','range':'curr','status':'All'})
     pa.magglasscheck('0',False)
 
 except:
