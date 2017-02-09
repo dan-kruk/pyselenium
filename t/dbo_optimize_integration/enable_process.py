@@ -9,11 +9,15 @@ try:
     m.navauth('BusinessProcesses')
     s.search(proc)
     #test both enable and disable
-    for s in [True,False,True]:
-        p.toggleexecution(proc, s)
-        p.checkexecution(proc, s)
-        p.toggleanalysis(proc, s)
-        p.checkanalysis(proc, s)
+    for i in [True,False,True]:
+        #s.search(proc)
+        p.toggleexecution(proc, i)
+        #s.search(proc)
+        p.checkexecution(proc, i)
+        #s.search(proc)
+        p.toggleanalysis(proc, i)
+        #s.search(proc)
+        p.checkanalysis(proc, i)
 
 except:
     g.error()

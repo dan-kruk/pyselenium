@@ -23,16 +23,16 @@ try:
     ##nav through the process
     pa.selectvolumes({'level':'proc','range':'curr','status':'All'})
     pa.magglasscheck()
-    pi = pa.piidlink()
+    pid = pa.piidlink()
     bc.focus()
-    #TODO validate things on BC
+    bc.validatepi(pid)
     bc.close()
 
     #nav through magglass
     pa.selectvolumes({'level':'proc','range':'curr','status':'All'})
     pi = pa.magglass()
     bc.focus()
-    #TODO validate things on BC
+    bc.validatepi(pid)
     bc.close()
 
     #nav through the step
@@ -44,7 +44,7 @@ try:
     pa.selectvolumes({'level':'step','range':'curr','status':'All'})
     pa.piidlink()
     bc.focus()
-    #TODO validate things on BC
+    bc.validatepi(pid)
     bc.close()
 
     #check mag glass link nav is disabled for step
