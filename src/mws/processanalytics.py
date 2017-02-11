@@ -1,5 +1,6 @@
 import g #globs: driver, wait...
 from g import tc
+from mwsm import overlay
 EC=g.EC; By=g.By; Keys=g.Keys #selenium statics
 from selenium.webdriver.support.select import Select
 from time import sleep
@@ -67,17 +68,15 @@ def selectvolumes(d={'level':'proc','range':'curr','status':'All'}):
         level={ 'step':['stepVolumePreviousValueText','stepPrevious'],
                 'proc':['volumePreviousValueText','volPrevious'] }
     x="//a[contains (@id, '" + level[d['level']][0] + "')]" #
-    e=g.wait.until(EC.element_to_be_clickable((By.XPATH, x)))
-    #sleep(1) #click jitter?
-    e.click()
-
+    g.wait.until(EC.element_to_be_clickable((By.XPATH, x))).click()
     status={'All':'TotalLink','Started':'StartedLink',
         'In Progress':'InProgressLink','Completed':'CompLink'}
     if d['level'] == 'step':
         status['Started']='StartLink'
         status['In Progress']='InProgLink'
-    x="//*/a[contains (@id, '" + level[d['level']][1] + status[d['status']] + "')]"
+    x="//*/a[contains (@id, '"+level[d['level']][1]+status[d['status']]+"')]"
     g.wait.until(EC.element_to_be_clickable((By.XPATH, x))).click()
+    overlay()
 
 def piidlink(p='0'):
     """
@@ -86,7 +85,6 @@ def piidlink(p='0'):
     tc('click on instance ID link for process '+p)
     x="//a[contains (@id, 'resultsTable:__row"+p+":instanceIdBCLink') or contains (@id, 'resultsTable:__row"+p+":processInstanceBCLink')]"
     e=g.wait.until(EC.element_to_be_clickable((By.XPATH, x)))
-    sleep(1.5)  #element obscured issue on edge
     e.click()
     return e.text
 
@@ -97,7 +95,6 @@ def magglass(p='0'):
     tc('click on magnifying glass link for process '+p)
     x="//a[contains (@id, 'resultsTable:__row"+p+":detailIconBC') or contains (@id, 'resultsTable:__row"+p+":detailBCIcon')]"
     e=g.wait.until(EC.element_to_be_clickable((By.XPATH, x)))
-    sleep(1)  #element obscured issue on edge
     e.click()
     return e.text
 
@@ -108,7 +105,6 @@ def magglasscheck(p='0', status=True):
     tc('check status of magnifying glass link '+p+ ' expected ' + str(status))
     x="//a[contains (@id, 'resultsTable:__row"+p+":detailIconBC') or contains (@id, 'resultsTable:__row"+p+":detailBCIcon')]"
     e=g.wait.until(EC.presence_of_element_located((By.XPATH, x)))
-    sleep(1)  #element obscured issue on edge
     #class attr for disabled link is set (to "disabled disabled-img")
     act_status = True
     if e.get_attribute('class') == "disabled disabled-img": act_status = False
@@ -125,7 +121,7 @@ def navstep(step):
         "//*/div[.='"+step+"']/preceding::div[1]/img[contains (@style,'cursor')]")))
     e.location_once_scrolled_into_view
     e.click()
-    #sleep(4) #yellow mutation
+    overlay()
 
 def findsteps():
     tc('find all steps on proc diagram')

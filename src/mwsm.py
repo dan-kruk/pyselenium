@@ -51,10 +51,20 @@ def logout():
     g.wait.until(EC.element_to_be_clickable((By.XPATH, x))).click()
     g.wait.until(EC.element_to_be_clickable((By.NAME, 'username')))
 
-def overlay_handler(w=.1):
-    tc('wait overlay gone') #handle overlay prog bar
+def overlay_handler(w=.1): #progress bar overlay
+    tc('wait overlay gone')
     x="//*[contains(@id,'overlay')]"
     o=g.wait.until(EC.presence_of_element_located((By.XPATH, x)))
     g.wait20.until(EC.staleness_of(o))
     sleep(w)
+
+def overlay(): #yellowish overlays
+    try:
+        tc('overlay probe')
+        e=g.wait3.until(EC.element_to_be_clickable((By.XPATH,
+            "//div[contains (@style,'opacity: ')]")))
+        tc('overlay stale')
+        g.wait.until(EC.staleness_of(e))
+    except:
+        tc('overlay flick')
 

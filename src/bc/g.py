@@ -5,9 +5,10 @@ from time import sleep
 EC=g.EC; By=g.By; Keys=g.Keys
 
 def focus():
-    g.focus(1) #bc is an alt tab-window
     tc('focus on business console')
-    g.wait20.until(EC.presence_of_element_located((By.XPATH,
+    #g.wait.until(EC.number_of_windows_to_be(2))
+    g.focus(1) #bc is an alt tab-window
+    g.wait.until(EC.presence_of_element_located((By.XPATH,
         "//div[@id='stepSummaryTable']")))
 
 def close():
@@ -23,6 +24,6 @@ def validatepi(pid):
     validate instance details by pid
     """
     tc('located pid='+pid)
-    g.wait.until(EC.presence_of_element_located((By.XPATH,
+    g.wait20.until(EC.presence_of_element_located((By.XPATH,
         "//td[.='"+pid+"']")))
 

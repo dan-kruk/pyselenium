@@ -10,7 +10,7 @@ import os,sys,time,traceback,json,re
 from time import sleep
 
 #boilerplate globs
-driver = wait = wait3 = wait20 = wait60 = FF = None
+driver = wait = wait1 = wait3 = wait20 = wait60 = FF = None
 #test rep stuff
 tcases={}; tc_name='Begin'; tc_status='pass'; tc_time=time.time(); tcnt=0; junitfile=None
 ret=0
@@ -52,7 +52,7 @@ cfg = loadenv('cfg',cfg)
 for i in ['browser']: cfg[i] = cfg[i].lower() #normalize
 
 def prep():
-    global driver, wait, wait3, wait20, wait60, FF #globs
+    global driver, wait, wait1, wait3, wait20, wait60, FF #globs
     if driver is not None: driver.quit(); driver = None #reenter
     #hub or local driver
     tc('init '+cfg['browser'])
@@ -73,6 +73,7 @@ def prep():
     tc('maximize '+cfg['browser'])
     driver.maximize_window(); #max for inclusive screenshots
     wait = WebDriverWait(driver, int(cfg['wait']))
+    wait1 = WebDriverWait(driver, 1)
     wait3 = WebDriverWait(driver, 3)
     wait20 = WebDriverWait(driver, 20)
     wait60 = WebDriverWait(driver, 60)
