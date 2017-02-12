@@ -83,7 +83,9 @@ def piidlink(p='0'):
     click Process Instance ID link to BC
     """
     tc('click on instance ID link for process '+p)
-    x="//a[contains (@id, 'resultsTable:__row"+p+":instanceIdBCLink') or contains (@id, 'resultsTable:__row"+p+":processInstanceBCLink')]"
+    #handles all model type variations
+    x="//a[contains (@id, 'resultsTable:__row"+p+":instanceId')\
+    or contains (@id, 'resultsTable:__row"+p+":processInstance')]"
     e=g.wait.until(EC.element_to_be_clickable((By.XPATH, x)))
     e.click()
     return e.text
@@ -93,7 +95,8 @@ def magglass(p='0'):
     click magnifying glass link to BC
     """
     tc('click on magnifying glass link for process '+p)
-    x="//a[contains (@id, 'resultsTable:__row"+p+":detailIconBC') or contains (@id, 'resultsTable:__row"+p+":detailBCIcon')]"
+    #handles all model type variations
+    x="//a[contains (@id, 'resultsTable:__row"+p+":detail')]"
     e=g.wait.until(EC.element_to_be_clickable((By.XPATH, x)))
     e.click()
     return e.text
@@ -103,7 +106,8 @@ def magglasscheck(p='0', status=True):
     check status of magnifying glass link with expected status = True|False
     """
     tc('check status of magnifying glass link '+p+ ' expected ' + str(status))
-    x="//a[contains (@id, 'resultsTable:__row"+p+":detailIconBC') or contains (@id, 'resultsTable:__row"+p+":detailBCIcon')]"
+    #handles all model type variations
+    x="//a[contains (@id, 'resultsTable:__row"+p+":detail')]"
     e=g.wait.until(EC.presence_of_element_located((By.XPATH, x)))
     #class attr for disabled link is set (to "disabled disabled-img")
     act_status = True
@@ -118,7 +122,7 @@ def navstep(step):
         tc('Warn: step is blank, skip')
         return
     e=g.wait.until(EC.element_to_be_clickable((By.XPATH,
-        "//*/div[.='"+step+"']/preceding::div[1]/img[contains (@style,'cursor')]")))
+        "//div[.='"+step+"']/preceding::div[1]/img[contains (@style,'cursor')]")))
     e.location_once_scrolled_into_view
     e.click()
     overlay()

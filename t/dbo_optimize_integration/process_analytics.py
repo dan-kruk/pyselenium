@@ -4,8 +4,6 @@ import mwsm as ui
 import mws.processanalytics as pa
 import bc.g as bc
 
-from time import sleep
-
 """
 navigate from PA to BC via process or step on process diagram
 """
@@ -15,7 +13,7 @@ try:
     proc='DBM_Process'
 
     for r in range(1):
-        print ('====='+str(r)+'======')
+        #print ('====='+str(r)+'======')
         #get there
         ui.navauth('ProcessAnalytics')
         ui.nav('ProcessAnalytics')
