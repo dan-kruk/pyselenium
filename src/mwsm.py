@@ -68,3 +68,18 @@ def overlay(): #yellowish overlays
     except:
         tc('overlay flick')
 
+def progressbar(): #progress bar overlays
+    try:
+        tc('progressbar probe')
+        e=g.wait3.until(EC.element_to_be_clickable((By.XPATH,
+            "//div[contains (@id,'overlay') and\
+            @class='caf-progress' and @role='progressbar']")))
+        tc('progressbar stale')
+        g.wait20.until(EC.staleness_of(e))
+    except:
+        tc('progressbar flick')
+
+def stale(e): #block until webelement is stale
+        tc('stale element')
+        g.wait20.until(EC.staleness_of(e))
+

@@ -1,10 +1,8 @@
 import g #globs: driver, wait...
 from g import tc
-from mwsm import overlay
+from mwsm import overlay, progressbar, stale
 EC=g.EC; By=g.By; Keys=g.Keys #selenium statics
 from selenium.webdriver.support.select import Select
-from time import sleep
-
 
 def selectprocess (p):
     """
@@ -14,8 +12,9 @@ def selectprocess (p):
     x="//*/select[contains (@name, 'processSelectListbox')]"
     e=g.wait.until(EC.element_to_be_clickable((By.XPATH, x)))
     select=Select(e)
+    if select.first_selected_option.text == p: return #already selected
     select.select_by_visible_text(p)
-    sleep(2) #ugly page mutation
+    stale(e)
     e=g.wait.until(EC.element_to_be_clickable((By.XPATH, x)))
     select=Select(e)
     if select.first_selected_option.text != p:
@@ -33,8 +32,9 @@ def selectrange(p):
     x="//*/select[contains (@name, 'dateRangeDropdown')]"
     e=g.wait.until(EC.element_to_be_clickable((By.XPATH, x)))
     select=Select(e)
+    if select.first_selected_option.text == p: return #already selected
     select.select_by_visible_text(p)
-    sleep(2) #ugly page mutation
+    progressbar()
     e=g.wait.until(EC.element_to_be_clickable((By.XPATH, x)))
     select=Select(e)
     if select.first_selected_option.text != p:

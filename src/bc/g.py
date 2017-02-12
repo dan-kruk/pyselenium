@@ -1,6 +1,6 @@
 import g
 from g import tc
-from time import sleep
+#from time import sleep
 
 EC=g.EC; By=g.By; Keys=g.Keys
 
@@ -12,7 +12,7 @@ def focus():
         "//div[@id='stepSummaryTable']")))
 
 def close():
-    sleep(5) #tmp so page seen on demo
+    #sleep(5) #tmp so page seen on demo
     tc('close business console tab/window')
     g.driver.close() #close tab-window
     g.focus()
