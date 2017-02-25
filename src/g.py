@@ -83,11 +83,12 @@ def screenshot(act=True):
     try:
         if driver is not None:
             if act:
-                driver.save_screenshot(x+'.png'); print('screenshot: '+x+'.png\n')
+                driver.save_screenshot(x+'.png')
+                print('screenshot: '+x+'.png\n')
                 #save page src as well
                 f = open(x+'.html','w')
                 f.write(driver.page_source); f.close()
-            return x
+            return x+'.png'
     except: print('screenshot failed: '+x+'\n')
 
 def tc(tc='',s='pass'):
@@ -112,25 +113,29 @@ def tc(tc='',s='pass'):
     tcnt+=1
 
     if not _s: #skip dup fail case log
-        logjunit(str(tcnt).zfill(3)+': '+tc_name, _s or tc_status, now - tc_time)
+        logjunit(str(tcnt).zfill(3)+': '+tc_name, _s or tc_status,
+                now - tc_time)
 
     tcases[s] = tcases.get(s,0)+1
     tc_name = tc; tc_status = s; tc_time = now #save this tc
 
 def focus_iframe():
-    driver.switch_to_frame(wait.until(
-        EC.element_to_be_clickable((By.TAG_NAME, 'iframe'))))
+    #driver.switch_to_frame(wait.until(
+    #   EC.element_to_be_clickable((By.TAG_NAME, 'iframe'))))
+    wait.until(EC.frame_to_be_available_and_switch_to_it((By.TAG_NAME, 'iframe')))
     tc('focused on iframe:'+driver.current_window_handle+' '+driver.title)
 
 def focus_main():
     driver.switch_to.default_content()
+    #print("==="+driver.title)
 
 def focus(n=0):
     #i=0 #timeout check on nth handle presence
     #while i<5 and len(driver.window_handles)<n:
     #    print('re-focus window..'); sleep(1); i+=1
     driver.switch_to.window(driver.window_handles[n])
-    tc('focused on window:'+str(n)+' '+driver.current_window_handle+' '+driver.title)
+    tc('focused on window:'+str(n)+' '+driver.current_window_handle\
+            +' '+driver.title)
 
 def error():
     global ret; ret = 1
@@ -160,7 +165,10 @@ def logjunit(name, status, time):
         s='<failure message="error" type="'+status+'">\n'
         x=screenshot(False)
         if x: s+='\nscreenshot '+x+'\n\n'
-        if not traceback.format_exc().startswith('NoneType'): s+=re.sub('[<>&]','~',traceback.format_exc())
+        if not traceback.format_exc().startswith('NoneType'):
+            s+=re.sub('[<>&]','~',traceback.format_exc())
         s+='</failure>\n'
-    junitfile.write('<testcase classname="'+MODULE+'/'+str(os.getpid())+'" name="'+re.sub('[<>&]','~',name)+'" time="'+str(time)+'">\n'+s+'</testcase>\n')
+    junitfile.write('<testcase classname="'+MODULE+'/'+str(os.getpid())\
+        +'" name="'+re.sub('[<>&]','~',name)\
+        +'" time="'+str(time)+'">\n'+s+'</testcase>\n')
 
