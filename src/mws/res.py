@@ -26,6 +26,8 @@ links={ 'DatabasePoolConfiguration':'webm.apps.config.db',
         'CollaborationProcesses':'webm.apps.workflow.process',
         'ProcessAnalytics':'webm.apps.mon.biz.analytics',
         'ProcessDashboards':'webm.apps.mon.process.dashboards',
-        'ProcessInstances':'webm.apps.mon.biz.process.instance.list'
+        'ProcessInstances':'webm.apps.mon.biz.process.instance.list',
+
+        'bcadmin':'business.console#/admin'
 }
 
