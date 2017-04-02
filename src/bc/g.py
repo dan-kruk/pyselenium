@@ -32,14 +32,15 @@ def configure(c={}):
     configs @/business.console#admin/
     """
     tc('configure bc')
+    save = g.wait.until(EC.element_to_be_clickable((By.ID,
+        'bc-admin-save-button')))
     for k,v in c.items():
         tc(k+' = '+v)
-        e = g.wait.until(EC.presence_of_element_located((By.ID, k)))
+        e = g.driver.find_element(By.ID, k)
         e.clear()
         e.send_keys(v)
     tc('save config')
-    g.wait.until(EC.presence_of_element_located((By.ID,
-        'bc-admin-save-button'))).click() #send_keys not working - UI bug
+    save.click() #send_keys not working - UI bug
     g.wait.until(EC.presence_of_element_located((By.XPATH,
         "//*[text()='REST Invocation Success']")))
 
