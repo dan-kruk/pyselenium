@@ -5,24 +5,26 @@ export JENKINS_URL=fakeone
 #export LOGS=c:/tmp/junit
 SECONDS=0
 
-bs='firefox'
+browsers='chrome edge firefox ie'
 remote=true
 url=http://rdvmden53:8585
+rounds=$(echo {1..4})
 #caps="{'platform':'ANY','version':'51.0.1','firefox_binary':'c:/Users/Administrator/Downloads/drivers/firefox/firefox.exe'}"
 #caps="{'firefox_binary':'c:/Users/Administrator/Downloads/drivers/firefox/firefox.exe'}"
 caps="{'platform':''}"
 
 export login="{ 'url':'$url', 'Xusername':'dkrukov','Xpassword':'dkrukov' }"
-
 export ccs="{ 'mapi_eda':'eda','dls':true,'Xdlscache':true,'saml':true }"
-
 
 
 #t=t/dashboards/example.py
 #t=t/dbo_optimize_integration/enable_process.py
 #t=t/dbo_optimize_integration/focus_example.py
 #t=t/dbo_optimize_integration/play.py
-t=t/dbo_optimize_integration/process_analytics.py
+#t=t/dbo_optimize_integration/process_analytics.py
+#t=t/dbo_optimize_integration/test.py
+#t=t/dbo_optimize_integration/validate_stages.py
+t=t/dbo_optimize_integration/configure_bc.py
 #t=t/dbo_optimize_integration/process_dashboards.py
 #t=t/dbo_optimize_integration/toggle_mapi_eda.py
 #t=t/mws/ccs/toggle_saml_dls.py
@@ -36,16 +38,17 @@ t=t/dbo_optimize_integration/process_analytics.py
 #t=t/test.py
 #t=t/unit/tc.py
 
-for b in $bs; do
-
- export cfg="{ 'capabilities':$caps,'Xwait':20,'remote':$remote, 'hub':'http://usvardvmden141:4444/wd/hub','browser':'$b'}"
- echo "$cfg"
-
- (python -u $t | tee /tmp/slog; echo $b $? done $SECONDS)&
-
+for r in $rounds; do
+ echo ===r$r
+ for b in $browsers; do
+   export cfg="{ 'capabilities':$caps,'Xwait':20,'remote':$remote,
+	       'hub':'http://rdvmva91:4444/wd/hub','browser':'$b'}"
+   echo "$cfg"
+   (SECONDS=0; python -u $t | tee /tmp/slog
+    echo ===$b ret: ${PIPESTATUS[0]} took $SECONDS/s\
+      | tee -a /tmp/slog; sleep 1)
+ done; wait
 done
 
-wait
-
-echo took $SECONDS
+echo grand took $SECONDS
 

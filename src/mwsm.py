@@ -18,7 +18,7 @@ def login(d={}):
     tc('get url '+cfg['url'])
     g.driver.get(cfg['url'])
     tc('login '+cfg['username']+'/'+cfg['password'])
-    g.driver.find_element_by_name('username')\
+    g.wait.until(EC.element_to_be_clickable((By.NAME, 'username')))\
             .send_keys(cfg['username'] + Keys.RETURN)
     g.driver.find_element_by_name('password')\
             .send_keys(cfg['password'] + Keys.RETURN)

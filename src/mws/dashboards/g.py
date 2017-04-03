@@ -18,12 +18,15 @@ def load():
     opening dashboard initially is tricky
     """
     g.focus_iframe()
-    tc('wait for frame tabs loaded')
-    g.wait20.until(EC.element_to_be_clickable((By.XPATH, #tap mid tab
-        "//a[.='Stage Instances']" ))).send_keys(Keys.RETURN)
+    tc('wait for frame tab stage instances loaded')
+    e=g.wait.until(EC.element_to_be_clickable((By.XPATH, #tap mid tab
+        "//a[.='Stage Instances']" )))
+    #sleep(15) #click on tab to soon may corrupt page
+    e.send_keys(Keys.RETURN)
     tc('wait for frame content loaded')
     g.wait60.until(EC.element_to_be_clickable((By.XPATH,
         TP+"select[@id='processSelectList']")))
+    #sleep(1) #click on tab to soon may corrupt page
 
 def select_proc (name):
     """
@@ -33,6 +36,7 @@ def select_proc (name):
     tc('select proc '+name)
     s=Select (g.wait.until(EC.element_to_be_clickable((By.XPATH,
         TP+"select[@id='processSelectList']"))))
+    sleep(1)
     s.select_by_visible_text(name)
     return s
 
@@ -50,7 +54,7 @@ def select_range (r,start='',end=''):
     start/end like 01/30/2017 08:41 am - applies for Custom
     """
     tc('select range '+r)
-    print (TP+"a[.='"+r+"']")
+    #print (TP+"a[.='"+r+"']")
     #TODO - click does not popup the panel
     g.wait.until(EC.element_to_be_clickable((By.XPATH, TP+"a[.='"+r+"']")))\
             .click()
@@ -61,4 +65,42 @@ def select_range (r,start='',end=''):
         #//*[@id='iboCustomEndTime']
         g.wait.until(EC.element_to_be_clickable((By.XPATH,\
 "//div[contains(@class,'ui-dialog') and contains(@style,'display: block')]//span[.='OK']"))).click()
+
+def clickpi(ind='1'):
+    """
+    click on ind'th proc inst link in table; ret: pid
+    """
+    tc('click on pi link '+ind)
+    e=g.wait.until(EC.element_to_be_clickable((By.XPATH,
+        "//table[@id='processInstancesTable']//tr[@id='"+ind+"']/td[3]/a")))
+    e.click()
+    return e.text
+
+def viewallsi():
+    """
+    click to view all stage inst
+    """
+    tc('select to view all stage instances')
+    e=g.wait.until(EC.presence_of_element_located((By.XPATH,
+        "//div[@class='iboDialogLoading']")))
+    sleep(3)
+    #g.wait.until(EC.staleness_of(e))
+    e=g.wait.until(EC.element_to_be_clickable((By.XPATH,
+        "//input[@id='cb_stageMetricsTable']")))
+    e.click()
+    g.wait.until(EC.element_to_be_clickable((By.XPATH,
+        "//button[@id='smViewInstButton']"))).click()
+    g.wait.until(EC.element_to_be_clickable((By.XPATH,
+        "//table[@id='stageInstancesTable']//tr[@id='1']/td/a[contains\
+                (@href, 'siRedirectMWSProcessInstanceDetail')]"))).click()
+
+def clicksi(ind='1'):
+    """
+    click on ind'th stage inst link in table; ret: pid
+    """
+    tc('click on stage link '+ind)
+    e=g.wait.until(EC.element_to_be_clickable((By.XPATH,
+        "//table[@id='stageInstancesTable']//tr[@id='"+ind+"']//td[5]/a")))
+    e.click()
+    return e.text
 
