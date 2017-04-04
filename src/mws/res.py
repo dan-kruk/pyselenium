@@ -19,8 +19,8 @@ links={ 'DatabasePoolConfiguration':'webm.apps.config.db',
         'EventSubscription':'webm.apps.config.admin.eda.subscription',
         'BusinessProcesses':'webm.apps.config.process.list',
 
-        'Problems':'webm.apps.mon.webm.apps.mon.problem.report',
-        'AnalyticsOverview':'webm.apps.mon.webm.apps.mon.overview',
+        'Problems':'webm.apps.mon.problem.report',
+        'AnalyticsOverview':'webm.apps.mon.overview',
 
         'OptimizeForProcess':'webm.apps.optimizeforprocess',
         'CollaborationProcesses':'webm.apps.workflow.process',

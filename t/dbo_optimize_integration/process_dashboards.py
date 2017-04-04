@@ -6,6 +6,10 @@ import bc.g as bc
 
 try:
 
+    m.login()
+    m.server('BVTEnv')
+    m.logout()
+
     proc='DBM_Process'
     for i in range(1,2):
         print(str(i)+"==========")

@@ -37,14 +37,6 @@ def navauth(link=''): #include user/pass in url
     g.driver.get(cfg['url']+'/'+res.links.get(link,link)+'?username='\
             +cfg['username']+'&password='+cfg['password'])
 
-def server(name): #BPM and BAM|BPM only|BAM only|BVTEnv
-    """select server dropdown on many optimize (usually) pages"""
-    tc('select server '+name)
-    x="//select[@name='serverNameInput']"
-    e=g.wait.until(EC.element_to_be_clickable((By.XPATH, x)))
-    Select(e).select_by_visible_text(name)
-    sleep(1) #page flicks
-
 def logout():
     tc('logout')
     x="//*/a[contains (@title, 'Logout')]"
@@ -82,4 +74,16 @@ def progressbar(): #progress bar overlays
 def stale(e): #block until webelement is stale
         tc('stale element')
         g.wait20.until(EC.staleness_of(e))
+
+def server(name): #BPM and BAM|BPM only|BAM only|BVTEnv
+    """select server dropdown on many optimize (usually) pages"""
+    tc('select server '+name)
+    nav('Problems');
+    x = "//select[@name='serverNameInput']"
+    e = g.wait.until(EC.element_to_be_clickable((By.XPATH, x)))
+    s = Select(e)
+    if s.first_selected_option.text != name:
+        tc('select server from '+s.first_selected_option.text+' to '+name)
+        s.select_by_visible_text(name)
+        stale(e) #page flicks
 
