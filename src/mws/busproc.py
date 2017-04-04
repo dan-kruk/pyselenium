@@ -34,7 +34,10 @@ def nav(name):
     g.wait.until(EC.element_to_be_clickable((By.XPATH, x))).click()
 
 def toggleexecution(p,s=True):
-    """enable / disable execution for model"""
+    """
+    enable / disable execution for model
+    ret True if toggle took place
+    """
     tc('enable execution for model')
     x="//img[contains (@id,'executionEnabledIcon') and contains (@id,'"+p+"')]"
     se=g.wait.until(EC.element_to_be_clickable((By.XPATH, x)))
@@ -46,9 +49,14 @@ def toggleexecution(p,s=True):
     if s is not s0:
         tc('toggle execution enabled from '+str(s0)); se.click()
         overlay_handler(.5)
+        return True
+    return False
 
 def toggleanalysis(p,s=True):
-    """enable / disable analysis for model"""
+    """
+    enable / disable analysis for model
+    ret True if toggle took place
+    """
     tc('enable analysis for model')
     x="//img[contains (@id,'analysisEnabledIcon') and contains (@id,'"+p+"')]"
     se=g.wait.until(EC.element_to_be_clickable((By.XPATH, x)))
@@ -60,6 +68,8 @@ def toggleanalysis(p,s=True):
     if s is not s0:
         tc('toggle analysis enabled from '+str(s0)); se.click()
         overlay_handler(.5)
+        return True
+    return False
 
 def checkexecution(p,s=True):
     """validate execution flag"""
