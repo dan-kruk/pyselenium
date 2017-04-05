@@ -7,7 +7,7 @@ import bc.g as bc
 try:
 
     m.login()
-    m.server('BVTEnv')
+    m.server('BVTEnv','Problems')
     m.logout()
 
     proc='DBM_Process'

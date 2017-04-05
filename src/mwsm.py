@@ -75,10 +75,14 @@ def stale(e): #block until webelement is stale
         tc('stale element')
         g.wait20.until(EC.staleness_of(e))
 
-def server(name): #BPM and BAM|BPM only|BAM only|BVTEnv
-    """select server dropdown on many optimize (usually) pages"""
+def server(name, at=''):
+    """
+    select server dropdown on many optimize (usually) pages
+    name: BPM and BAM|BPM only|BAM only|BVTEnv
+    at:   nav to link (optional)
+    """
+    if at: nav(at)
     tc('select server '+name)
-    nav('Problems');
     x = "//select[@name='serverNameInput']"
     e = g.wait.until(EC.element_to_be_clickable((By.XPATH, x)))
     s = Select(e)
