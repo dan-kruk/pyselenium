@@ -18,7 +18,7 @@ ret=0
 LOGS=os.environ.get('LOGS','./logs') #LOGS=${LOGS:-${JENKINS_HOME:+$WORKSPACE/$BUILD_NUMBER}}
 os.environ["PATH"] += os.pathsep + os.pathsep.join(['drivers'])
 if not os.path.exists(LOGS): os.makedirs(LOGS)
-MODULE=os.environ.get('MODULE')
+MODULE=os.environ.get('JUNIT_PKG')
 if MODULE is None:
     MODULE=sys.argv[0].split('/')
     if len(MODULE) >1:
@@ -153,10 +153,10 @@ def clean():
     print ('*TC total count\t',total)
     print()
     ##print (tcases)
-    if driver is not None: driver.quit()
     if junitfile is not None:
         junitfile.write('</testsuite>\n'); junitfile.close()
         print('junit: '+junitfile.name)
+    if driver is not None: driver.quit()
     sys.exit(ret)
 
 def logjunit(name, status, time):
