@@ -18,13 +18,15 @@ ret=0
 LOGS=os.environ.get('LOGS','./logs') #LOGS=${LOGS:-${JENKINS_HOME:+$WORKSPACE/$BUILD_NUMBER}}
 os.environ["PATH"] += os.pathsep + os.pathsep.join(['drivers'])
 if not os.path.exists(LOGS): os.makedirs(LOGS)
-MODULE=os.environ.get('JUNIT_PKG')
-if MODULE is None:
-    MODULE=sys.argv[0].split('/')
-    if len(MODULE) >1:
-        MODULE=MODULE[-2]+'.'+MODULE[-1].replace('.py','') #like feature.module
-    elif len(MODULE) == 1:
-        MODULE=MODULE[0].replace('.py','') #just module
+
+JUNIT_PKG=os.environ.get('JUNIT_PKG')
+
+MODULE=sys.argv[0].split('/')
+if len(MODULE) >1:
+    MODULE=(JUNIT_PKG or MODULE[-2]) + '.' + MODULE[-1].replace('.py','') #like feature.module
+elif len(MODULE) == 1:
+    MODULE=MODULE[0].replace('.py','') #just module
+
 if os.environ.get('JENKINS_URL') is not None:
     junitfile = open(LOGS+'/junit-'+str(os.getpid())+'-'+MODULE+'.xml','w')
     junitfile.write('<testsuite name="'+MODULE+'">\n')
