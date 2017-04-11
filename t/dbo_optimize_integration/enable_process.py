@@ -5,7 +5,7 @@ import mws.busproc as p
 
 try:
 
-    proc='DBM_Process'
+    proc='DBO_Process'
     m.navauth('BusinessProcesses')
     s.search(proc)
     #test both enable and disable

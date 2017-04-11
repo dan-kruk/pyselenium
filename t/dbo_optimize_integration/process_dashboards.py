@@ -10,8 +10,8 @@ try:
     m.server('BVTEnv','Problems')
     m.logout()
 
-    proc='DBM_Process'
-    for i in range(1,2):
+    proc='DBO_Process'
+    for i in range(1,3):
         print(str(i)+"==========")
         m.login()
         m.nav('ProcessDashboards')

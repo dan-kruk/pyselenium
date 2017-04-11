@@ -10,7 +10,7 @@ navigate from PA to BC via process or step on process diagram
 
 try:
 
-    proc='DBM_Process'
+    proc='DBO_Process'
 
     for r in range(1):
         #print ('====='+str(r)+'======')

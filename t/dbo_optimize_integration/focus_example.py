@@ -14,7 +14,7 @@ try:
     for x in range(20):
         g.tc('===='+str(x)+'====')
 
-        pa.selectprocess('DBM_Process')
+        pa.selectprocess('DBO_Process')
         pa.selectrange('4 Weeks')
         pa.selectvolumes()
 
@@ -23,7 +23,7 @@ try:
         #do bc tests here
         bc.close() #focus back on main
 
-        pa.selectprocess('DBM_Process')
+        pa.selectprocess('DBO_Process')
         pa.selectrange('4 Weeks')
 
         g.focus_iframe()
