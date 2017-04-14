@@ -10,11 +10,12 @@ wget https://www.python.org/ftp/python/$V/Python-$V.tgz -O - | tar -zx
 cd Python-$V
 ./configure
 make altinstall
+rm -rf /usr/local/bin/python
 ln -s /usr/local/bin/python${V:0:3} /usr/local/bin/python
 python -V | grep $V || { echo error: wrong py version in path; exit 1; }
 python -m pip install selenium && echo success
 
-grep -v PYTHONPATH && echo export PYTHONPATH=src >> ~/.bashrc
+grep PYTHONPATH= ~/.bashrc >/dev/null || echo export PYTHONPATH=src >> ~/.bashrc
 
 #clone pyselenium and friendly projects
 cd; for r in bvtlite pyselenium confbucket binbucket; do

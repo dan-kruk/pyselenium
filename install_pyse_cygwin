@@ -16,7 +16,7 @@ rm -rf /usr/bin/python
 ln -s /usr/bin/python3 /usr/bin/python
 python -m ensurepip
 python -m pip install selenium
-grep -v PYTHONPATH && echo export PYTHONPATH=src >> ~/.bashrc
+grep PYTHONPATH= ~/.bashrc >/dev/null || echo export PYTHONPATH=src >> ~/.bashrc
 
 #clone pyselenium and friendly projects
 cd; for r in bvtlite pyselenium confbucket binbucket; do

@@ -1,10 +1,12 @@
 #!/bin/bash
 
 usage='
-	hub 			install and run hub + local node
-	hub [hub|node]		install and run hub or node alone
-	hub node [host:port]	install and run node pointed to remote host:port hub
-	env var: [host]		define host/ip for the node (may be needed on vpn)
+	 hub install		install and exit
+	 hub 			install and run hub + local node
+	 hub [hub|node]		install and run hub or node alone
+	 hub node [host:port]	install and run node pointed to remote host:port hub
+
+	  env var: [host]	define host/ip for the node (may be needed on vpn)
 '
 
 mkdir -p drivers
@@ -26,7 +28,7 @@ ss="selenium-server-*"
 
 test -f $ss || wget -c --trust-server-names https://goo.gl/Lyo36k
 
-test -f geckodriver.exe || { 
+test -f geckodriver.exe || {
 	wget -c https://github.com/mozilla/geckodriver/releases/download/v0.11.1/geckodriver-v0.11.1-win64.zip
 	jar -xvf geckodriver-v0.11.1-win64.zip || { echo  "unzip error, check bin/jar is in PATH"; kill -TERM $$; }
 }
@@ -42,9 +44,11 @@ test -f MicrosoftWebDriver.exe || {
 	wget -c https://download.microsoft.com/download/3/2/D/32D3E464-F2EF-490F-841B-05D53C848D15/MicrosoftWebDriver.exe
 }
 
+test "$1" = install || exit
+
 test ${1:-hub} = hub && { java -jar $ss -role hub -timeout 10 & echo $!>hpid; }
 test ${1:-node} = node && { java $EDGE_DRV -jar $ss -role node -timeout 30 -port 5554 -hub http://${2:-localhost:4444}/grid/register -host $host -maxSession 10 $EDGE_CAP& echo $!>>hpid; }
-#-browser browserName=firefox,maxInstances=10 
+#-browser browserName=firefox,maxInstances=10
 wait -n || kill -TERM $$
 
 #instructions: https://github.com/SeleniumHQ/selenium/wiki/Grid5

@@ -5,47 +5,20 @@
 
 ##SETUP
 
-```sh 
-git clone http://irepo.eur.ad.sag/scm/~dkrukov/pyselenium.git
-```
 ---
+
+setup on Windows:
 
 install [python 3.5+](https://www.python.org/downloads)
 
-install selenium module `python -m pip install selenium`
-
-_on `RH/Centos linux` may run_ `install_pyse_rh` instead of the above 2 steps
-
-`On Windows`
+install selenium module using command:
+`python -m pip install selenium`
 
 prepend system env `PATH` variable with the following:
 
 `%HOMEDRIVE%%HOMEPATH%\AppData\Local\Programs\Python\Python36-32\Scripts\;%HOMEDRIVE%%HOMEPATH%\AppData\Local\Programs\Python\Python36-32\;c:\cygwin64\bin;`
 
 add `PYTHONPATH=src` system env variable
-
-`on linux (or cygwin)`
-
-add to ~/.bashrc: `export PYTHONPATH=src`
-
-install ie, firefox, chrome browsers on your remote node machines
-
-You may also install all or needed browsers on your laptop for local testing
-
----
-
-install browser drivers and start selenium
-wget http://irepo.eur.ad.sag/users/dkrukov/repos/pyselenium/raw/hub && chmod 755 hub
-
-`hub`		#hub and node
-
-`hub hub`	#just hub
-
-`hub node`	#just node which points to local hub
-
-`hub node host:port`	#just node, which points remote host:port hub
-
-_Note: the above hub/node cmd enters selenium service mode after installing drivers. So term it if remote test execution on a hub is not needed_
 
 ---
 
@@ -62,11 +35,39 @@ c:\cygwin64\bin;
 
 run commands in cygwin terminal:
 
-cd
-git clone http://irepo.eur.ad.sag/scm/~dkrukov/pyselenium.git && cd pyselenium
+cd; wget http://irepo.eur.ad.sag/users/dkrukov/repos/pyselenium/raw/install_pyse_cygwin
+chmod 755 install_pyse_cygwin
 ./install_pyse_cygwin
 
-echo yeah
+---
+
+setup on RH/Centos linux:
+
+cd; wget http://irepo.eur.ad.sag/users/dkrukov/repos/pyselenium/raw/install_pyse_rh
+chmod 755 install_pyse_rh
+./install_pyse_rh
+
+---
+
+install ie, firefox, chrome, edge browsers on your remote node machines as needed
+
+You may also install all or needed browsers on your laptop for local testing
+
+install browser drivers local or remote and start selenium hub if needed:
+
+wget http://irepo.eur.ad.sag/users/dkrukov/repos/pyselenium/raw/hub && chmod 755 hub
+
+`hub install`
+
+`hub`		#hub and node
+
+`hub hub`	#just hub
+
+`hub node`	#just node which points to local hub
+
+`hub node host:port`	#just node, which points remote host:port hub
+
+_Note: the above hub/node cmd enters selenium service mode after installing drivers. So term it if remote test execution on a hub is not needed_
 
 ---
 
