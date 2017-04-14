@@ -1,0 +1,25 @@
+#!/bin/bash
+
+#download cygwin:
+# http://cygwin.com/setup-x86_64.exe
+
+#install cygwin:
+# setup-x86_64.exe -q -P nc,wget,vim,git,subversion,openssh,python3
+
+#prefix windows system PATH with:
+# c:\cygwin64\bin;
+
+#complete the above first
+#this runs in cygwin and makes py3 default, installs selenium module
+
+rm -rf /usr/bin/python
+ln -s /usr/bin/python3 /usr/bin/python
+python -m ensurepip
+python -m pip install selenium
+grep -v PYTHONPATH && echo export PYTHONPATH=src >> ~/.bashrc
+
+#clone pyselenium and friendly projects
+cd; for r in bvtlite pyselenium confbucket binbucket; do
+ git clone http://dkrukov@irepo.eur.ad.sag/scm/~dkrukov/$r.git
+done
+

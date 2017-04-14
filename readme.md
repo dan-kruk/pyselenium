@@ -49,27 +49,24 @@ _Note: the above hub/node cmd enters selenium service mode after installing driv
 
 ---
 
-Optional on `Windows`
+Great way of complete setup on windows:
 
 download cygwin:
 http://cygwin.com/setup-x86_64.exe
 
-run command:
+run command in dos cmd window:
 setup-x86_64.exe -q -P nc,wget,vim,git,subversion,openssh,python3
 
-prefix windows PATH with:
+prefix windows system PATH with:
 c:\cygwin64\bin;
 
-#default py3 and install selenium module
-rm -rf /usr/bin/python
-ln -s /usr/bin/python3 /usr/bin/python
-python -m ensurepip
-python -m pip install selenium
-echo export PYTHONPATH=src >> ~/.bashrc
+run commands in cygwin terminal:
 
-The above mentioned `hub` script is a nice shell script, which can now be run on windows
+cd
+git clone http://irepo.eur.ad.sag/scm/~dkrukov/pyselenium.git && cd pyselenium
+./install_pyse_cygwin
 
-Or you may run hub and test suite runner scripts, using your comfort way such as bat/bas/gradle/ant/jenkins etc
+echo yeah
 
 ---
 
