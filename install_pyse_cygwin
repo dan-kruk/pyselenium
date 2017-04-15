@@ -20,6 +20,6 @@ grep PYTHONPATH= ~/.bashrc >/dev/null || echo export PYTHONPATH=src >> ~/.bashrc
 
 #clone pyselenium and friendly projects
 cd; for r in bvtlite pyselenium confbucket binbucket; do
- git clone http://dkrukov@irepo.eur.ad.sag/scm/~dkrukov/$r.git
+ git clone http://irepo.eur.ad.sag/scm/~dkrukov/$r.git
 done
 

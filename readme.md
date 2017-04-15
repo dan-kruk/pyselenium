@@ -22,7 +22,7 @@ add `PYTHONPATH=src` system env variable
 
 ---
 
-Great way of complete setup on windows:
+great alternative of complete setup on windows with cygwin:
 
 download cygwin:
 http://cygwin.com/setup-x86_64.exe
@@ -57,7 +57,7 @@ install browser drivers local or remote and start selenium hub if needed:
 
 wget http://irepo.eur.ad.sag/users/dkrukov/repos/pyselenium/raw/hub && chmod 755 hub
 
-`hub install`
+`hub install`   #install selenium hub and browser drivers
 
 `hub`		#hub and node
 
