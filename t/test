@@ -2,13 +2,14 @@
 
 export PYTHONIOENCODING=utf-8
 export JENKINS_URL=fakeone
+export JUNIT_PKG=generic
 #export LOGS=c:/tmp/junit
 SECONDS=0
 
-browsers='chrome edge firefox ie'
+browsers='firefox'
 remote=true
-url=http://rdvmden53:8585
-rounds=$(echo {1..4})
+url=http://rdvmden80:8585
+rounds=$(echo {1..1})
 #caps="{'platform':'ANY','version':'51.0.1','firefox_binary':'c:/Users/Administrator/Downloads/drivers/firefox/firefox.exe'}"
 #caps="{'firefox_binary':'c:/Users/Administrator/Downloads/drivers/firefox/firefox.exe'}"
 caps="{'platform':''}"
@@ -17,16 +18,18 @@ export login="{ 'url':'$url', 'Xusername':'dkrukov','Xpassword':'dkrukov' }"
 export ccs="{ 'mapi_eda':'eda','dls':true,'Xdlscache':true,'saml':true }"
 
 
+#t=t/ccs/ccs_config.py
 #t=t/dashboards/example.py
+#t=t/dbo_optimize_integration/configure_bc.py
 #t=t/dbo_optimize_integration/enable_process.py
+t=t/dbo_optimize_integration/enable_process_please.py
 #t=t/dbo_optimize_integration/focus_example.py
 #t=t/dbo_optimize_integration/play.py
 #t=t/dbo_optimize_integration/process_analytics.py
-#t=t/dbo_optimize_integration/test.py
-#t=t/dbo_optimize_integration/validate_stages.py
-t=t/dbo_optimize_integration/configure_bc.py
 #t=t/dbo_optimize_integration/process_dashboards.py
+#t=t/dbo_optimize_integration/test.py
 #t=t/dbo_optimize_integration/toggle_mapi_eda.py
+#t=t/dbo_optimize_integration/validate_stages.py
 #t=t/mws/ccs/toggle_saml_dls.py
 #t=t/mws/examples/feature.py
 #t=t/mws/processanalytics/play.py
@@ -35,7 +38,6 @@ t=t/dbo_optimize_integration/configure_bc.py
 #t=t/rootcontext/checkprocs.py
 #t=t/rootcontext/chroot.py
 #t=t/rootcontext/toggle_dls.py
-#t=t/test.py
 #t=t/unit/tc.py
 
 for r in $rounds; do
