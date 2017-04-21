@@ -16,7 +16,7 @@ try:
         m.login()
         m.nav('ProcessDashboards')
         d.load()
-        d.select_proc('OTC_Bus_check')
+        d.select_proc('DBO_Process')
         d.select_range('1 hour')
 
         d.select_proc(proc)
