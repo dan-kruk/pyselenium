@@ -30,6 +30,7 @@ try:
 
         #nav through magglass
         pa.selectvolumes({'level':'proc','range':'curr','status':'All'})
+        pid = pa.piidlink() #make sure re-read latest inst
         pi = pa.magglass()
         bc.focus()
         bc.validatepi(pid)

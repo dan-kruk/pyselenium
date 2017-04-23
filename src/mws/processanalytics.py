@@ -99,7 +99,6 @@ def magglass(p='0'):
     x="//a[contains (@id, 'resultsTable:__row"+p+":detail')]"
     e=g.wait.until(EC.element_to_be_clickable((By.XPATH, x)))
     e.click()
-    return e.text
 
 def magglasscheck(p='0', status=True):
     """
