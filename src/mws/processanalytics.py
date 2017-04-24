@@ -78,16 +78,16 @@ def selectvolumes(d={'level':'proc','range':'curr','status':'All'}):
     g.wait.until(EC.element_to_be_clickable((By.XPATH, x))).click()
     overlay()
 
-def piidlink(p='0'):
+def piidlink(p='0', click=True):
     """
-    click Process Instance ID link to BC
+    click Process Instance ID link to BC, ret pid and may click link
     """
     tc('click on instance ID link for process '+p)
     #handles all model type variations
     x="//a[contains (@id, 'resultsTable:__row"+p+":instanceId')\
     or contains (@id, 'resultsTable:__row"+p+":processInstance')]"
     e=g.wait.until(EC.element_to_be_clickable((By.XPATH, x)))
-    e.click()
+    click and e.click()
     return e.text
 
 def magglass(p='0'):
