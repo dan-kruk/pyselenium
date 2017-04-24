@@ -6,9 +6,9 @@ EC=g.EC; By=g.By; Keys=g.Keys; AC=g.ActionChains
 
 def focus():
     tc('focus on business console')
-    g.wait.until(EC.number_of_windows_to_be(2))
+    g.wait20.until(EC.number_of_windows_to_be(2))
     g.focus(1) #bc is an alt tab-window
-    g.wait.until(EC.presence_of_element_located((By.XPATH,
+    g.wait20.until(EC.presence_of_element_located((By.XPATH,
         "//div[@id='stepSummaryTable']")))
 
 def close():

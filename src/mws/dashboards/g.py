@@ -24,7 +24,7 @@ def load():
     #sleep(15) #click on tab to soon may corrupt page
     e.send_keys(Keys.RETURN)
     tc('wait for frame content loaded')
-    g.wait60.until(EC.element_to_be_clickable((By.XPATH,
+    g.wait80.until(EC.element_to_be_clickable((By.XPATH,
         TP+"select[@id='processSelectList']")))
     #sleep(1) #click on tab to soon may corrupt page
 

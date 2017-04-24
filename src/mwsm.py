@@ -41,7 +41,7 @@ def logout():
     tc('logout')
     x="//*/a[contains (@title, 'Logout')]"
     g.wait.until(EC.element_to_be_clickable((By.XPATH, x))).click()
-    g.wait.until(EC.element_to_be_clickable((By.NAME, 'username')))
+    g.wait20.until(EC.element_to_be_clickable((By.NAME, 'username')))
 
 def overlay_handler(w=.1): #progress bar overlay
     tc('wait overlay gone')
