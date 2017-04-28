@@ -19,7 +19,7 @@ def load():
     """
     g.focus_iframe()
     tc('wait for frame tab stage instances loaded')
-    e=g.wait.until(EC.element_to_be_clickable((By.XPATH, #tap mid tab
+    e=g.wait20.until(EC.element_to_be_clickable((By.XPATH, #tap mid tab
         "//a[.='Stage Instances']" )))
     #sleep(15) #click on tab to soon may corrupt page
     e.send_keys(Keys.RETURN)
