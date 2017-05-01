@@ -91,3 +91,23 @@ def server(name, at=''):
         s.select_by_visible_text(name)
         stale(e) #page flicks
 
+def search(text):
+    """
+    search for text in search widgets like on Problems page
+    """
+    tc('search '+text)
+    e = g.wait.until(EC.element_to_be_clickable((By.XPATH,\
+        "//input[@name='keywords']")))
+    e.send_keys(text)
+    g.wait.until(EC.element_to_be_clickable((By.XPATH,\
+        "//input[@name='dosearch']"))).click()
+    g.wait.until(EC.staleness_of(e))
+
+def close():
+    """click close btn
+    """
+    x = "//input[contains(@name,'closeBtn')]"
+    e = g.wait.until(EC.element_to_be_clickable((By.XPATH, x)))
+    e.send_keys(Keys.RETURN)
+    g.wait.until(EC.staleness_of(e))
+

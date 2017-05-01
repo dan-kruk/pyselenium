@@ -11,12 +11,12 @@ def focus():
     g.wait20.until(EC.presence_of_element_located((By.XPATH,
         "//div[@id='stepSummaryTable']")))
 
-def close():
+def close(refresh=True):
     #sleep(5) #tmp so page seen on demo
     tc('close business console tab/window')
     g.driver.close() #close tab-window
     g.focus()
-    g.driver.refresh() #it'd be stale overwise
+    refresh and g.driver.refresh() #it'd be stale overwise
     g.focus_main() #back to main window
 
 def validatepi(pid):
