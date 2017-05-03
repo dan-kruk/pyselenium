@@ -56,8 +56,8 @@ chmod 755 *.exe
 
 test "$1" = install && exit
 
-test ${1:-hub} = hub && { java -jar $ss -role hub -timeout 10 & echo $!>hpid; }
-test ${1:-node} = node && { java $EDGE_DRV -jar $ss -role node -timeout 30 -port 5554 -hub http://${2:-localhost:4444}/grid/register -host $host -maxSession 10 "${TWEAK_CAP[@]}" & echo $!>>hpid; }
+test ${1:-hub} = hub && { java -jar $ss -role hub -timeout 70 & echo $!>hpid; }
+test ${1:-node} = node && { java $EDGE_DRV -jar $ss -role node -timeout 70 -port 5554 -hub http://${2:-localhost:4444}/grid/register -host $host -maxSession 10 "${TWEAK_CAP[@]}" & echo $!>>hpid; }
 #-browser browserName=firefox,maxInstances=10
 wait -n || kill -TERM $$
 
