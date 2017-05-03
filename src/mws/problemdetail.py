@@ -18,8 +18,8 @@ def piidlink(i=0):
 def kpidetail():
     """click kpi detail magglass link
     """
+    tc('click kpi detail magglass')
     x = "//a[contains (@href,':viewMonitor')]"
     g.wait.until(EC.element_to_be_clickable((By.XPATH,
         x))).send_keys(Keys.RETURN)
-
 

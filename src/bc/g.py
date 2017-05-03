@@ -8,7 +8,7 @@ def focus():
     tc('focus on business console')
     g.wait20.until(EC.number_of_windows_to_be(2))
     g.focus(1) #bc is an alt tab-window
-    g.wait20.until(EC.presence_of_element_located((By.XPATH,
+    g.wait60.until(EC.presence_of_element_located((By.XPATH,
         "//div[@id='stepSummaryTable']")))
 
 def close(refresh=True):

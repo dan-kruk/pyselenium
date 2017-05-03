@@ -101,6 +101,8 @@ def clicksi(ind='1'):
     tc('click on stage link '+ind)
     e=g.wait.until(EC.element_to_be_clickable((By.XPATH,
         "//table[@id='stageInstancesTable']//tr[@id='"+ind+"']//td[5]/a")))
-    e.click()
-    return e.text
+    text = e.text
+    e.send_keys(Keys.RETURN)
+    tc('returning '+text)
+    return text
 
