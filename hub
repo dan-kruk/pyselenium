@@ -15,39 +15,49 @@ cd drivers
 host=${host:-$(hostname -i|grep -o '10.130[^ ]*')} #vpn/intranet
 host=${host:-$HOSTNAME} #home
 
-#edge opts
+#browser cap opts
 cmd /c ver|grep 'Version 10'
 if [ $? = 0 ]; then
- EDGE_DRV="-Dwebdriver.edge.driver=$(cygpath -m $(pwd))/MicrosoftWebDriver.exe"
- EDGE_CAP="-browser browserName=MicrosoftEdge,platform=WINDOWS,maxInstances=1"
+   EDGE_DRV="-Dwebdriver.edge.driver=$(cygpath -m $(pwd))/MicrosoftWebDriver.exe"
+   TWEAK_CAP=("-browser" "browserName=internet explorer,maxInstances=1"
+   "-browser" "browserName=MicrosoftEdge,platform=WINDOWS,maxInstances=5")
+else
+   TWEAK_CAP=("-browser" "browserName=firefox,version=53,maxInstances=5,firefox_binary=c:\Users\Administrator\Downloads\drivers\firefox53\firefox.exe"
+   "-browser" "browserName=chrome,maxInstances=5"
+   "-browser" "browserName=internet explorer,maxInstances=1")
 fi
 
 trap 'kill -9 $(cat hpid) 2>/dev/null; cd -' INT TERM ERR
 
 ss="selenium-server-*"
 
-test -f $ss || wget -c --trust-server-names https://goo.gl/Lyo36k
+#test -f $ss || wget -c --trust-server-names https://goo.gl/Lyo36k
+test -f $ss || wget http://selenium-release.storage.googleapis.com/3.4/selenium-server-standalone-3.4.0.jar
 
 test -f geckodriver.exe || {
-	wget -c https://github.com/mozilla/geckodriver/releases/download/v0.11.1/geckodriver-v0.11.1-win64.zip
-	jar -xvf geckodriver-v0.11.1-win64.zip || { echo  "unzip error, check bin/jar is in PATH"; kill -TERM $$; }
+	wget -c https://github.com/mozilla/geckodriver/releases/download/v0.16.1/geckodriver-v0.16.1-win64.zip
+	jar -xvf geckodriver-v0.16.1-win64.zip || { echo  "unzip error, check bin/jar is in PATH"; kill -TERM $$; }
 }
 test -f chromedriver.exe || {
-	wget -c http://chromedriver.storage.googleapis.com/2.25/chromedriver_win32.zip
+	wget -c http://chromedriver.storage.googleapis.com/2.29/chromedriver_win32.zip
 	jar -xvf chromedriver_win32.zip
 }
 test -f IEDriverServer.exe || {
-	wget -c http://selenium-release.storage.googleapis.com/2.53/IEDriverServer_Win32_2.53.1.zip
-	jar -xvf IEDriverServer_Win32_2.53.1.zip
+	#wget -c http://selenium-release.storage.googleapis.com/2.53/IEDriverServer_Win32_2.53.1.zip
+	wget -c http://selenium-release.storage.googleapis.com/3.4/IEDriverServer_Win32_3.4.0.zip
+	jar -xvf IEDriverServer_Win32_3.4.0.zip
 }
 test -f MicrosoftWebDriver.exe || {
-	wget -c https://download.microsoft.com/download/3/2/D/32D3E464-F2EF-490F-841B-05D53C848D15/MicrosoftWebDriver.exe
+	#wget -c https://download.microsoft.com/download/3/2/D/32D3E464-F2EF-490F-841B-05D53C848D15/MicrosoftWebDriver.exe
+	wget -c https://download.microsoft.com/download/3/4/2/342316D7-EBE0-4F10-ABA2-AE8E0CDF36DD/MicrosoftWebDriver.exe
 }
 
-test "$1" = install || exit
+chmod 755 *.exe
+
+test "$1" = install && exit
 
 test ${1:-hub} = hub && { java -jar $ss -role hub -timeout 10 & echo $!>hpid; }
-test ${1:-node} = node && { java $EDGE_DRV -jar $ss -role node -timeout 30 -port 5554 -hub http://${2:-localhost:4444}/grid/register -host $host -maxSession 10 $EDGE_CAP& echo $!>>hpid; }
+test ${1:-node} = node && { java $EDGE_DRV -jar $ss -role node -timeout 30 -port 5554 -hub http://${2:-localhost:4444}/grid/register -host $host -maxSession 10 "${TWEAK_CAP[@]}" & echo $!>>hpid; }
 #-browser browserName=firefox,maxInstances=10
 wait -n || kill -TERM $$
 
