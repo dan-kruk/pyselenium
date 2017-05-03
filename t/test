@@ -6,9 +6,9 @@ export JUNIT_PKG=generic
 #export LOGS=c:/tmp/junit
 SECONDS=0
 
-browsers='firefox'
+browsers='firefox chrome ie '
 remote=true
-url=http://rdvmden80:8585
+url=http://rdvmden53:8585
 rounds=$(echo {1..1})
 #caps="{'platform':'ANY','version':'51.0.1','firefox_binary':'c:/Users/Administrator/Downloads/drivers/firefox/firefox.exe'}"
 #caps="{'firefox_binary':'c:/Users/Administrator/Downloads/drivers/firefox/firefox.exe'}"
@@ -18,11 +18,13 @@ export login="{ 'url':'$url', 'Xusername':'dkrukov','Xpassword':'dkrukov' }"
 export ccs="{ 'mapi_eda':'eda','dls':true,'Xdlscache':true,'saml':true }"
 
 
+t='t/dbo_optimize_integration/process_analytics.py t/dbo_optimize_integration/process_dashboards.py'
 #t=t/ccs/ccs_config.py
 #t=t/dashboards/example.py
 #t=t/dbo_optimize_integration/configure_bc.py
 #t=t/dbo_optimize_integration/enable_process.py
-t=t/dbo_optimize_integration/enable_process_please.py
+#t=t/dbo_optimize_integration/enable_process_please.py
+#t=t/dbo_optimize_integration/problem_kpi.py
 #t=t/dbo_optimize_integration/focus_example.py
 #t=t/dbo_optimize_integration/play.py
 #t=t/dbo_optimize_integration/process_analytics.py
@@ -40,17 +42,23 @@ t=t/dbo_optimize_integration/enable_process_please.py
 #t=t/rootcontext/toggle_dls.py
 #t=t/unit/tc.py
 
+rm -rf /tmp/ec
 for r in $rounds; do
  echo ===r$r
  for b in $browsers; do
    export cfg="{ 'capabilities':$caps,'Xwait':20,'remote':$remote,
-	       'hub':'http://rdvmva91:4444/wd/hub','browser':'$b'}"
+	       'hub':'http://localhost:4444/wd/hub','browser':'$b'}"
    echo "$cfg"
-   (SECONDS=0; python -u $t | tee /tmp/slog
-    echo ===$b ret: ${PIPESTATUS[0]} took $SECONDS/s\
-      | tee -a /tmp/slog; sleep 1)
+   for tx in $t; do
+      echo test $tx
+      (SECONDS=0; python -u $tx | tee /tmp/slog
+       ec=${PIPESTATUS[0]}; echo ===$b ret: $ec took $SECONDS/s\
+	  | tee -a /tmp/slog; echo $ec >> /tmp/ec; sleep 1)
+   done
  done; wait
 done
 
-echo grand took $SECONDS
+echo grand ret: \
+ $(awk 'BEGIN {fail=0} {if ($1!=0) fail++; l=l" "$0; cnt++} END {print l" cnt/fail: "cnt"/"fail}' /tmp/ec)\
+ took $SECONDS
 
