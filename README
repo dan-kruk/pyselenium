@@ -1,0 +1,141 @@
+
+NAME
+
+pyselenium - productive Web UI testing
+
+Test webapps in any browser with Selenium and Python
+
+SETUP
+
+pick 1 of 3 choices: Cygwin, Windows, Linux RH/Centos
+
+Cygwin: (best unix/mac like productive choice on windows)
+------------------
+
+1. download Cygwin:
+http://cygwin.com/setup-x86_64.exe
+
+2. run command in dos cmd window:
+setup-x86_64.exe -q -P nc,wget,vim,git,subversion,openssh,python3
+
+3. prefix Windows system PATH with:
+c:\cygwin64\bin;
+
+4. Run command in Cygwin terminal:
+
+cd; git clone http://dkrukov@irepo.eur.ad.sag/scm/~dkrukov/pyselenium.git && cd pyselenium
+./install_pyse_cygwin
+
+------------------
+
+Setup on Windows:
+------------------
+1. install [python 3.5+](https://www.python.org/downloads)
+
+2. install selenium module using command:
+python -m pip install selenium
+
+3. prepend system env PATH variable with the following:
+
+%HOMEDRIVE%%HOMEPATH%\AppData\Local\Programs\Python\Python36-32\Scripts\;%HOMEDRIVE%%HOMEPATH%\AppData\Local\Programs\Python\Python36-32\;c:\cygwin64\bin;
+
+4. add PYTHONPATH=src system env variable
+
+5. ensure git package is installed
+
+6. git clone http://dkrukov@irepo.eur.ad.sag/scm/~dkrukov/pyselenium.git
+
+------------------
+
+Setup on Linux RH/Centos:
+------------------
+
+1. ensure git package is installed
+
+2. Run command:
+cd; git clone http://dkrukov@irepo.eur.ad.sag/scm/~dkrukov/pyselenium.git && cd pyselenium
+./install_pyse_rh
+
+------------------
+
+On any platform - Install browsers support and optional hub:
+------------------
+
+1. install ie, firefox, chrome, edge browsers as needed:
+
+./hub install
+
+2. Optional - you may also run hub on your local for test purposes:
+   to run Selenium hub use one of these commands:
+
+./hub		#starts hub and node
+./hub hub	#starts just hub
+./hub node	#starts just node which points to local hub
+./hub node host:port	#starts just node, which points remote host:port hub; standard port is 4444
+
+-----------------
+
+Optional: On a dedicated host(s) install hub and nodes(as needed):
+-----------------
+wget http://irepo.eur.ad.sag/users/dkrukov/repos/pyselenium/raw/hub && chmod 755 hub
+
+   to run Selenium hub use one of these commands:
+
+./hub		#starts hub and node
+./hub hub	#starts just hub
+./hub node	#starts just node which points to local hub
+./hub node host:port	#starts just node, which points remote host:port hub; standard port is 4444
+
+USAGE
+
+run DEMO for KPI Creation Gadget
+
+cd ~pyselenium
+./t/kpi_creation_demo
+
+IDE is optional, your choise
+
+TODO
+
+a few more DEMO tests
+
+Project structure, t and src modules, t/test script productivity idea
+
+How to add test to jenkins
+
+How to be productive developing tests
+
+
+WE NOW CAN
+
+- do lots of tests which are just as simple and informal to use as shown above
+
+- focus on building a very specific feature tests rather than object abstraction towers
+
+- start coding far deep down under well implemented thin functional layers of UI navigation
+
+- utilize imperative/functional composition test design, rather than object oriented bloater
+
+- do all tests tiny (a few lines), razor sharp focused on 1 thing done very well, lightning fast (run for 30-60s or so)
+
+- principally - no state, and concurrency horror
+
+- enjoy breezy maintanance
+
+- run and tune tests on all 3 (or more) browser types equally
+
+- run and tune tests under stress load conditions on beefy hub or local -no special arrangement or effort needed
+
+- document TC steps natural and ordered as they are rather than typical ladder of object hierarchy utopia
+
+- bundle tests up into arbitrary sized sets, loop and run it all parallel with simple scripts
+
+- stop using clumsy prop, csv, xls, xml, whatever config files
+
+- pass json snippets in env vars - it just works for ~all small, complex layered or iterative config needs
+
+- "tooling", "frameworking", "ide-ing", dependencies and so on - a taste thing and is not mandatory whatsoever
+
+
+BE PRODUCTIVE
+
