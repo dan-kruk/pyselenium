@@ -10,7 +10,12 @@ try:
 
     mwsm.navauth("BusinessProcesses")
     for i in range(0,1):
-        mwsm.server('BAM only') #workaround for IS errors seen in BPM mode
+
+        try:
+            mwsm.server('BAM only') #workaround for IS errors seen in BPM mode
+        except:
+            mwsm.server('BAM only') #retry occasional 404
+
         searchcnt(cnt) #user dkrukov can see 5 procs
         #mwsm.server('BPM and BAM')
 except:
