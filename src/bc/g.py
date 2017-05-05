@@ -32,8 +32,8 @@ def configure(c={}):
     configs @/business.console#admin/
     """
     tc('configure bc')
-    save = g.wait.until(EC.element_to_be_clickable((By.ID,
-        'bc-admin-save-button')))
+    save = g.wait.until(EC.element_to_be_clickable((By.XPATH,
+        "//button[@id='bc-admin-save-button' and text()='Save']")))
     for k,v in c.items():
         tc(k+' = '+v)
         e = g.driver.find_element(By.ID, k)
