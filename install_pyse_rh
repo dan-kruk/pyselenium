@@ -13,7 +13,7 @@ make altinstall
 rm -rf /usr/local/bin/python
 ln -s /usr/local/bin/python${V:0:3} /usr/local/bin/python
 python -V | grep $V || { echo error: wrong py version in path; exit 1; }
-python -m pip install selenium && echo success
+python -m pip install selenium==3.3.1 && echo success
 
 grep PYTHONPATH= ~/.bashrc >/dev/null || echo export PYTHONPATH=src >> ~/.bashrc
 
