@@ -111,3 +111,15 @@ def close():
     e.send_keys(Keys.RETURN)
     g.wait.until(EC.staleness_of(e))
 
+def caf_error():
+    """check for caf errors
+        @ret [caf error elements]
+    """
+    #x = "//*[@class='caf-error-summary']"
+    tc('check for caf errors')
+    try:
+        e = g.driver.find_elements_by_class_name('caf-error-summary')
+    except:
+        pass
+    return e
+
