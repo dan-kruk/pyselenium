@@ -84,7 +84,11 @@ def prep():
     wait80 = WebDriverWait(driver, 80)
 
 def screenshot(act=True):
-    x=LOGS+'/screenshot-'+str(os.getpid())+'-'+re.sub('[^a-zA-Z0-9-]',"_",tc_name)
+    x = xx = LOGS+'/screenshot-'+str(os.getpid())+'-'+re.sub('[^a-zA-Z0-9-]',"_",tc_name)
+    i=0
+    while os.path.exists(x+'.png'): #unique fname for repeated cases
+        i+= 1
+        x = xx + str(i)
     try:
         if driver is not None:
             if act:
@@ -170,7 +174,7 @@ def logjunit(name, status, time):
         s='<failure message="error" type="'+status+'">\n'
         x=screenshot(False)
         if x: s+='\nscreenshot '+x+'\n\n'
-        if not traceback.format_exc().startswith('NoneType'):
+        if sys.exc_info()[0] is not None:
             s+=re.sub('[<>&]','~',traceback.format_exc())
         s+='</failure>\n'
     junitfile.write('<testcase classname="'+MODULE+'/'+str(os.getpid())\
