@@ -21,7 +21,7 @@ c:\cygwin64\bin;
 
 4. Run command in Cygwin terminal:
 
-cd; git clone http://dkrukov@irepo.eur.ad.sag/scm/~dkrukov/pyselenium.git && cd pyselenium
+cd; git clone http://irepo.eur.ad.sag/scm/~dkrukov/pyselenium.git && cd pyselenium
 ./install_pyse_cygwin
 
 ------------------
@@ -43,7 +43,7 @@ Note: adjust PATH elements above for your version of python
 
 5. ensure git package is installed
 
-6. git clone http://dkrukov@irepo.eur.ad.sag/scm/~dkrukov/pyselenium.git
+6. git clone http://irepo.eur.ad.sag/scm/~dkrukov/pyselenium.git
 
 ------------------
 
@@ -52,7 +52,7 @@ Setup on Linux RH/Centos:
 
 1. ensure git package is installed
 2. Run command:
-cd; git clone http://dkrukov@irepo.eur.ad.sag/scm/~dkrukov/pyselenium.git && cd pyselenium
+cd; git clone http://irepo.eur.ad.sag/scm/~dkrukov/pyselenium.git && cd pyselenium
 ./install_pyse_rh
 
 ------------------
