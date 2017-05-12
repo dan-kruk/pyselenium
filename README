@@ -3,7 +3,7 @@ NAME
 
 pyselenium - productive Web UI testing
 
-Test webapps in any browser with Selenium and Python
+Test webapps lean in any browser with Selenium and Python
 
 SETUP
 
@@ -26,7 +26,7 @@ cd; git clone http://dkrukov@irepo.eur.ad.sag/scm/~dkrukov/pyselenium.git && cd 
 
 ------------------
 
-Setup on Windows:
+Setup on Windows (not as optimal):
 ------------------
 1. install [python 3.5+](https://www.python.org/downloads)
 
@@ -36,6 +36,8 @@ python -m pip install selenium==3.3.1
 3. prepend system env PATH variable with the following:
 
 %HOMEDRIVE%%HOMEPATH%\AppData\Local\Programs\Python\Python36-32\Scripts\;%HOMEDRIVE%%HOMEPATH%\AppData\Local\Programs\Python\Python36-32\;c:\cygwin64\bin;
+
+Note: adjust PATH elements above for your version of python
 
 4. add PYTHONPATH=src system env variable
 
@@ -55,14 +57,17 @@ cd; git clone http://dkrukov@irepo.eur.ad.sag/scm/~dkrukov/pyselenium.git && cd 
 
 ------------------
 
-On any platform - Install browsers support and optional hub:
+On any platform - Install browsers support and optional hub (to run tests like on remote hub):
+
 ------------------
 
-1. install ie, firefox, chrome, edge browsers as needed:
+1. install ie, firefox, chrome, edge browsers as needed
+
+2. Install browers' drivers and selenium hub
 
 ./hub install
 
-2. Optional - you may also run hub on your local for test purposes:
+2. Optional - you may also launch hub on your local for test purposes:
    to run Selenium hub use one of these commands:
 
 ./hub		#starts hub and node
@@ -72,7 +77,7 @@ On any platform - Install browsers support and optional hub:
 
 -----------------
 
-Optional: On a dedicated host(s) install hub and nodes(as needed):
+Optional: On a dedicated host(s) around, install hub and nodes(as needed):
 -----------------
 wget http://irepo.eur.ad.sag/users/dkrukov/repos/pyselenium/raw/hub && chmod 755 hub
 
@@ -90,7 +95,7 @@ run DEMO for KPI Creation Gadget
 cd ~pyselenium
 ./t/kpi_creation_demo
 
-IDE is optional, your choise
+IDE is optional, your choise of productivity
 
 TODO
 
@@ -101,6 +106,8 @@ Project structure, t and src modules, t/test script productivity idea
 How to add test to jenkins
 
 How to be productive developing tests
+
+How to build full blown very focused complex feature test
 
 
 WE NOW CAN
