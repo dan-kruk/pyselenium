@@ -59,3 +59,13 @@ def validatestages(ss=[]):
             g.wait.until(EC.presence_of_element_located((By.XPATH,
                 "//div[@class='gantt_tooltip']")))
 
+def navapp(name):
+    """
+    navigate app spaces menu item @name
+    """
+    tc('nav app space menu -> '+name)
+    g.wait.until(EC.element_to_be_clickable((By.XPATH,
+        "//li[contains(@data-hint,'AppSpace')]/div[@class='inline ng-binding']"))).click()
+    g.wait.until(EC.element_to_be_clickable((By.XPATH,
+        ".//li[@class='dropdown cp hint--right ng-scope open']//a[@role='menuitem' and text()='"+name+"']"))).click()
+

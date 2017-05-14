@@ -6,19 +6,6 @@ import bc.gadgets.kpi_creation as kpi
 from random import choice
 from time import sleep
 
-inputs={ #sample input needed to create KPI
-    'kpiName':'order amount',
-    'description':'interesting order amount',
-    'process':'DBM Process',
-    'event':'OrderEntry (ProcessUpdate)',
-    'measure':'order_amount',
-    'uom':'likes',
-    'measureFormat':'Double: 0.00',
-    'dimension':['Product','Region','Customer','Sales Person'],
-    'interval':'15 minute',
-    'agg':'Maximum'
-}
-
 order=[ #kpi creation flow
     'kpiName','description','process','event','measure','uom','measureFormat',
     'dimension','interval','agg','create','cancel'
@@ -28,18 +15,18 @@ try:
         mws.navauth('bc') #login
         bc.navapp('dbm')  #appspace->gadget
 
-        for r in range(4): #play jazz on KPI gadget
+        for r in range(20): #play jazz on KPI gadget
 
             #almost all possible inputs are range-randomized
             inputs={
                 'kpiName':choice(['order amount','whatever else','dorbadug zing','zixiponga','dubaloma copra COG']),
                 'description':choice(['interesting order amount','elephant tails','fortune teller','stock killer']),
                 'process':'DBM Process',
-                #'event':'OrderEntry (ProcessUpdate)',
-                #'measure':'order_amount',
+                'event':'OrderEntry (ProcessUpdate)',
+                'measure':'order_amount',
                 #these two expose some UI BUG (show at demo)
-                'event':choice(['StepUpdate','ProcessUpdate','OrderEntry (StepUpdate)','OrderEntry (ProcessUpdate)','OrderUpdate (StepUpdate)','OrderUpdate (ProcessUpdate)']),
-                'measure':choice(['order_amount','item_count','Duration']),
+                #'event':choice(['StepUpdate','ProcessUpdate','OrderEntry (StepUpdate)','OrderEntry (ProcessUpdate)','OrderUpdate (StepUpdate)','OrderUpdate (ProcessUpdate)']),
+                #'measure':choice(['order_amount','item_count','Duration']),
                 'uom':choice(['likes','hugs','kicks','tricks','blurps']),
                 'measureFormat':choice(['Dollars: \'$\'0.##','Euros: 0.## \'€\'','Milliseconds: HH:MM:SS.sss','Double: 0.00','Execution State: active/completed/suspended']),
                 'dimension':['Product','Region','Customer','Sales Person'],
@@ -49,7 +36,7 @@ try:
 
             kpi.create(inputs, order)   #this is 99% of navigation
             order.reverse()             #reverse the flow
-            sleep(5)                    #just a prompt hold to see what's done
+            #sleep(5)                    #just a prompt hold to see what's done
 except:
     g.error()
 
