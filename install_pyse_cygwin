@@ -12,6 +12,8 @@
 #complete the above first
 #this runs in cygwin and makes py3 default, installs selenium module
 
+test -f /usr/bin/python3 || { echo error: python3 is not installed; exit 1; }
+
 rm -rf /usr/bin/python
 ln -s /usr/bin/python3 /usr/bin/python
 python -m ensurepip
