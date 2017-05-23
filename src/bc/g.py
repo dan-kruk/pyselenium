@@ -42,7 +42,7 @@ def configure(c={}):
     tc('save config')
     save.click() #send_keys not working - UI bug
     g.wait.until(EC.presence_of_element_located((By.XPATH,
-        "//*[text()='REST Invocation Success']")))
+        "//*[text()='REST Invocation Success' or text()='Success']")))
 
 def validatestages(ss=[]):
     """
