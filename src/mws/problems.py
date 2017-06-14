@@ -18,3 +18,7 @@ def clicklink(x=0, y=0):
     """TODO click link row x, col y in problems table
     """
     yx = [ "//a[contains (@href,':viewDetail')]" ]
+
+def descriptionlinkname(name):
+    tc('click on '+name)
+    g.wait.until(EC.element_to_be_clickable((By.PARTIAL_LINK_TEXT,name))).send_keys(Keys.RETURN)

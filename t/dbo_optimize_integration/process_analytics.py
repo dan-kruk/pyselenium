@@ -26,15 +26,15 @@ try:
         pid = pa.piidlink()
         bc.focus()
         bc.validatepi(pid)
-        bc.validateerrors({'Proc':'3','Step':'0','Stage':'3','Rule':'3'})
+        #bc.validateerrors({'Proc':'3','Step':'0','Stage':'3','Rule':'3'})
         bc.close()
 
-        pa.selectvolumes({'level':'proc','range':'curr','status':'All'})
-        pid = pa.piidlink('5')
-        bc.focus()
-        bc.validatepi(pid)
-        bc.validateerrors({'Proc':'0','Step':'1','Stage':'3','Rule':'1'})
-        bc.close()
+        #pa.selectvolumes({'level':'proc','range':'curr','status':'All'})
+        #pid = pa.piidlink('5')
+        #bc.focus()
+        #bc.validatepi(pid)
+        #bc.validateerrors({'Proc':'0','Step':'1','Stage':'3','Rule':'1'})
+        #bc.close()
 
 
         #nav through magglass

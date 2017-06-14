@@ -7,8 +7,7 @@ import mws.kpiinstdetail as kd
 import bc.g as bc
 
 """
-navigate from Problem and kpi instance detail to BC via process instance links
-validate counts in Errors section in BC
+navigate from Problem and kpi instance detail to BC via process instance link
 """
 
 try:
@@ -17,15 +16,11 @@ try:
 
     ui.navauth('Problems')
     ui.search('dbo')
-    rules=['DBO_Process- Absolute Step Timeout Process','DBO_Process- Step Timeout Process','DBO order_amount by customer (KPI)']
-    errors=[{'Proc':'3','Step':'0','Stage':'3','Rule':'3'},{'Proc':'0','Step':'1','Stage':'3','Rule':'2'},{'Proc':'0','Step':'0','Stage':'3','Rule':'1'}]
-
-    for r in range(0,len(rules)-1):
-        p.descriptionlinkname(rules[r])
+    for r in range(0,2):
+        print ( p.descriptionlink(r) )
         pid = pd.piidlink(r)
         bc.focus()
         bc.validatepi(pid)
-        bc.validateerrors(errors[r])
         bc.close(False)
         pd.kpidetail()
         kd.viewdata()
