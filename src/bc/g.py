@@ -27,6 +27,15 @@ def validatepi(pid):
     g.wait20.until(EC.presence_of_element_located((By.XPATH,
         "//td[.='"+pid+"']")))
 
+def validateerrors(counts={}):
+    """
+    validate counts in Errors section @counts={'Proc|Step|Stage|Rule':'count'}
+    """
+    tc('validate error counts')
+    for k,v in counts.items():
+        tc(k+' = '+v)
+        g.driver.find_element(By.XPATH, ".//div[@data-target='#"+k+"AlarmsMenu']/span[text()="+v+"]")
+
 def configure(c={}):
     """
     configs @/business.console#admin/
