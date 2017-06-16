@@ -28,11 +28,16 @@ try:
         try:
             bc.validateerrors(errors[r])
         except:
-            tc('','fail')
+            g.tc('','fail')
         bc.close(False)
         pd.kpidetail()
         kd.viewdata()
-        pid = pd.piidlink(r)
+        try:
+            pid = pd.piidlink(r)
+        except:
+            g.tc('','fail')
+            ui.close(); ui.close() #restore nav
+            continue
         bc.focus()
         bc.validatepi(pid)
         bc.close(False)
