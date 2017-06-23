@@ -111,8 +111,9 @@ def tc(tc='',s='pass', msg=''):
     tc = tc[:60] or tc_name #limit case name or set to prev for fail/fatal
     if s in ['fail','fatal']:
         if sys.exc_info()[0] is not None:
-            msg+='\n'+re.sub('[<>&]','~',traceback.format_exc())
+            msg+='\n'+traceback.format_exc()
         msg='\n'+msg+'\n'+screenshot()+'\n'
+        msg=re.sub('[<>&]','~', msg) #rm xml breakers
         print(msg)
         print('*TC %-60s%6s%8.3f' % (tc_name, s, delta))
         logjunit(str(tcnt).zfill(3)+': '+tc_name, s, delta, msg)
