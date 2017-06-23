@@ -7,7 +7,7 @@ import mws.kpiinstdetail as kd
 import bc.g as bc
 
 """
-navigate from Problem and kpi instance detail to BC via process instance links
+navigate from Problem and kpi instance detail data to BC via process instance links
 validate counts in Errors section in BC
 """
 
@@ -21,7 +21,11 @@ try:
     errors=[{'Proc':'3','Step':'0','Stage':'3','Rule':'3'},{'Proc':'0','Step':'1','Stage':'3','Rule':'1'},{'Proc':'0','Step':'0','Stage':'3','Rule':'1'}]
 
     for r in range(0,len(rules)):
-        p.descriptionlinkname(rules[r])
+        try:
+            p.descriptionlinkname(rules[r])
+        except:
+            g.tc('','fail','unable to see/click rule link: '+rules[r])
+            continue
         pid = pd.piidlink(r)
         bc.focus()
         bc.validatepi(pid)
