@@ -3,28 +3,32 @@
 export PYTHONIOENCODING=utf-8
 export JENKINS_URL=fakeone
 export JUNIT_PKG=generic
-#export LOGS=c:/tmp/junit
+export JUNIT_PREFIX=abc_
+export LOGS=../logs
 SECONDS=0
 
-browsers='firefox chrome ie '
-remote=true
-url=http://rdvmden53:8585
+browsers='chrome'
+remote=false
+url=http://rdvmden80:8585
 rounds=$(echo {1..1})
 #caps="{'platform':'ANY','version':'51.0.1','firefox_binary':'c:/Users/Administrator/Downloads/drivers/firefox/firefox.exe'}"
 #caps="{'firefox_binary':'c:/Users/Administrator/Downloads/drivers/firefox/firefox.exe'}"
 caps="{'platform':''}"
 
 export login="{ 'url':'$url', 'Xusername':'dkrukov','Xpassword':'dkrukov' }"
-export ccs="{ 'mapi_eda':'eda','dls':true,'Xdlscache':true,'saml':true }"
+#export ccs="{ 'mapi_eda':'eda','dls':true,'Xdlscache':true,'saml':true }"
 
 
-t='t/dbo_optimize_integration/process_analytics.py t/dbo_optimize_integration/process_dashboards.py'
+#t=t/monitor_optimize_integration/smoke.py
+#t=t/dbm_demo/kpi_creation.py
+#t=t/dbo_optimize_integration/problem_kpi.py
+#t=t/dbo_optimize_integration/problem_kpi2.py
+#t='t/dbo_optimize_integration/process_analytics.py t/dbo_optimize_integration/process_dashboards.py'
 #t=t/ccs/ccs_config.py
 #t=t/dashboards/example.py
 #t=t/dbo_optimize_integration/configure_bc.py
 #t=t/dbo_optimize_integration/enable_process.py
 #t=t/dbo_optimize_integration/enable_process_please.py
-#t=t/dbo_optimize_integration/problem_kpi.py
 #t=t/dbo_optimize_integration/focus_example.py
 #t=t/dbo_optimize_integration/play.py
 #t=t/dbo_optimize_integration/process_analytics.py
@@ -38,7 +42,7 @@ t='t/dbo_optimize_integration/process_analytics.py t/dbo_optimize_integration/pr
 #t=t/mws/processanalytics/step_nav_example.py
 #t=t/mws/processanalytics/test.py
 #t=t/rootcontext/checkprocs.py
-#t=t/rootcontext/chroot.py
+t=t/rootcontext/chroot.py
 #t=t/rootcontext/toggle_dls.py
 #t=t/unit/tc.py
 
@@ -50,7 +54,7 @@ for r in $rounds; do
 	       'hub':'http://localhost:4444/wd/hub','browser':'$b'}"
    echo "$cfg"
    for tx in $t; do
-      echo test $tx
+      #echo test $tx
       (SECONDS=0; python -u $tx | tee /tmp/slog
        ec=${PIPESTATUS[0]}; echo ===$b ret: $ec took $SECONDS/s\
 	  | tee -a /tmp/slog; echo $ec >> /tmp/ec; sleep 1)
@@ -60,5 +64,5 @@ done
 
 echo grand ret: \
  $(awk 'BEGIN {fail=0} {if ($1!=0) fail++; l=l" "$0; cnt++} END {print l" cnt/fail: "cnt"/"fail}' /tmp/ec)\
- took $SECONDS
+ took $SECONDS round avg: $((SECONDS/$(echo $rounds|wc -w)))
 

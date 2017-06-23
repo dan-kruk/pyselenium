@@ -28,6 +28,8 @@ if len(MODULE) >1:
 elif len(MODULE) == 1:
     MODULE=MODULE[0].replace('.py','') #just module
 
+print('\n*test:', sys.argv[0])
+
 if os.environ.get('JENKINS_URL') is not None:
     junitfile = open(LOGS+'/junit-'+str(os.getpid())+'-'+MODULE+'.xml','w')
     junitfile.write('<testsuite name="'+MODULE+'">\n')
@@ -104,8 +106,8 @@ def screenshot(act=True):
 
 def tc(tc='',s='pass'):
     """ log test case """
-    now = time.time(); delta = now -tc_time
     global tc_name, tc_time, tc_status, tcases, tcnt #prev case logged
+    now = time.time(); delta = now -tc_time
     tc = tc[:60] or tc_name #limit case name or set to prev for fail/fatal
     if s in ['fail','fatal']:
         msg = ''
