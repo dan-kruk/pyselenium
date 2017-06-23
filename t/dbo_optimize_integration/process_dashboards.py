@@ -14,9 +14,21 @@ try:
     for i in range(1,3):
         print(str(i)+"==========")
         m.login()
-        m.nav('ProcessDashboards')
-        d.load()
-        d.select_proc('DBO_Process')
+        try:
+            m.nav('ProcessDashboards')
+        except:
+            g.tc('','fail','process dashboards link may be missing')
+            break
+        try:
+            d.load()
+        except:
+            g.tc('','fail','unable to load dashboard')
+            break
+        try:
+            d.select_proc(proc)
+        except:
+            g.tc('','fail','unable to select in dropdown: '+proc)
+            break
         d.select_range('1 hour')
 
         d.select_proc(proc)
