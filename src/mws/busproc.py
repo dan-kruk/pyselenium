@@ -25,7 +25,7 @@ def searchcnt(cnt=0,text=''):
     elif len(a) == 3: c=int(a[2]) #N of M
     elif len(a) == 5: c=int(a[4]) #N - M of X
     tc('act/exp proc list '+str(c)+' '+str(cnt))
-    if cnt != c: tc('','fail')
+    if cnt != c: tc('','fail', 'wrong process list')
 
 def nav(name):
     """navigate to process model"""
