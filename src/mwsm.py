@@ -98,6 +98,7 @@ def search(text):
     tc('search '+text)
     e = g.wait.until(EC.element_to_be_clickable((By.XPATH,\
         "//input[@name='keywords']")))
+    e.clear() #input may retain
     e.send_keys(text)
     g.wait.until(EC.element_to_be_clickable((By.XPATH,\
         "//input[@name='dosearch']"))).click()
