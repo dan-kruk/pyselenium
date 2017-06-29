@@ -34,7 +34,12 @@ def validateerrors(counts={}):
     tc('validate error counts')
     for k,v in counts.items():
         tc(k+' = '+v)
-        g.driver.find_element(By.XPATH, ".//div[@data-target='#"+k+"AlarmsMenu']/span[text()="+v+"]")
+        try:
+            e = g.driver.find_element(By.XPATH, ".//div[@data-target='#"+k+"AlarmsMenu']/span")
+            if e.text != v:
+                tc('','fail','incorrect count for: '+k+' expected/actual: '+v+'/'+e.text)
+        except:
+            tc('','fail','missing element: '+k)
 
 def configure(c={}):
     """

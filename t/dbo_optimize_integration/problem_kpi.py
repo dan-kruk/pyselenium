@@ -29,10 +29,7 @@ try:
         pid = pd.piidlink(r)
         bc.focus()
         bc.validatepi(pid)
-        try:
-            bc.validateerrors(errors[r])
-        except:
-            g.tc('','fail')
+        bc.validateerrors(errors[r])
         bc.close(False)
         pd.kpidetail()
         kd.viewdata()
