@@ -30,13 +30,14 @@ def validatepi(pid):
 def validateerrors(counts={}):
     """
     validate counts in Errors section @counts={'Proc|Step|Stage|Rule':'count'}
+    count can be fuzzy - just a list of numbers
     """
     tc('validate error counts')
     for k,v in counts.items():
         tc(k+' = '+v)
         try:
             e = g.driver.find_element(By.XPATH, ".//div[@data-target='#"+k+"AlarmsMenu']/span")
-            if e.text != v:
+            if e.text not in v:
                 tc('','fail','incorrect count for: '+k+' expected/actual: '+v+'/'+e.text)
         except:
             tc('','fail','missing element: '+k)
