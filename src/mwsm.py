@@ -6,7 +6,7 @@ from mws import res #mws page resources, links etc
 from os import environ as e
 from time import sleep
 
-H=e.get('HOSTNAME', e.get('COMPUTERNAME','localhost')) #guess
+H=e.get('hostname', e.get('HOSTNAME', e.get('COMPUTERNAME','localhost'))) #guess
 
 cfg = loadenv('login',{'url':'http://'+H+':8585',
 'username':'Administrator','password':'manage'})
