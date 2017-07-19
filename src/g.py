@@ -114,7 +114,6 @@ def tc(tc='',s='pass', msg=''):
             msg+='\n'+traceback.format_exc()
         msg='\n'+msg+'\n'+screenshot()+'\n'
         msg+='\n'+time.strftime('%c %Z')+'\n'
-        msg=re.sub('[<>&]','~', msg) #rm xml breakers
         print(msg)
         print('*TC %-60s%6s%8.3f' % (tc_name, s, delta))
         logjunit(str(tcnt).zfill(3)+': '+tc_name, s, delta, msg)
@@ -165,14 +164,19 @@ def clean():
     if driver is not None: driver.quit()
     sys.exit(ret)
 
+def xmlescape(txt):
+    for x,y in zip(['&','<','>'], ['&amp;','&lt;','&gt;']):
+        txt=re.sub(x,y,txt)
+    return txt
+
 def logjunit(name, status, time, msg=''):
     if junitfile is None: return
     s=''
     if status in ['fail','fatal']:
         s='<failure message="error" type="'+status+'">\n'
-        s+=msg #more error details
+        s+=xmlescape(msg) #more error details
         s+='</failure>\n'
     junitfile.write('<testcase classname="'+MODULE+'/'+str(os.getpid())\
-        +'" name="'+re.sub('[<>&]','~',name)\
+        +'" name="'+xmlescape(name)\
         +'" time="'+str(time)+'">\n'+s+'</testcase>\n')
 
