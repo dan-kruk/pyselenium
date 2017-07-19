@@ -9,6 +9,7 @@ import bc.g as bc
 """
 navigate from Problem and kpi instance detail data to BC via process instance links
 validate counts in Errors section in BC
+validate problem contrib event and KPI inst detail event counts (OBE-9469)
 some counts are fuzzy, e.g. for rules as seen as such in Optimize
 """
 
@@ -27,19 +28,35 @@ try:
         except:
             g.tc('','fail','unable to see/click rule link: '+rules[r])
             continue
-        pid = pd.piidlink(r)
+
+        pid = cnt = None
+
+        try:
+            pid, cnt = pd.piidlink()
+        except:
+            g.tc('','fail')
+            continue
+        g.tc('validate contrib event inst count (OBE-9469)')
+        if cnt > 3:
+            g.tc('','fail', 'expected/actual <4/'+str(cnt))
+
         bc.focus()
         bc.validatepi(pid)
         bc.validateerrors(errors[r])
         bc.close(False)
         pd.kpidetail()
         kd.viewdata()
+
         try:
-            pid = pd.piidlink(r)
+            pid, cnt = pd.piidlink()
         except:
             g.tc('','fail')
             ui.close(); ui.close() #restore nav
             continue
+        g.tc('validate KPI inst detail event inst count (OBE-9469)')
+        if cnt > 3:
+            g.tc('','fail', 'expected/actual <4/'+str(cnt))
+
         bc.focus()
         bc.validatepi(pid)
         bc.close(False)

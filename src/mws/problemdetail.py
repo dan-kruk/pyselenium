@@ -4,7 +4,7 @@ from g import tc
 EC=g.EC; By=g.By; Keys=g.Keys; Select=g.Select #selenium statics
 
 def piidlink(i=0):
-    """click on i-th pid link in table, ret: link pid
+    """click on i-th pid link in table, ret: link pid, N of links in table
         may be used on a few other pages as well
     """
     tc('click on '+str(i)+' pid link in a table')
@@ -13,7 +13,7 @@ def piidlink(i=0):
     l = g.driver.find_elements_by_xpath(x)
     t = l[i].text
     l[i].click()
-    return t
+    return t, len(l)
 
 def kpidetail():
     """click kpi detail magglass link
