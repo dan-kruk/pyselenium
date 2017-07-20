@@ -9,10 +9,18 @@ def piidlink(i=0):
     """
     tc('click on '+str(i)+' pid link in a table')
     x = "//a[contains (@href,':viewBusinessConsoleLink')]"
-    g.wait.until(EC.element_to_be_clickable((By.XPATH,x)))
+    t = None
+    try:
+        g.wait.until(EC.element_to_be_clickable((By.XPATH,x)))
+    except:
+        tc('','fail','no links found to click on')
+        return t, 0
     l = g.driver.find_elements_by_xpath(x)
-    t = l[i].text
-    l[i].click()
+    if len(l) < i: #friendly cause
+        tc('','fail','no link to click seen, expected/actual link count '+i+'/'+len(l))
+    else:
+        t = l[i].text
+        l[i].click()
     return t, len(l)
 
 def kpidetail():

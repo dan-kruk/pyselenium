@@ -29,13 +29,9 @@ try:
             g.tc('','fail','unable to see/click rule link: '+rules[r])
             continue
 
-        pid = cnt = None
+        pid, cnt = pd.piidlink()
+        if pid == None: continue #no link seen
 
-        try:
-            pid, cnt = pd.piidlink()
-        except:
-            g.tc('','fail')
-            continue
         g.tc('validate contrib event inst count (OBE-9469)')
         if cnt > 3:
             g.tc('','fail', 'expected/actual <4/'+str(cnt))
@@ -47,10 +43,8 @@ try:
         pd.kpidetail()
         kd.viewdata()
 
-        try:
-            pid, cnt = pd.piidlink()
-        except:
-            g.tc('','fail')
+        pid, cnt = pd.piidlink()
+        if pid == None:
             ui.close(); ui.close() #restore nav
             continue
         g.tc('validate KPI inst detail event inst count (OBE-9469)')
