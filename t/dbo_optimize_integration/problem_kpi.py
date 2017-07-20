@@ -18,11 +18,11 @@ try:
     proc='DBO_Process'
 
     ui.navauth('Problems')
-    rules=['DBO_Process- Absolute Step Timeout Process','DBO_Process- Step Timeout Process','DBO order_amount by customer (KPI)']
-    errors=[{'Proc':'3','Step':'0','Stage':'3','Rule':'3 4 5'},{'Proc':'0','Step':'1','Stage':'3','Rule':'1 2 3 4'},{'Proc':'0','Step':'0','Stage':'3','Rule':'1 2'}]
+    rules=['DBO_Process- Absolute Step Timeout Process','DBO_Process- Step Timeout Process','DBO order_amount by customer (KPI) pubDocDBO/customer.pubDocDBO/customer.borotuga']
+    errors=[{'Proc':'3','Step':'0','Stage':'3','Rule':'3'},{'Proc':'0','Step':'1','Stage':'3','Rule':'1'},{'Proc':'0 1','Step':'0','Stage':'3','Rule':'2'}]
 
     for r in range(0,len(rules)):
-        ui.search(rules[r])
+        ui.search('"'+rules[r]+'"') #search quoted(exact in mws)
         try:
             p.descriptionlinkname(rules[r])
         except:
