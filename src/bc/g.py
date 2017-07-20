@@ -38,7 +38,7 @@ def validateerrors(counts={}):
         try:
             e = g.driver.find_element(By.XPATH, ".//div[@data-target='#"+k+"AlarmsMenu']/span")
             if e.text not in v:
-                tc('','fail','incorrect count for: '+k+' expected/actual: '+v+'/'+e.text)
+                tc('','fail','incorrect count for: '+k+' expected/actual: '+v+'/'+e.text+'.')
         except:
             tc('','fail','missing element: '+k)
 
