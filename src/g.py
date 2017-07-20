@@ -112,7 +112,7 @@ def tc(tc='',s='pass', msg=''):
     if s in ['fail','fatal']:
         if sys.exc_info()[0] is not None:
             msg+='\n'+traceback.format_exc()
-        msg='\n'+msg+'\n'+screenshot()+'\n'
+        msg='\n'+msg+'\n'+screenshot()
         msg+='\n'+time.strftime('%c %Z')+'\n'
         print(msg)
         print('*TC %-60s%6s%8.3f' % (tc_name, s, delta))
