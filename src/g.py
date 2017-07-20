@@ -165,7 +165,7 @@ def clean():
     sys.exit(ret)
 
 def xmlescape(txt):
-    for x,y in zip(['&','<','>'], ['&amp;','&lt;','&gt;']):
+    for x,y in zip(['&','<','>','"'], ['&amp;','&lt;','&gt;','&quot;']):
         txt=re.sub(x,y,txt)
     return txt
 
