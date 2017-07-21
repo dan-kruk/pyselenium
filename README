@@ -9,7 +9,7 @@ SETUP
 
 pick 1 of 3 choices: Cygwin, Windows, Linux RH/Centos
 
-Cygwin: (best unix/mac like productive choice on windows)
+Cygwin: (yes - the best unix/mac like productive choice on windows os)
 ------------------
 
 1. download Cygwin:
@@ -23,6 +23,16 @@ c:\cygwin64\bin;
 
 cd; git clone http://irepo.eur.ad.sag/scm/~dkrukov/pyselenium.git && cd pyselenium
 ./install_pyse_cygwin
+
+5. Some extras may be needed by legacy BVTs and tests (firefox46, jdk8, ant1.9):
+scp optimize@rdvmden54:/opt/sag/downloads/*{46,8u102,1.9.7}* .
+install them with respective .exe or tar -xvf (ant)
+start firefox and disable all updates, should be v46 (for legacy BAMSelenium UI tests)
+add JAVA_HOME env var, add java and ant bin dirs to PATH, also add firefox install dir to PATH
+
+6. if jenkins is needed, start it like this (change <slavename> appropriately)
+wget http://rdvmden113:8080/jenkins/jnlpJars/slave.jar -O- > slave.jar
+java -jar slave.jar -jnlpUrl http://rdvmden113:8080/jenkins/computer/<slavename>/slave-agent.jnlp
 
 ------------------
 
@@ -130,15 +140,15 @@ WE NOW CAN
 
 - run and tune tests under stress load conditions on beefy hub or local -no special arrangement or effort needed
 
-- document TC steps natural and ordered as they are rather than typical ladder of object hierarchy utopia
+- document TC steps natural and ordered as they flow rather than typical ladder of object hierarchy abstractionist utopia
 
 - bundle tests up into arbitrary sized sets, loop and run it all parallel with simple scripts
 
-- stop using clumsy prop, csv, xls, xml, whatever config files
+- stop using clumsy prop, csv, xls, xml, whatever else config files
 
 - pass json snippets in env vars - it just works for ~all small, complex layered or iterative config needs
 
-- "tooling", "frameworking", "ide-ing", dependencies and so on - a taste thing and is not mandatory whatsoever
+- "tooling", "frameworking", "ide-ing", "osgi", dependencies and so on - a "taste" thing and is not necessary whatsoever
 
 
 BE PRODUCTIVE
