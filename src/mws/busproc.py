@@ -85,7 +85,7 @@ def checkexecution(p,s=True):
 
 def checkanalysis(p,s=True):
     """validate analysis flag"""
-    tc('check analysis flag for model')
+    tc('check analysis flag for model WMN-6416')
     x="//img[contains (@id,'analysisEnabledIcon') and contains (@id,'"+p+"')]"
     se=g.wait.until(EC.element_to_be_clickable((By.XPATH, x)))
     s0=se.get_attribute('src')
