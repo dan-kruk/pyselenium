@@ -169,12 +169,9 @@ def validate_inst(name,inputs):
 
     #whole inst table with header row for kpi name
     xp = "//div[@id='kpi-cs-grid-" + name + "']//div[contains(@class,'slick-cell')] | //div[@id='kpi-cs-grid-" + name + "']//span"
-    #xp = "//div[@id='kpi-cs-grid-" + name + "']//span" #just header points
-    print(xp)
-    #input('cont..')
+    #print(xp)
     g.wait.until(EC.element_to_be_clickable((By.XPATH, xp))) #table is delayed to load
     ex = g.driver.find_elements_by_xpath(xp)
-    #print (str(len(ex)))
     tc('searching in inst table points: ' + str(len(ex)))
 
     for row in inputs:

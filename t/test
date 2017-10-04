@@ -8,8 +8,8 @@ export LOGS=../logs
 SECONDS=0
 
 browsers='chrome'
-remote=false
-url=http://localhost:8585
+remote=true
+url=http://$HOSTNAME:8585
 rounds=$(echo {1..1})
 #caps="{'platform':'ANY','version':'51.0.1','firefox_binary':'c:/Users/Administrator/Downloads/drivers/firefox/firefox.exe'}"
 #caps="{'firefox_binary':'c:/Users/Administrator/Downloads/drivers/firefox/firefox.exe'}"
@@ -54,7 +54,7 @@ for r in $rounds; do
  echo ===r$r
  for b in $browsers; do
    export cfg="{ 'capabilities':$caps,'Xwait':20,'remote':$remote,
-	       'hub':'http://localhost:4444/wd/hub','browser':'$b'}" #rdvmva91
+	       'hub':'http://rdvmva91:4444/wd/hub','browser':'$b'}" #rdvmva91
    echo "$cfg"
    for tx in $t; do
       #echo test $tx

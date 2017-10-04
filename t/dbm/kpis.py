@@ -48,7 +48,7 @@ try:
     #get to the kpis UI
     mws.navauth('bc')
     bc.navheadermenu('bc-label-mastheader-analytics')
-    bc.progressbar()
+    bc.spinwheel()
 
    #create expkpis
     for name,inputs in expkpis.items():
@@ -57,7 +57,7 @@ try:
 
     #validate kpis created
     kpis.clickmainmenu('refresh')
-    bc.progressbar()
+    bc.spinwheel()
 
     actkpis = kpis.getdetails()
 
@@ -73,15 +73,17 @@ try:
     for name,inputs in expkpis.items():
         kpis.clickmenu(name,'view')
         kpis.validate(name,inputs)
+        kpis.clickmenu(name,'name') #toggle-collapse instances table
 
     #validate kpi instances
     for name in expinstances:
         try:
             kpis.clickmenu(name,'name')
+            #input('cont..')
         except:
             tc('','fail','failed to nav kpi, skip it: ' + name)
             continue
-        bc.progressbar()
+        bc.spinwheel()
         kpis.validate_inst(name, expinstances[name]) #do the needful kpi instances validation
         kpis.clickmenu(name,'name') #toggle-collapse instances table
 

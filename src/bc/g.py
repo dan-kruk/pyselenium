@@ -1,5 +1,6 @@
 import g
 from g import tc
+from selenium.webdriver.support.ui import WebDriverWait
 #from time import sleep
 
 EC=g.EC; By=g.By; Keys=g.Keys; AC=g.ActionChains
@@ -93,13 +94,18 @@ def navheadermenu(name):
     g.wait.until(EC.element_to_be_clickable((By.XPATH,
         "//a[contains(@id,'"+name+"')]"))).click()
 
-def progressbar(): #progress bar overlays
+def spinwheel(timeout=20):
+    """block on progress bar (aka spinning wheel) up to @timeout
+    """
+    spins = False
+    xp = "//img[contains(@class,'case-loader-img') and not (contains(@class,'ng-hide'))]"
     try:
-        tc('progressbar probe')
-        e=g.wait3.until(EC.element_to_be_clickable((By.XPATH,
-            "//img[contains(@class,'case-loader-img')]")))
-        tc('progressbar stale')
-        g.wait20.until(EC.staleness_of(e))
+        tc('spin wheel probe')
+        e=g.wait3.until(EC.element_to_be_clickable((By.XPATH,xp)))
+        tc('spin wheel spins'); spins =True
     except:
-        tc('progressbar flick')
+        tc('spin wheel not seen')
+    if spins:
+        e=WebDriverWait(g.driver, timeout).until_not(EC.element_to_be_clickable((By.XPATH,xp)))
+
 
