@@ -9,7 +9,7 @@ SETUP
 
 pick 1 of 3 choices: Cygwin, Windows, Linux RH/Centos
 
-Cygwin: (yes - the best unix/mac like productive choice on windows os)
+Cygwin: (yes - simply the best unix/mac like productive choice on Windows)
 ------------------
 
 1. download Cygwin:
@@ -25,7 +25,7 @@ cd; git clone http://irepo.eur.ad.sag/scm/~dkrukov/pyselenium.git && cd pyseleni
 ./install_pyse_cygwin
 
 5. Some extras may be needed by legacy BVTs and tests (firefox46, jdk8, ant1.9):
-scp optimize@rdvmden54:/opt/sag/downloads/*{46,8u102,1.9.7}* .
+scp optimize@rdvmden54:/opt/sag/downloads/*{46,8u102,1.9.7}* . #pass: optimize
 install them with respective .exe or tar -xvf (ant)
 start firefox and disable all updates, should be v46 (for legacy BAMSelenium UI tests)
 add JAVA_HOME env var, add java and ant bin dirs to PATH, also add firefox install dir to PATH
@@ -36,7 +36,7 @@ java -jar slave.jar -jnlpUrl http://rdvmden113:8080/jenkins/computer/<slavename>
 
 ------------------
 
-Setup on Windows (not as optimal):
+Setup on Windows native (not as optimal as with Cygwin):
 ------------------
 1. install [python 3.5+](https://www.python.org/downloads)
 
@@ -73,7 +73,7 @@ On any platform - Install browsers support and optional hub (to run tests like o
 
 1. install ie, firefox, chrome, edge browsers as needed
 
-2. Install browers' drivers and selenium hub
+2. Install browsers' drivers and selenium hub
 
 ./hub install
 
@@ -124,15 +124,17 @@ WE NOW CAN
 
 - do lots of tests which are just as simple and informal to use as shown above
 
-- focus on building a very specific feature tests rather than object abstraction towers
+- focus on building a very specific feature tests rather than dead object abstraction towers
 
 - start coding far deep down under well implemented thin functional layers of UI navigation
 
 - utilize imperative/functional composition test design, rather than object oriented bloater
 
+- forget excess mapping and namespace ballooning
+
 - do all tests tiny (a few lines), razor sharp focused on 1 thing done very well, lightning fast (run for 30-60s or so)
 
-- principally - no state, and concurrency horror
+- principally - no state, and concurrency horribles
 
 - enjoy breezy maintanance
 
@@ -142,7 +144,7 @@ WE NOW CAN
 
 - document TC steps natural and ordered as they flow rather than typical ladder of object hierarchy abstractionist utopia
 
-- bundle tests up into arbitrary sized sets, loop and run it all parallel with simple scripts
+- bundle tests up into arbitrary sized sets, loop and run it all parallel with simple scripts w/o fancy/stupid "tooling"
 
 - stop using clumsy prop, csv, xls, xml, whatever else config files
 
