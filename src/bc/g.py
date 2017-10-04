@@ -85,3 +85,21 @@ def navapp(name):
     g.wait.until(EC.element_to_be_clickable((By.XPATH,
         ".//li[@class='dropdown cp hint--right ng-scope open']//a[@role='menuitem' and text()='"+name+"']"))).click()
 
+def navheadermenu(name):
+    """
+    navigate header menu item @name
+    """
+    tc('nav header menu -> '+name)
+    g.wait.until(EC.element_to_be_clickable((By.XPATH,
+        "//a[contains(@id,'"+name+"')]"))).click()
+
+def progressbar(): #progress bar overlays
+    try:
+        tc('progressbar probe')
+        e=g.wait3.until(EC.element_to_be_clickable((By.XPATH,
+            "//img[contains(@class,'case-loader-img')]")))
+        tc('progressbar stale')
+        g.wait20.until(EC.staleness_of(e))
+    except:
+        tc('progressbar flick')
+
