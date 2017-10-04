@@ -8,6 +8,8 @@ usage='
 
 	  env var: [host]	define host/ip for the node (may be needed on vpn)
 '
+#log cleanup
+#(while true; do (date; echo cleanup chromedriver logs; find /cygdrive/d/tmp -mtime +2|xargs rm -rf)& sleep 1d; done)&
 
 mkdir -p drivers
 cd drivers
