@@ -9,18 +9,21 @@ SECONDS=0
 
 browsers='chrome'
 remote=false
-url=http://rdvmden80:8585
+url=http://localhost:8585
 rounds=$(echo {1..1})
 #caps="{'platform':'ANY','version':'51.0.1','firefox_binary':'c:/Users/Administrator/Downloads/drivers/firefox/firefox.exe'}"
 #caps="{'firefox_binary':'c:/Users/Administrator/Downloads/drivers/firefox/firefox.exe'}"
-caps="{'platform':''}"
+caps="{'browser.download.folderList':2,'browser.download.manager.showWhenStarting':false,'browser.download.dir':'c:','browser.helperApps.neverAsk.saveToDisk':'text/xml'}"
 
 export login="{ 'url':'$url', 'Xusername':'dkrukov','Xpassword':'dkrukov' }"
 #export ccs="{ 'mapi_eda':'eda','dls':true,'Xdlscache':true,'saml':true }"
 
 
+#t=t/migration/exportenv.py
 #t=t/monitor_optimize_integration/smoke.py
 #t=t/dbm_demo/kpi_creation.py
+#t=t/dbm/test.py
+t=t/dbm/kpis.py
 #t=t/dbo_optimize_integration/problem_kpi.py
 #t=t/dbo_optimize_integration/problem_kpi2.py
 #t='t/dbo_optimize_integration/process_analytics.py t/dbo_optimize_integration/process_dashboards.py'
@@ -42,7 +45,7 @@ export login="{ 'url':'$url', 'Xusername':'dkrukov','Xpassword':'dkrukov' }"
 #t=t/mws/processanalytics/step_nav_example.py
 #t=t/mws/processanalytics/test.py
 #t=t/rootcontext/checkprocs.py
-t=t/rootcontext/chroot.py
+#t=t/rootcontext/chroot.py
 #t=t/rootcontext/toggle_dls.py
 #t=t/unit/tc.py
 
@@ -51,7 +54,7 @@ for r in $rounds; do
  echo ===r$r
  for b in $browsers; do
    export cfg="{ 'capabilities':$caps,'Xwait':20,'remote':$remote,
-	       'hub':'http://localhost:4444/wd/hub','browser':'$b'}"
+	       'hub':'http://localhost:4444/wd/hub','browser':'$b'}" #rdvmva91
    echo "$cfg"
    for tx in $t; do
       #echo test $tx
