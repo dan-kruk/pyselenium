@@ -36,8 +36,7 @@ def getdetails():
         #print(kpis)
     return kpis
 
-def create(
-
+def create( #params with defaults
     name = 'my abc kpi',
     inputs = {
         'description' : 'elephant tails','process' : 'Order To Cash',

@@ -5,6 +5,11 @@ import mwsm as mws
 import bc.g as bc
 import bc.gadgets.kpis as kpis
 
+
+"""test CRUD operations on kpis and instances
+    data to work on is below
+"""
+
 expkpis = {
 
     'measure multi dimensional illusionary realities' :
@@ -42,6 +47,8 @@ expinstances = {
     ],
 
 }
+
+#the above is test data, now run it, see comment lines for the steps and flow
 
 try:
 
