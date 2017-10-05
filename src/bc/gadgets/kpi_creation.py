@@ -3,24 +3,36 @@ from g import tc
 
 EC=g.EC; By=g.By; Keys=g.Keys; AC=g.ActionChains
 
+
+def clickkpisbar(item='create'):
+    """click + icon on KPIs list bar
+    """
+    tc('click '+item+' on kpibar')
+    xp = { 'create':'Create KPI',
+            #this is menu 'settings':"//div[@data-hint='']/...']",
+            'refresh':'Refresh',
+            'expand':'Expand/Collapse View'
+            }
+    g.wait.until(EC.element_to_be_clickable((By.XPATH,
+        "//div[@data-hint='"+xp[item]+"']/img"))).click()
+
 def create(
 
     inputs={
     'kpiName':'order amount',
     'description':'interesting order amount',
-    'process':'DBM Process',
-    'event':'OrderEntry (ProcessUpdate)',
-    'measure':'order_amount',
+    'process':'Order To Cash',
+    'measure':'OrderAmount',
     'uom':'likes',
-    'measureFormat':'Double: 0.00',
+    'kpiFormat':'Double: 0.00',
     'dimension':['Product'],
-    'interval':'15 minute',
+    'aggregationPeriod':'15 minute',
     'agg':'Maximum'
     },
 
     order=[
-    'kpiName','description','process','event','measure','uom','measureFormat',
-    'dimension','interval','agg','create','cancel'
+    'kpiName','description','process','measure','uom','kpiFormat',
+    'dimension','aggregationPeriod','agg','save','cancel'
     ]):
 
 
@@ -31,7 +43,7 @@ def create(
 
     for k in order:
 
-        tc('meet '+k+' : '+str(inputs.get(k,'whitespace')))
+        tc('meet '+k+' : '+str(inputs.get(k,'whitespace - missing inpit to click!')))
 
         #dimensions
         if k == 'dimension':
@@ -50,9 +62,9 @@ def create(
             continue
 
         #buttons
-        if k == 'create':
+        if k == 'save':
             g.wait.until(EC.element_to_be_clickable((By.XPATH,
-                "//button[text()='Create KPI']"))).click()
+                "//button[text()='Save']"))).click()
             continue
         if k == 'cancel':
             g.wait.until(EC.element_to_be_clickable((By.XPATH,
@@ -67,9 +79,10 @@ def create(
                 e.clear()
                 e.send_keys(inputs[k])
         if em in [
-                'process','event','measure','measureFormat','interval','agg'
+                'process','measure','kpiFormat','aggregationPeriod','agg'
                 ]:
                 e.click()
+                print('==='+inputs[k])
                 g.wait.until(EC.element_to_be_clickable((By.LINK_TEXT,
                     inputs[k]))).click()
 

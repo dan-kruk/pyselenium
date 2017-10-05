@@ -7,8 +7,8 @@ export JUNIT_PREFIX=abc_
 export LOGS=../logs
 SECONDS=0
 
-browsers='chrome'
-remote=true
+browsers='chrome '
+remote=false
 url=http://$HOSTNAME:8585
 rounds=$(echo {1..1})
 #caps="{'platform':'ANY','version':'51.0.1','firefox_binary':'c:/Users/Administrator/Downloads/drivers/firefox/firefox.exe'}"
@@ -21,9 +21,9 @@ export login="{ 'url':'$url', 'Xusername':'dkrukov','Xpassword':'dkrukov' }"
 
 #t=t/migration/exportenv.py
 #t=t/monitor_optimize_integration/smoke.py
-#t=t/dbm_demo/kpi_creation.py
+t=t/dbm/kpi_creation_demo.py
 #t=t/dbm/test.py
-t=t/dbm/kpis.py
+#t=t/dbm/kpis.py
 #t=t/dbo_optimize_integration/problem_kpi.py
 #t=t/dbo_optimize_integration/problem_kpi2.py
 #t='t/dbo_optimize_integration/process_analytics.py t/dbo_optimize_integration/process_dashboards.py'

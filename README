@@ -87,7 +87,7 @@ On any platform - Install browsers support and optional hub (to run tests like o
 
 -----------------
 
-Optional: On a dedicated host(s) around, install hub and nodes(as needed):
+Optional: On a dedicated host(s) around, install hub and nodes(as needed to scale and cover variety of browsers):
 -----------------
 wget http://irepo.eur.ad.sag/users/dkrukov/repos/pyselenium/raw/hub && chmod 755 hub
 
@@ -103,7 +103,9 @@ USAGE
 run DEMO for KPI Creation Gadget
 
 cd ~pyselenium
-./t/kpi_creation_demo
+export cfg="{'browser':'chrome'}" #this runs local on either chrome|firefox|edge|ie
+#export cfg="{ 'remote':true, 'hub':'http://rdvmva91:4444/wd/hub','browser':'chrome'}" #this runs on hub on respective browser
+python t/dbm/kpi_creation_demo.py
 
 IDE is optional, your choise of productivity
 
@@ -115,43 +117,10 @@ Project structure, t and src modules, t/test script productivity idea
 
 How to add test to jenkins
 
-How to be productive developing tests
+How to be super productive developing tests
 
 How to build full blown very focused complex feature test
 
 
-WE NOW CAN
-
-- do lots of tests which are just as simple and informal to use as shown above
-
-- focus on building a very specific feature tests rather than dead object abstraction towers
-
-- start coding far deep down under well implemented thin functional layers of UI navigation
-
-- utilize imperative/functional composition test design, rather than object oriented bloater
-
-- forget excess mapping and namespace ballooning
-
-- do all tests tiny (a few lines), razor sharp focused on 1 thing done very well, lightning fast (run for 30-60s or so)
-
-- principally - no state, and concurrency horribles
-
-- enjoy breezy maintanance
-
-- run and tune tests on all 3 (or more) browser types equally
-
-- run and tune tests under stress load conditions on beefy hub or local -no special arrangement or effort needed
-
-- document TC steps natural and ordered as they flow rather than typical ladder of object hierarchy abstractionist utopia
-
-- bundle tests up into arbitrary sized sets, loop and run it all parallel with simple scripts w/o fancy/stupid "tooling"
-
-- stop using clumsy prop, csv, xls, xml, whatever else config files
-
-- pass json snippets in env vars - it just works for ~all small, complex layered or iterative config needs
-
-- "tooling", "frameworking", "ide-ing", "osgi", dependencies and so on - a "taste" thing and is not necessary whatsoever
-
-
-BE PRODUCTIVE
+NOW WE NOW CAN BE PRODUCTIVE
 
