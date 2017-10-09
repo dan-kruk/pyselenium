@@ -28,7 +28,7 @@ else
    "-browser" "browserName=firefox,version=53,maxInstances=5,firefox_binary=c:\Users\Administrator\Downloads\drivers\firefox53\firefox.exe"
    "-browser" "browserName=firefox,version=50.0.1,maxInstances=5,firefox_binary=c:/browsers/firefox/50.0.1/firefox.exe"
    "-browser" "browserName=chrome,maxInstances=5"
-   "-browser" "browserName=internet explorer,maxInstances=1"
+   "-browser" "browserName=Xinternet explorer,maxInstances=1"
    )
 fi
 
