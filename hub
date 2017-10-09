@@ -24,9 +24,12 @@ if [ $? = 0 ]; then
    TWEAK_CAP=("-browser" "browserName=internet explorer,maxInstances=1"
    "-browser" "browserName=MicrosoftEdge,platform=WINDOWS,maxInstances=5")
 else
-   TWEAK_CAP=("-browser" "browserName=firefox,version=53,maxInstances=5,firefox_binary=c:\Users\Administrator\Downloads\drivers\firefox53\firefox.exe"
+   TWEAK_CAP=(
+   "-browser" "browserName=firefox,version=53,maxInstances=5,firefox_binary=c:\Users\Administrator\Downloads\drivers\firefox53\firefox.exe"
+   "-browser" "browserName=firefox,version=50.0.1,maxInstances=5,firefox_binary=c:/browsers/firefox/50.0.1/firefox.exe"
    "-browser" "browserName=chrome,maxInstances=5"
-   "-browser" "browserName=internet explorer,maxInstances=1")
+   "-browser" "browserName=internet explorer,maxInstances=1"
+   )
 fi
 
 trap 'kill -9 $(cat hpid) 2>/dev/null; cd -' INT TERM ERR
@@ -34,23 +37,29 @@ trap 'kill -9 $(cat hpid) 2>/dev/null; cd -' INT TERM ERR
 ss="selenium-server-*"
 
 #test -f $ss || wget -c --trust-server-names https://goo.gl/Lyo36k
-test -f $ss || wget http://selenium-release.storage.googleapis.com/3.4/selenium-server-standalone-3.4.0.jar
+v=3.6.0 #3.6.0 3.5.0 3.4.0
+test -f $ss || wget http://selenium-release.storage.googleapis.com/${v::3}/selenium-server-standalone-$v.jar
 
 test -f geckodriver.exe || {
-	wget -c https://github.com/mozilla/geckodriver/releases/download/v0.16.1/geckodriver-v0.16.1-win64.zip
-	jar -xvf geckodriver-v0.16.1-win64.zip || { echo  "unzip error, check bin/jar is in PATH"; kill -TERM $$; }
+	 v=0.16.1 #0.16.1 - ff53 0.19.0 - ff56
+	wget -c https://github.com/mozilla/geckodriver/releases/download/v$v/geckodriver-v$v-win64.zip
+	jar -xvf geckodriver-v$v-win64.zip || { echo  "unzip error, check bin/jar is in PATH"; kill -TERM $$; }
 }
 test -f chromedriver.exe || {
-	wget -c http://chromedriver.storage.googleapis.com/2.29/chromedriver_win32.zip
+	 v=2.33 #2.29 2.33
+	wget -c http://chromedriver.storage.googleapis.com/$v/chromedriver_win32.zip
 	jar -xvf chromedriver_win32.zip
 }
 test -f IEDriverServer.exe || {
-	#wget -c http://selenium-release.storage.googleapis.com/2.53/IEDriverServer_Win32_2.53.1.zip
-	wget -c http://selenium-release.storage.googleapis.com/3.4/IEDriverServer_Win32_3.4.0.zip
-	jar -xvf IEDriverServer_Win32_3.4.0.zip
+	 v=3.6.0 #3.4.0 3.6.0
+	wget -c http://selenium-release.storage.googleapis.com/${v::3}/IEDriverServer_Win32_$v.zip
+	jar -xvf IEDriverServer_Win32_$v.zip
 }
 test -f MicrosoftWebDriver.exe || {
+	#r14393
 	wget -c https://download.microsoft.com/download/3/2/D/32D3E464-F2EF-490F-841B-05D53C848D15/MicrosoftWebDriver.exe
+	#r15063
+	#wget -c https://download.microsoft.com/download/3/4/2/342316D7-EBE0-4F10-ABA2-AE8E0CDF36DD/MicrosoftWebDriver.exe
 	#edge v15 wget -c https://download.microsoft.com/download/3/4/2/342316D7-EBE0-4F10-ABA2-AE8E0CDF36DD/MicrosoftWebDriver.exe
 }
 
