@@ -1,25 +1,41 @@
 #!/bin/bash
 
-#install py and selenium from source on rhel or centos
-V=3.6.1 #3.5.2
+set -e #strict on error
 
-test "$USER" = root || { echo error: run as root; exit 1; }
+#install python from source and selenium module on rhel or centos
+V=3.6.1 #3.5.2
+S=3.5.0 #selenium module
+
+test "$USER" = root || { echo error: run as root; false; }
+
 yum install gcc zlib-devel bzip2-devel sqlite sqlite-devel openssl-devel
-cd /usr/src
+
+( cd /usr/src
 wget https://www.python.org/ftp/python/$V/Python-$V.tgz -O - | tar -zx
 cd Python-$V
 ./configure
 make altinstall
-rm -rf /usr/local/bin/python
-ln -s /usr/local/bin/python${V:0:3} /usr/local/bin/python
-python -V | grep $V || { echo error: wrong py version in path; exit 1; }
-python -m pip install selenium==3.3.1 && echo success
+)
 
-grep PYTHONPATH= ~/.bashrc >/dev/null || echo export PYTHONPATH=src >> ~/.bashrc
+#link switch breaks e.g yum and other 2.7 python dependent system stuff
+#for l in /usr/{,local}/bin/python
+#do
+##rm -rf $l
+##ln -s /usr/local/bin/python${V:0:3} $l
+#done
+
+/usr/local/bin/python${V:0:3} -V | grep $V || { echo error: python $V fail check; false; }
+/usr/local/bin/python${V:0:3} -m pip install selenium==$S
+
+grep PYTHONPATH= ../.bashrc || echo export PYTHONPATH=src >> ../.bashrc
+#set alias to access python command instead of sym links
+grep 'alias python=' ../.bashrc || echo  alias python=/usr/local/bin/python${V:0:3} >> ../.bashrc
 
 #clone pyselenium and friendly projects
-cd; for r in bvtlite pyselenium confbucket; do
- git clone http://irepo.eur.ad.sag/scm/~dkrukov/$r.git
+cd ../; for r in bvtlite pyselenium confbucket; do
+ git clone http://irepo.eur.ad.sag/scm/~dkrukov/$r.git ||:
 done
 
-
+echo "
+	completed OK
+"
