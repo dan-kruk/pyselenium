@@ -10,12 +10,12 @@ test "$USER" = root || { echo error: run as root; false; }
 
 yum install gcc zlib-devel bzip2-devel sqlite sqlite-devel openssl-devel
 
-( cd /usr/src
-wget https://www.python.org/ftp/python/$V/Python-$V.tgz -O - | tar -zx
-cd Python-$V
-./configure
-make altinstall
-)
+#( cd /usr/src
+#wget https://www.python.org/ftp/python/$V/Python-$V.tgz -O - | tar -zx
+#cd Python-$V
+#./configure
+#make altinstall
+#)
 
 #link switch breaks e.g yum and other 2.7 python dependent system stuff
 #for l in /usr/{,local}/bin/python
@@ -27,12 +27,19 @@ make altinstall
 /usr/local/bin/python${V:0:3} -V | grep $V || { echo error: python $V fail check; false; }
 /usr/local/bin/python${V:0:3} -m pip install selenium==$S
 
-grep PYTHONPATH= ../.bashrc || echo export PYTHONPATH=src >> ../.bashrc
-#set alias to access python command instead of sym links
-grep 'alias python=' ../.bashrc || echo  alias python=/usr/local/bin/python${V:0:3} >> ../.bashrc
+cd .. #go home
+
+grep PYTHONPATH= .bashrc || echo export PYTHONPATH=src >> .bashrc
+#export funct to access python command instead of sym links
+grep 'function python' .bashrc || echo "
+function python () {
+/usr/local/bin/python${V:0:3} \$@
+}
+declare -fx python
+" >> .bashrc
 
 #clone pyselenium and friendly projects
-cd ../; for r in bvtlite pyselenium confbucket; do
+for r in bvtlite pyselenium confbucket; do
  git clone http://irepo.eur.ad.sag/scm/~dkrukov/$r.git ||:
 done
 
