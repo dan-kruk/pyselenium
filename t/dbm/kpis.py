@@ -63,7 +63,7 @@ try:
         kpis.create(name,inputs,order)
 
     #validate kpis created
-    kpis.clickmainmenu('refresh')
+    #kpis.clickmainmenu('refresh') #this causes page staleness
     bc.spinwheel()
 
     actkpis = kpis.getdetails()
