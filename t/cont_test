@@ -7,7 +7,7 @@ export PYTHONIOENCODING=utf-8
 #export LOGS=../logs
 SECONDS=0
 
-browsers='firefox chrome'
+browsers='firefox chrome edge ie'
 remote=true
 url=http://$HOSTNAME:8585
 rounds=$(echo {1..1})
