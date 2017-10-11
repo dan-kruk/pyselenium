@@ -9,39 +9,31 @@ SETUP
 
 pick 1 of 3 choices: Cygwin, Windows, Linux RH/Centos
 
-Cygwin: (yes - simply the best unix/mac like productive choice on Windows)
+Cygwin: (recommend it - the best unix/mac like productive choice on Windows)
 ------------------
 
 1. download Cygwin:
 http://cygwin.com/setup-x86_64.exe
+
 2. run command in dos cmd window:
 setup-x86_64.exe -q -P nc,wget,vim,git,subversion,openssh,python3
+
 3. prefix Windows system PATH with:
 c:\cygwin64\bin;
 
 4. Run command in Cygwin terminal:
-
 cd; git clone http://irepo.eur.ad.sag/scm/~dkrukov/pyselenium.git && cd pyselenium
 ./install_pyse_cygwin
-
-5. Some extras may be needed by legacy BVTs and tests (firefox46, jdk8, ant1.9):
-scp optimize@rdvmden54:/opt/sag/downloads/*{46,8u102,1.9.7}* . #pass: optimize
-install them with respective .exe or tar -xvf (ant)
-start firefox and disable all updates, should be v46 (for legacy BAMSelenium UI tests)
-add JAVA_HOME env var, add java and ant bin dirs to PATH, also add firefox install dir to PATH
-
-6. if jenkins is needed, start it like this (change <slavename> appropriately)
-wget http://rdvmden113:8080/jenkins/jnlpJars/slave.jar -O- > slave.jar
-java -jar slave.jar -jnlpUrl http://rdvmden113:8080/jenkins/computer/<slavename>/slave-agent.jnlp
 
 ------------------
 
 Setup on Windows native (not as optimal as with Cygwin):
 ------------------
+
 1. install [python 3.5+](https://www.python.org/downloads)
 
 2. install selenium module using command:
-python -m pip install selenium==3.3.1
+python -m pip install selenium==3.5.0
 
 3. prepend system env PATH variable with the following:
 
@@ -73,17 +65,27 @@ On any platform - Install browsers support and optional hub (to run tests like o
 
 1. install ie, firefox, chrome, edge browsers as needed
 
-2. Install browsers' drivers and selenium hub
+2. Install browsers' drivers and selenium hub using command:
 
 ./hub install
 
-2. Optional - you may also launch hub on your local for test purposes:
+3. Optional - you may also launch hub on your local for test purposes:
    to run Selenium hub use one of these commands:
 
 ./hub		#starts hub and node
 ./hub hub	#starts just hub
 ./hub node	#starts just node which points to local hub
 ./hub node host:port	#starts just node, which points remote host:port hub; standard port is 4444
+
+4. if jenkins is needed, start it like this (change <slavename> appropriately)
+wget http://rdvmden113:8080/jenkins/jnlpJars/slave.jar -O- > slave.jar
+java -jar slave.jar -jnlpUrl http://rdvmden113:8080/jenkins/computer/<slavename>/slave-agent.jnlp
+
+5. DEPRECATED: Some extras may be needed by legacy BVTs and tests (firefox46, jdk8, ant1.9):
+scp optimize@rdvmden54:/opt/sag/downloads/*{46,8u102,1.9.7}* . #pass: optimize
+install them with respective .exe or tar -xvf (ant)
+start firefox and disable all updates, should be v46 (for legacy BAMSelenium UI tests)
+add JAVA_HOME env var, add java and ant bin dirs to PATH, also add firefox install dir to PATH
 
 -----------------
 
@@ -105,22 +107,21 @@ run DEMO for KPI Creation Gadget
 cd ~pyselenium
 export cfg="{'browser':'chrome'}" #this runs local on either chrome|firefox|edge|ie
 #export cfg="{ 'remote':true, 'hub':'http://rdvmva91:4444/wd/hub','browser':'chrome'}" #this runs on hub on respective browser
-python t/dbm/kpi_creation_demo.py
+python -u t/dbm/kpi_creation_demo.py
 
-IDE is optional, your choise of productivity
 
 TODO
 
 a few more DEMO tests
 
-Project structure, t and src modules, t/test script productivity idea
+explain a simple "thin crust" Project structure, t/* and src/* modules, t/test wrapper script productivity idea
 
 How to add test to jenkins
 
-How to be super productive developing tests
+How to develop and fix tests fast
 
-How to build full blown very focused complex feature test
+How to build full blown very focused yet complex feature tests
 
 
-NOW WE NOW CAN BE PRODUCTIVE
+WE NOW CAN BE PRODUCTIVE
 
