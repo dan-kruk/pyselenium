@@ -60,9 +60,13 @@ Setup on Linux RH/Centos:
 cd; git clone http://irepo.eur.ad.sag/scm/~dkrukov/pyselenium.git && cd pyselenium
 ./install_pyse_rh
 
+Note: no need to have browsers and X-GUI setup on linux at all
+      instead, you may run tests remotely on a selenium hub. See hub install info below
+
 ------------------
 
-On any platform - Install browsers support and optional hub (to run tests like on remote hub):
+On any platform - Install browsers support and optional hub
+This allows to run tests on local hub or remote hub:
 
 ------------------
 
@@ -72,28 +76,18 @@ On any platform - Install browsers support and optional hub (to run tests like o
 
 ./hub install
 
-3. Optional - you may also launch hub on your local for test purposes:
+3. Optional - you may also launch hub on your local(laptop etc) for test purposes:
    to run Selenium hub use one of these commands:
 
 ./hub		#starts hub and node
-./hub hub	#starts just hub
-./hub node	#starts just node which points to local hub
-./hub node host:port	#starts just node, which points remote host:port hub; standard port is 4444
-
-4. if jenkins is needed, start it like this (change <slavename> appropriately)
-wget http://rdvmden113:8080/jenkins/jnlpJars/slave.jar -O- > slave.jar
-java -jar slave.jar -jnlpUrl http://rdvmden113:8080/jenkins/computer/<slavename>/slave-agent.jnlp
-
-5. DEPRECATED: Some extras may be needed by legacy BVTs and tests (firefox46, jdk8, ant1.9):
-scp optimize@rdvmden54:/opt/sag/downloads/*{46,8u102,1.9.7}* . #pass: optimize
-install them with respective .exe or tar -xvf (ant)
-start firefox and disable all updates, should be v46 (for legacy BAMSelenium UI tests)
-add JAVA_HOME env var, add java and ant bin dirs to PATH, also add firefox install dir to PATH
 
 -----------------
 
-Optional: On a dedicated host(s) around, install hub and nodes(as needed to scale and cover variety of browsers):
+Optional: on a dedicated host(s) around, install selenium hub and nodes
+	  this will scale (on BVT) and cover variety of browsers
+
 -----------------
+
 wget http://irepo.eur.ad.sag/users/dkrukov/repos/pyselenium/raw/hub && chmod 755 hub
 
    to run Selenium hub use one of these commands:
@@ -103,13 +97,20 @@ wget http://irepo.eur.ad.sag/users/dkrukov/repos/pyselenium/raw/hub && chmod 755
 ./hub node	#starts just node which points to local hub
 ./hub node host:port	#starts just node, which points remote host:port hub; standard port is 4444
 
+-----------------
+
 USAGE
 
-run Demo for KPI Creation Gadget
+-----------------
+
+try run Demo for KPI Creation Gadget:
 
 cd ~pyselenium
+
 export cfg="{'browser':'chrome'}" #this runs local on either chrome|firefox|edge|ie
-#export cfg="{ 'remote':true, 'hub':'http://rdvmva91:4444/wd/hub','browser':'chrome'}" #this runs on hub on respective browser
+
+#export cfg="{ 'remote':true, 'hub':'http://rdvmva91:4444/wd/hub','browser':'chrome'}" #this runs on hub and respective browser
+
 python -u t/dbm/kpi_creation_demo.py
 
 
@@ -117,9 +118,11 @@ TODO
 
 a few more DEMO tests
 
-explain a simple "thin crust" Project structure, t/* and src/* modules, t/test wrapper script productivity idea
+explain a simple "ultra thin crust" project structure - t/* and src/* modules
 
-How to add test to jenkins
+t/test wrapper script "tight dev->test loop" productivity idea - for all browsers, all known tests, local or remote and more
+
+How to add a test to jenkins
 
 How to develop and fix tests fast
 
