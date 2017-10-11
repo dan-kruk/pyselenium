@@ -105,7 +105,7 @@ wget http://irepo.eur.ad.sag/users/dkrukov/repos/pyselenium/raw/hub && chmod 755
 
 USAGE
 
-run DEMO for KPI Creation Gadget
+run Demo for KPI Creation Gadget
 
 cd ~pyselenium
 export cfg="{'browser':'chrome'}" #this runs local on either chrome|firefox|edge|ie
