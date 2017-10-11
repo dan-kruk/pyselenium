@@ -55,7 +55,7 @@ rm -rf /tmp/ec
 for r in $rounds; do
  echo ===r$r
  for b in $browsers; do
-   export cfg="{ 'capabilities':${caps:-''},'Xwait':20,'remote':$remote,'hub':'http://localhost:4444/wd/hub','browser':'$b'}" #rdvmva91
+   export cfg="{ 'capabilities':${caps:-''},'Xwait':20,'remote':$remote,'hub':'http://rdvmva91:4444/wd/hub','browser':'$b'}" #rdvmva91
    echo "$cfg"
    for tx in $t; do
       #echo test $tx
