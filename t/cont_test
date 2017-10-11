@@ -59,6 +59,7 @@ for r in $rounds; do
    echo "$cfg"
    for tx in $t; do
       #echo test $tx
+      export JUNIT_PREFIX=${tx}_${b}_
       (SECONDS=0; python -u $tx | tee /tmp/slog
        ec=${PIPESTATUS[0]}; echo ===$b ret: $ec took $SECONDS/s\
 	  | tee -a /tmp/slog; echo $ec >> /tmp/ec; sleep 1)
