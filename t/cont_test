@@ -1,0 +1,72 @@
+#!/bin/bash
+
+export PYTHONIOENCODING=utf-8
+#export JENKINS_URL=fakeone
+#export JUNIT_PKG=generic
+#export JUNIT_PREFIX=abc_
+#export LOGS=../logs
+SECONDS=0
+
+browsers='firefox chrome'
+remote=true
+url=http://$HOSTNAME:8585
+rounds=$(echo {1..1})
+#caps="{'platform':'ANY','version':'51.0.1','firefox_binary':'c:/Program Files(x86)/Mozilla Firefox/firefox.exe'}"
+#caps="{'firefox_binary':'c:/Program Files (x86)/Mozilla Firefox/firefox.exe'}"
+#caps="{'platform':'ANY','version':'51.0.1','firefox_binary':'c:/Users/Administrator/Downloads/drivers/firefox/firefox.exe'}"
+#caps="{'version':'50.0.1','firefox_binary':'c:/browsers/firefox/50.0.1/firefox.exe'}"
+#caps="{'browser.download.folderList':2,'browser.download.manager.showWhenStarting':false,'browser.download.dir':'c:','browser.helperApps.neverAsk.saveToDisk':'text/xml'}"
+
+export login="{ 'url':'$url', 'Xusername':'dkrukov','Xpassword':'dkrukov' }"
+#export ccs="{ 'mapi_eda':'eda','dls':true,'Xdlscache':true,'saml':true }"
+
+
+#t=t/migration/exportenv.py
+#t=t/monitor_optimize_integration/smoke.py
+#t=t/dbm/kpi_creation_demo.py
+#t=t/dbm/test.py
+t=t/dbm/kpis.py
+#t=t/dbo_optimize_integration/problem_kpi.py
+#t=t/dbo_optimize_integration/problem_kpi2.py
+#t='t/dbo_optimize_integration/process_analytics.py t/dbo_optimize_integration/process_dashboards.py'
+#t=t/ccs/ccs_config.py
+#t=t/dashboards/example.py
+#t=t/dbo_optimize_integration/configure_bc.py
+#t=t/dbo_optimize_integration/enable_process.py
+#t=t/dbo_optimize_integration/enable_process_please.py
+#t=t/dbo_optimize_integration/focus_example.py
+#t=t/dbo_optimize_integration/play.py
+#t=t/dbo_optimize_integration/process_analytics.py
+#t=t/dbo_optimize_integration/process_dashboards.py
+#t=t/dbo_optimize_integration/test.py
+#t=t/dbo_optimize_integration/toggle_mapi_eda.py
+#t=t/dbo_optimize_integration/validate_stages.py
+#t=t/mws/ccs/toggle_saml_dls.py
+#t=t/mws/examples/feature.py
+#t=t/mws/processanalytics/play.py
+#t=t/mws/processanalytics/step_nav_example.py
+#t=t/mws/processanalytics/test.py
+#t=t/rootcontext/checkprocs.py
+#t=t/rootcontext/chroot.py
+#t=t/rootcontext/toggle_dls.py
+#t=t/unit/tc.py
+
+rm -rf /tmp/ec
+for r in $rounds; do
+ echo ===r$r
+ for b in $browsers; do
+   export cfg="{ 'capabilities':${caps:-''},'Xwait':20,'remote':$remote,'hub':'http://localhost:4444/wd/hub','browser':'$b'}" #rdvmva91
+   echo "$cfg"
+   for tx in $t; do
+      #echo test $tx
+      (SECONDS=0; python -u $tx | tee /tmp/slog
+       ec=${PIPESTATUS[0]}; echo ===$b ret: $ec took $SECONDS/s\
+	  | tee -a /tmp/slog; echo $ec >> /tmp/ec; sleep 1)
+   done
+ done; wait
+done
+
+echo grand ret: \
+ $(awk 'BEGIN {fail=0} {if ($1!=0) fail++; l=l" "$0; cnt++} END {print l" cnt/fail: "cnt"/"fail}' /tmp/ec)\
+ took $SECONDS round avg: $((SECONDS/$(echo $rounds|wc -w)))
+
