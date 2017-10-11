@@ -9,7 +9,8 @@ SETUP
 
 pick 1 of 3 choices: Cygwin, Windows, Linux RH/Centos
 
-Cygwin: (just do it - the best unix/mac like productive choice on Windows)
+Setup on Cygwin: (just do it - the best unix/mac like productive choice on Windows)
+
 ------------------
 
 1. download Cygwin:
@@ -28,6 +29,7 @@ cd; git clone http://irepo.eur.ad.sag/scm/~dkrukov/pyselenium.git && cd pyseleni
 ------------------
 
 Setup on Windows native (not as optimal as with Cygwin):
+
 ------------------
 
 1. install [python 3.5+](https://www.python.org/downloads)
@@ -50,6 +52,7 @@ Note: adjust PATH elements above for your version of python
 ------------------
 
 Setup on Linux RH/Centos:
+
 ------------------
 
 1. ensure git package is installed
