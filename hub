@@ -60,7 +60,6 @@ test -f MicrosoftWebDriver.exe || {
 	wget -c https://download.microsoft.com/download/3/2/D/32D3E464-F2EF-490F-841B-05D53C848D15/MicrosoftWebDriver.exe
 	#r15063
 	#wget -c https://download.microsoft.com/download/3/4/2/342316D7-EBE0-4F10-ABA2-AE8E0CDF36DD/MicrosoftWebDriver.exe
-	#edge v15 wget -c https://download.microsoft.com/download/3/4/2/342316D7-EBE0-4F10-ABA2-AE8E0CDF36DD/MicrosoftWebDriver.exe
 }
 
 chmod 755 *.exe
