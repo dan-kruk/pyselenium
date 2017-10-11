@@ -21,6 +21,7 @@ if not os.path.exists(LOGS): os.makedirs(LOGS)
 
 JUNIT_PKG=os.environ.get('JUNIT_PKG')
 JUNIT_PREFIX=os.environ.get('JUNIT_PREFIX','')
+JUNIT_PREFIX=re.sub('[^a-zA-Z0-9-]','_',JUNIT_PREFIX
 
 MODULE=sys.argv[0].split('/')
 if len(MODULE) >1:
