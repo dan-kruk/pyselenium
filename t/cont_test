@@ -9,7 +9,7 @@ SECONDS=0
 
 browsers=${browsers:-'firefox chrome edge ie'}
 remote=true
-url=http://$HOSTNAME:8585
+url=http://${hostname:-$HOSTNAME}:8585
 rounds=$(echo {1..1})
 #caps="{'platform':'ANY','version':'51.0.1','firefox_binary':'c:/Program Files(x86)/Mozilla Firefox/firefox.exe'}"
 #caps="{'firefox_binary':'c:/Program Files (x86)/Mozilla Firefox/firefox.exe'}"
