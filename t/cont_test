@@ -7,7 +7,7 @@ export PYTHONIOENCODING=utf-8
 #export LOGS=../logs
 SECONDS=0
 
-browsers='firefox chrome edge ie'
+browsers=${browsers:-'firefox chrome edge ie'}
 remote=true
 url=http://$HOSTNAME:8585
 rounds=$(echo {1..1})
@@ -55,6 +55,7 @@ rm -rf /tmp/ec
 for r in $rounds; do
  echo ===r$r
  for b in $browsers; do
+   export cfg="{ ${caps:+'capabilities':$caps,}'Xwait':20,'remote':$remote,'hub':'http://rdvmva91:4444/wd/hub','browser':'$b'}" #rdvmva91
    export cfg="{ 'capabilities':${caps:-''},'Xwait':20,'remote':$remote,'hub':'http://rdvmva91:4444/wd/hub','browser':'$b'}" #rdvmva91
    echo "$cfg"
    for tx in $t; do

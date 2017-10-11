@@ -7,13 +7,15 @@ export JUNIT_PREFIX=abc_
 export LOGS=../logs
 SECONDS=0
 
-browsers='chrome '
+browsers='chrome'
 remote=false
 url=http://$HOSTNAME:8585
 rounds=$(echo {1..1})
+#caps="{'platform':'ANY','version':'51.0.1','firefox_binary':'c:/Program Files(x86)/Mozilla Firefox/firefox.exe'}"
+#caps="{'firefox_binary':'c:/Program Files (x86)/Mozilla Firefox/firefox.exe'}"
 #caps="{'platform':'ANY','version':'51.0.1','firefox_binary':'c:/Users/Administrator/Downloads/drivers/firefox/firefox.exe'}"
-#caps="{'firefox_binary':'c:/Users/Administrator/Downloads/drivers/firefox/firefox.exe'}"
-caps="{'browser.download.folderList':2,'browser.download.manager.showWhenStarting':false,'browser.download.dir':'c:','browser.helperApps.neverAsk.saveToDisk':'text/xml'}"
+#caps="{'version':'50.0.1','firefox_binary':'c:/browsers/firefox/50.0.1/firefox.exe'}"
+#caps="{'browser.download.folderList':2,'browser.download.manager.showWhenStarting':false,'browser.download.dir':'c:','browser.helperApps.neverAsk.saveToDisk':'text/xml'}"
 
 export login="{ 'url':'$url', 'Xusername':'dkrukov','Xpassword':'dkrukov' }"
 #export ccs="{ 'mapi_eda':'eda','dls':true,'Xdlscache':true,'saml':true }"
@@ -21,9 +23,9 @@ export login="{ 'url':'$url', 'Xusername':'dkrukov','Xpassword':'dkrukov' }"
 
 #t=t/migration/exportenv.py
 #t=t/monitor_optimize_integration/smoke.py
-t=t/dbm/kpi_creation_demo.py
+#t=t/dbm/kpi_creation_demo.py
 #t=t/dbm/test.py
-#t=t/dbm/kpis.py
+t=t/dbm/kpis.py
 #t=t/dbo_optimize_integration/problem_kpi.py
 #t=t/dbo_optimize_integration/problem_kpi2.py
 #t='t/dbo_optimize_integration/process_analytics.py t/dbo_optimize_integration/process_dashboards.py'
@@ -53,8 +55,7 @@ rm -rf /tmp/ec
 for r in $rounds; do
  echo ===r$r
  for b in $browsers; do
-   export cfg="{ 'capabilities':$caps,'Xwait':20,'remote':$remote,
-	       'hub':'http://rdvmva91:4444/wd/hub','browser':'$b'}" #rdvmva91
+   export cfg="{ ${caps:+'capabilities':$caps,}'Xwait':20,'remote':$remote,'hub':'http://localhost:4444/wd/hub','browser':'$b'}" #rdvmva91
    echo "$cfg"
    for tx in $t; do
       #echo test $tx
