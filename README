@@ -9,7 +9,7 @@ SETUP
 
 pick 1 of 3 choices: Cygwin, Windows, Linux RH/Centos
 
-Setup on Cygwin: (just do it - the best unix/mac like productive choice on Windows)
+Setup on Cygwin: (just do it - the best unix/mac like choice to overcome Windows idiosyncrasies )
 
 ------------------
 
@@ -17,7 +17,7 @@ Setup on Cygwin: (just do it - the best unix/mac like productive choice on Windo
 http://cygwin.com/setup-x86_64.exe
 
 2. run command in dos cmd window:
-setup-x86_64.exe -q -P nc,wget,vim,git,subversion,openssh,python3
+setup-x86_64.exe -q -P nc,wget,vim,git,subversion,openssh,python3,zip,unzip
 
 3. prefix Windows system PATH with:
 c:\cygwin64\bin;
@@ -77,7 +77,7 @@ This allows to run tests on local hub or remote hub:
 ./hub install
 
 3. Optional - you may also launch hub on your local(laptop etc) for test purposes:
-   to run Selenium hub use one of these commands:
+   to run Selenium hub, run command:
 
 ./hub		#starts hub and node
 
@@ -103,7 +103,7 @@ USAGE
 
 -----------------
 
-try run Demo for KPI Creation Gadget:
+try run Demo for KPI Creation Gadget(requires DBM UI running on your machine):
 
 cd ~pyselenium
 

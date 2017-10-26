@@ -17,7 +17,7 @@ test -f /usr/bin/python3 || { echo error: python3 is not installed; exit 1; }
 rm -rf /usr/bin/python
 ln -s /usr/bin/python3 /usr/bin/python
 python -m ensurepip
-python -m pip install selenium==3.3.1
+python -m pip install selenium==3.5.0
 grep PYTHONPATH= ~/.bashrc >/dev/null || echo export PYTHONPATH=src >> ~/.bashrc
 
 #clone pyselenium and friendly projects
