@@ -68,13 +68,21 @@ def prep():
         capabilities = {'ie':cpb.INTERNETEXPLORER,'firefox':cpb.FIREFOX,'chrome':cpb.CHROME, 'edge':cpb.EDGE} [cfg['browser']]
         if cfg['browser'] == 'ie':  #ie needs some tweaks
             cfg['capabilities'].update(
-                {'requireWindowFocus':'true','InternetExplorerDriver.INTRODUCE_FLAKINESS_BY_IGNORING_SECURITY_DOMAINS':'true'}
+                {'requireWindowFocus':'true',
+                 'InternetExplorerDriver.INTRODUCE_FLAKINESS_BY_IGNORING_SECURITY_DOMAINS':'true'}
         )
+
         capabilities.update(cfg['capabilities'])
         print ('*capabilities:',capabilities)
         driver = wd.Remote(cfg['hub'], capabilities)
     else:
-        driver = {'firefox':wd.Firefox,'chrome':wd.Chrome,'ie': wd.Ie} [cfg['browser']] ()
+        if cfg['browser'] == 'firefox':
+            from selenium.webdriver.firefox.firefox_profile import FirefoxProfile
+            profile = FirefoxProfile()
+            profile.set_preference("browser.helperApps.neverAsk.saveToDisk", 'text/xml')
+            driver = wd.Firefox(firefox_profile=profile)
+        else:
+            driver = {'firefox':wd.Firefox,'chrome':wd.Chrome,'ie': wd.Ie} [cfg['browser']] ()
 
     FF = True if cfg['browser'] == 'firefox' else False
 
@@ -145,6 +153,15 @@ def focus(n=0):
     driver.switch_to.window(driver.window_handles[n])
     tc('focused on window:'+str(n)+' '+driver.current_window_handle\
             +' '+driver.title)
+
+def disappear(handles=[]):
+    """wait for any win handle in handles[] to disappear, ret current handles[]"""
+    while 1:
+        for w in handles:
+            newhandles = driver.window_handles
+            if w not in newhandles:
+               return newhandles
+        sleep(.1)
 
 def error():
     global ret; ret = 1
