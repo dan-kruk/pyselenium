@@ -5,19 +5,23 @@ import mws.ccs as c
 
 try:
 
-    op = loadenv('op',{'what':'export import deploy','rel':'910'})
-    env={'name':'BVTEnv','#migrate':True}
+    env = loadenv('env',
+            {'what':'[export import deploy]','rel':'910','name':'BVTEnv',
+                'exp_dir':'//rdvmva91/Downloads','migrate':True
+            })
 
     navauth('DefineEnvironments')
 
     for r in range(0,1):
-        for what in op.get('what').split():
+        for what in env.get('what'):
             if what == 'export':
                 c.navenv(env, False)
-                env['file'] = c.exportenv(env['name'],op['rel'])
-                #print (env['file'])
+                env['file'] = c.exportenv(env)
+                print (env['file'])
             elif what == 'import':
                 before = c.envnames()
+                env['file'] = env['exp_dir']+'/ExportedEnvironments'+env['rel']+'.xml'
+                #env['file'] = 'c:\\Users\\Administrator\\Downloads\\ExportedEnvironments96.xml'
                 c.importenv(env)
                 name = None
                 for k in c.envnames().keys():

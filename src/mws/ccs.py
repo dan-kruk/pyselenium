@@ -193,7 +193,7 @@ def envnames():
     x = "//span/a[contains(@href,'webm.apps.config.env')] | //*[contains(text(),'No Environments Defined')]"
     e = g.wait.until(EC.visibility_of_all_elements_located((By.XPATH, x)))
     if "No Environments Defined" in e[0].text:
-        return []
+        return {}
     try: #reset to the 1st page
         o = g.driver.find_element(By.LINK_TEXT,'1')
         o.click()
@@ -448,14 +448,15 @@ def deploy(d,a='Deploy All'): #a: Deploy Updates | Deploy All
 def mapendpoints(d):
     pass
 
-def exportenv(e,rel):
-    """export env @e for @rel; ret @filename"""
+def exportenv(env):
+    """export env.name for env.rel; ret exported filename"""
+    e = env['name']
     tc('export env '+e)
     xe="//*[text()='"+e+"']/preceding::td[1]/input"
     g.wait.until(EC.element_to_be_clickable((By.XPATH, xe))).click()
     import glob,os
-    base = 'c:/Users/dkrukov/Downloads/ExportedEnvironments'
-    out = base+rel+'_test.xml'
+    base = env['exp_dir']+'/ExportedEnvironments'
+    out = base+env['rel']+'.xml'
     wildcard = base+'*.xml'
     before = glob.glob(wildcard)
     x="//*[@value='Export Environment...']"
