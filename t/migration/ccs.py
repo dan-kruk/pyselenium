@@ -23,7 +23,6 @@ try:
                 env['file'] = env['exp_dir']+'/ExportedEnvironments'+env['rel']+'.xml'
                 #env['file'] = 'c:\\Users\\Administrator\\Downloads\\ExportedEnvironments96.xml'
                 c.importenv(env)
-                name = None
                 for k in c.envnames().keys():
                     if k not in before:
                         env['name'] = k
