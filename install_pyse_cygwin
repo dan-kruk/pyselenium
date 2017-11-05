@@ -22,6 +22,6 @@ grep PYTHONPATH= ~/.bashrc >/dev/null || echo export PYTHONPATH=src >> ~/.bashrc
 
 #clone pyselenium and friendly projects
 cd; for r in bvtlite pyselenium confbucket; do
- git clone http://irepo.eur.ad.sag/scm/~dkrukov/$r.git
+ git clone https://github.com/dan-kruk/pyselenium.git
 done
 

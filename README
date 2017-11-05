@@ -23,7 +23,7 @@ setup-x86_64.exe -q -P nc,wget,vim,git,subversion,openssh,python3,zip,unzip
 c:\cygwin64\bin;
 
 4. Run command in Cygwin terminal:
-cd; git clone http://irepo.eur.ad.sag/scm/~dkrukov/pyselenium.git && cd pyselenium
+cd; git clone https://github.com/dan-kruk/pyselenium.git && cd pyselenium
 ./install_pyse_cygwin
 
 ------------------
@@ -47,7 +47,7 @@ Note: adjust PATH elements above for your version of python
 
 5. ensure git package is installed
 
-6. git clone http://irepo.eur.ad.sag/scm/~dkrukov/pyselenium.git
+6. git clone https://github.com/dan-kruk/pyselenium.git
 
 ------------------
 
@@ -57,7 +57,7 @@ Setup on Linux RH/Centos:
 
 1. ensure git package is installed
 2. Run command:
-cd; git clone http://irepo.eur.ad.sag/scm/~dkrukov/pyselenium.git && cd pyselenium
+cd; git clone https://github.com/dan-kruk/pyselenium.git && cd pyselenium
 ./install_pyse_rh
 
 Note: no need to have browsers and X-GUI setup on linux at all
@@ -88,7 +88,7 @@ Optional: on a dedicated host(s) around, install selenium hub and nodes
 
 -----------------
 
-wget http://irepo.eur.ad.sag/users/dkrukov/repos/pyselenium/raw/hub && chmod 755 hub
+wget https://github.com/dan-kruk/pyselenium.git && chmod 755 hub
 
    to run Selenium hub use one of these commands:
 
