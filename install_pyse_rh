@@ -40,7 +40,7 @@ declare -fx python
 
 #clone pyselenium and friendly projects
 for r in bvtlite pyselenium confbucket; do
- git clone http://irepo.eur.ad.sag/scm/~dkrukov/$r.git ||:
+ git clone https://github.com/dan-kruk/pyselenium.git ||:
 done
 
 echo "

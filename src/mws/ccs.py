@@ -83,30 +83,30 @@ def createpools (d=[{}]):
         print ('*creating:',p)
         createpool(p)
 
-#defaults may arguably be here
-ccs = '{ "name":"AAZ", "desc":"AAZ env" }'
-ccs = g.json.loads(ccs)
-
-def create(d=ccs):
+def create(env):
     """
-    create env
+    create ccs env; ret id
     """
+    before = envnames()
     tc('click add env btn')
     x="//*[@value='Add Environment...']"
     g.wait.until(EC.element_to_be_clickable((By.XPATH, x))).\
             send_keys(Keys.RETURN)
-    tc('enter env name '+g.env.get("name","AAenv"))
+    tc('enter env name '+env.get("name"))
     x="//*[@name='environmentName']"
     e = g.wait.until(EC.element_to_be_clickable((By.XPATH, x)))
-    e.clear(); e.send_keys(d.get('name'))
-    tc('enter env desc'+g.env.get("desc","AAenv desc"))
+    e.clear(); e.send_keys(env.get('name'))
+    tc('enter env desc'+env.get("desc"))
     e = g.driver.find_element(By.NAME,'environmentDesc')
-    e.clear(); e.send_keys(d.get('desc'))
+    e.clear(); e.send_keys(env.get('desc'))
     tc('click save env button')
     e = g.driver.find_element(By.NAME,'save').send_keys(Keys.RETURN)
     tc('check env is in list')
-    g.wait.until(EC.element_to_be_clickable((By.LINK_TEXT,
-        d.get('name','AAenv'))))
+    for k,v in envnames().items():
+        if k not in before:
+            env['id'] = v
+            return
+    raise Exception('failed lookup env id')
 
 def envid(d={}): #u: env name, ret: envid
     u = d.get('name','AAenv')
@@ -117,7 +117,7 @@ def envid(d={}): #u: env name, ret: envid
     print ('*env id',uid)
     return uid
 
-def delete(l=ccs):
+def delete(l):
     """
     del envs
     """
@@ -147,21 +147,88 @@ def delete(l=ccs):
         except: print ('*no env seen as expected '+u)
     else: print('*no existing envs:',l)
 
-def navenv(d=ccs):
+def navenv(env, click=True):
     """
-    nav to env
+    nav to env; ret env ID
     """
-    l = d.get('name','AAenv')
-    tc('locate click env link '+l)
-    g.wait.until(EC.element_to_be_clickable((By.LINK_TEXT,l)))\
-            .send_keys(Keys.RETURN)
-    x="//*[@name='environmentName']"
-    e = g.wait.until(EC.element_to_be_clickable((By.XPATH, x)))
+    name = env.get('name','AAenv')
+    tc('locate env '+name)
+    x = "//span/a[contains(@href,'webm.apps.config.env?')]"
+    g.wait.until(EC.visibility_of_all_elements_located((By.XPATH, x)))
+    try: #reset to the 1st page
+        o = g.driver.find_element(By.LINK_TEXT,'1')
+        o.click()
+    except: pass
 
-def addservers(d=ccs):
+    while True:
+        time.sleep(.3) #occasional DOM flicks
+        g.wait.until(EC.visibility_of_all_elements_located((By.XPATH, x)))
+        #g.wait.until(EC.element_to_be_clickable((By.XPATH, x)))
+        es = g.driver.find_elements_by_xpath(x)
+        #print ("===",len(es))
+        for e in es:
+            #print(e.text, name)
+            if e.text == name:
+                id = re.search('.+environmentID=(\d+)',e.get_attribute('href')).group(1)
+                if click:
+                    tc('click env '+name)
+                    e.click()
+                    x="//*[@name='environmentName']"
+                    e = g.wait.until(EC.element_to_be_clickable((By.XPATH, x)))
+                return id
+        try:
+            o = g.driver.find_element(By.PARTIAL_LINK_TEXT,'Next')
+            o.click()
+            g.wait.until(EC.staleness_of(o))
+            tc("jump to next page")
+        except:
+            break
+    tc('','fail','env '+name+' not found')
+
+def envnames():
+    """ret {name:id} - names from single/mult pages on env list
+       except if blank list
+    """
+    tc('get env names from list')
+    x = "//span/a[contains(@href,'webm.apps.config.env?')] | //*[contains(text(),'No Environments Defined')]"
+    e = g.wait.until(EC.visibility_of_all_elements_located((By.XPATH, x)))
+    if "No Environments Defined" in e[0].text:
+        return {}
+    try: #reset to the 1st page
+        o = g.driver.find_element(By.LINK_TEXT,'1')
+        o.click()
+    except: pass
+    names = {}
+    while True:
+        g.wait.until(EC.visibility_of_all_elements_located((By.XPATH, x)))
+        es = g.driver.find_elements_by_xpath(x)
+        #print (len(es))
+        for e in es:
+            #print(e.text, e.get_attribute('href'))
+            id = re.search('.+environmentID=(\d+)',e.get_attribute('href')).group(1)
+            names[e.text] = id
+        try:
+            o = g.driver.find_element(By.PARTIAL_LINK_TEXT,'Next')
+            o.click()
+            g.wait.until(EC.staleness_of(o))
+            tc("jump to next page")
+        except:
+            break
+    return names
+
+LSMAP = { 'ae':'Analytic Engine','dc':'Web Service Data Collector' }
+TPLMAP = { 'o4p':'webMethods Optimize for Process','o4i':'webMethods Optimize for Infrastructure' }
+RELMAP = { '901':'v9.0.0.0','951':'v9.5.0.0','97':'v9.7.0.0','910':'v9.10.0.0','102':'v10.2.0.0' }
+
+def addservers(env,bytemplate=False):
 
     hb=g.driver.window_handles[0]
-    x="//*[contains(@name, 'addLogicalServer')]"
+    if bytemplate:
+        x="//*[contains(@name, 'addFromTemplate')]"
+        envmap = TPLMAP
+    else:
+        x="//*[contains(@name, 'addLogicalServer')]"
+        envmap = LSMAP
     g.wait.until(EC.element_to_be_clickable((By.XPATH, x)))\
             .send_keys(Keys.RETURN)
     ha=g.driver.window_handles[1]
@@ -169,9 +236,11 @@ def addservers(d=ccs):
 
     x="//*[contains(@name, 's')]"
     e = g.wait.until(EC.element_to_be_clickable((By.XPATH, x)))
-    for s in d.get('servers').values(): #multiselect
-        print ('select',s)
-        Select(e).select_by_value(s)
+    for s in env.get('lservers').split(): #multiselect
+        if s in envmap: #skip missing keys so can do LSMAP and TPLMAP key mix
+            s = envmap[s]+' '+RELMAP[env['rel']]
+            print ('select',s)
+            Select(e).select_by_value(s)
     x="//*[@value='OK']"
     g.wait.until(EC.element_to_be_clickable((By.XPATH,x)))\
             .send_keys(Keys.RETURN)
@@ -179,21 +248,6 @@ def addservers(d=ccs):
     g.driver.switch_to_window(hb)
     x="//*[contains(@name, 'addLogicalServer')]"
     g.wait.until(EC.element_to_be_clickable((By.XPATH, x)))
-
-def serverids(): #ret: {} all existing server ids
-        x="//*[contains(@href,'doEditLogicalServerPopup')]";
-        pass
-
-    #e=g.wait.until(EC.element_to_be_clickable((By.LINK_TEXT,c)))
-    #actions = ActionChains(g.driver)
-    #actions.move_to_element(e).click().perform()
-    #actions.keyDown(Keys.LEFT_CONTROL)
-    #for s in d.get('servers').values(): #multiselect
-    #    x="//*[contains(@id,'"+u+"')]"; e = g.driver.find_element(By.XPATH, x)
-    #    e.click()
-    #actions.keyUp(Keys.LEFT_CONTROL)
-    #actions.build()
-    #actions.perform()
 
 def toggledls (s=True):
     #Deprecated
@@ -256,13 +310,17 @@ def navtab(t):
         if e.get_attribute('title') == 'Expand All': #click if needed
             e.click()
 
-def navconfig (c):
+def navconfig (c, click=True, index=0):
     """
-    take envid and config name, nav to that config
+    nav to config @c on configure servers tab, @click on @index conf(there may be more than 1 on page)
+    ret [] of configs named @c
     """
-    tc('nav '+c)
-    g.wait.until(EC.element_to_be_clickable((By.LINK_TEXT,c)))\
-            .send_keys(Keys.RETURN)
+    tc('nav/click/index: '+c+'/'+str(click)+'/'+str(index))
+    g.wait.until(EC.element_to_be_clickable((By.LINK_TEXT,c)))
+    e = g.driver.find_elements_by_link_text(c)
+    if click: #click on index config name occurrence
+        e[index].send_keys(Keys.RETURN)
+    return e
 
 def _submit_conf_settings(x='Save'): #Save|Reset
     tc('click button '+x)
@@ -318,6 +376,32 @@ def station_settings (x={}):
         tc('act/exp '+x+' '+str(s0)+str(c))
         assert c is s0
 
+def configure_servers (p={}):
+    """configure any setting - compact and whoa, no special case impl :)"""
+
+    tc('configure servers')
+    x = "//input[@type='text' or @type='checkbox' or @type='submit' or @type='radio'] | //textarea | //select"
+    g.wait.until(EC.element_to_be_clickable((By.XPATH,x)))
+    es = g.driver.find_elements_by_xpath(x)
+
+    for e in es:
+        name = e.get_attribute('name')
+        type = e.get_attribute('type')
+        type = e.get_attribute('type')
+        #print("====",e.get_property('name'))
+        if name in p.keys():
+            if type in ['text']:
+                tc(name+' '+e.get_attribute('value')+' -> '+p[name])
+                e.clear()
+                e.send_keys(p[name])
+            elif type in ['checkbox','radio']:
+                tc(name+' '+str(e.is_selected())+' -> '+str(p[name]))
+                if e.is_selected():
+                    if not p[name]: e.click()
+                elif p[name]: e.click()
+
+    _submit_conf_settings()
+
 def modmwspath(d={}):
     navtab('Map Endpoints')
     tc('locate mwspath input')
@@ -353,13 +437,16 @@ def finish(d):
     x="//*[@type='button' and @name='finish']"
     g.wait.until(EC.element_to_be_clickable((By.XPATH,
         x))).send_keys(Keys.RETURN)
-    l = d.get('name','AAenv'); tc('locate env link '+l)
-    g.wait.until(EC.element_to_be_clickable((By.LINK_TEXT,l)))
+    x="//*[@value='Add Environment...']"
+    g.wait.until(EC.element_to_be_clickable((By.XPATH, x)))
+    #l = d.get('name','AAenv'); tc('locate env link '+l)
+    #g.wait.until(EC.element_to_be_clickable((By.LINK_TEXT,l)))
 
 def deploy(d,a='Deploy All'): #a: Deploy Updates | Deploy All
-    e = envid(d)
-    tc('deploy env '+e)
-    x="//*/a[contains (@href, 'environmentID="+e+"&')\
+    #e = envid(d)
+    id = navenv(d,False)
+    tc('deploy env '+d['name']+' id='+id)
+    x="//*/a[contains (@href, 'environmentID="+id+"&')\
             and contains (@href, 'isDeployed=')]"
     g.wait.until(EC.element_to_be_clickable((By.XPATH,
         x))).send_keys(Keys.RETURN)
@@ -379,9 +466,71 @@ def deploy(d,a='Deploy All'): #a: Deploy Updates | Deploy All
     x="//*[@type='submit' and @value='Close']"
     g.wait.until(EC.element_to_be_clickable((By.XPATH,
         x))).send_keys(Keys.RETURN)
-    l = d.get('name','AAenv'); tc('locate env link '+l)
-    g.wait.until(EC.element_to_be_clickable((By.LINK_TEXT,l)))
+    x="//*[@value='Add Environment...']"
+    g.wait.until(EC.element_to_be_clickable((By.XPATH, x)))
+    #l = d.get('name','AAenv'); tc('locate env link '+l)
+    #g.wait.until(EC.element_to_be_clickable((By.LINK_TEXT,l)))
 
 def mapendpoints(d):
     pass
+
+def exportenv(env):
+    """export env.name for env.rel; ret exported filename"""
+    e = env['name']
+    tc('export env '+e)
+    xe="//*[text()='"+e+"']/preceding::td[1]/input"
+    g.wait.until(EC.element_to_be_clickable((By.XPATH, xe))).click()
+    import glob,os
+    base = env['exp_dir']+'/ExportedEnvironments'
+    out = base+env['rel']+'.xml'
+    wildcard = base+'*.xml'
+    before = glob.glob(wildcard)
+    x="//*[@value='Export Environment...']"
+    g.wait.until(EC.element_to_be_clickable((By.XPATH,
+        x))).send_keys(Keys.RETURN)
+    for i in range(0,5): #process uploaded file
+        time.sleep(1)
+        for f in glob.glob(wildcard):
+            #print(f)
+            if f not in before:
+                if os.path.isfile(out+'.bak'):
+                    os.remove(out+'.bak')
+                if os.path.isfile(out):
+                    os.rename(out,out+'.bak')
+                time.sleep(3) #file may be there but not finish download
+                os.rename(f,out)
+                #uncheck env so func can be called back to back
+                g.wait.until(EC.element_to_be_clickable((By.XPATH, xe))).click()
+                return out
+    raise Exception("exported file not found: "+wildcard)
+
+def importenv(env={}):
+    tc('import env '+str(env))
+    x="//*[@value='Import Environment...']"
+    g.wait.until(EC.element_to_be_clickable((By.XPATH,
+        x))).send_keys(Keys.RETURN)
+    g.wait.until(EC.number_of_windows_to_be(2))
+    g.focus(1)
+    x="//*/input[@name='uploadedFile']"
+    e=g.wait.until(EC.element_to_be_clickable((By.XPATH, x)))
+    #remote - /  local = \\ path separators!
+    print (env['file'])
+    e.send_keys(env['file']);
+    x=".//*/input[@value='OK']"
+
+    handles = g.driver.window_handles
+    #g.wait.until(EC.element_to_be_clickable((By.XPATH, x))).send_keys(Keys.RETURN)
+    g.driver.find_element(By.XPATH, x).send_keys(Keys.RETURN)
+    g.disappear(handles) #make sure import dialog closed
+    if env.get('migrate',False):
+        g.wait.until(EC.number_of_windows_to_be(2)) #migr dialog poped
+        g.focus(1)
+        x=".//*/input[@value='Yes']"
+        g.wait.until(EC.element_to_be_clickable((By.XPATH,
+            x))).send_keys(Keys.RETURN)
+    g.wait.until(EC.number_of_windows_to_be(1)) #file upload dialog gone
+    g.focus()
+
+    #time.sleep(5)
+
 
