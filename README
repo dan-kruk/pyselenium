@@ -97,6 +97,13 @@ wget http://irepo.eur.ad.sag/users/dkrukov/repos/pyselenium/raw/hub && chmod 755
 ./hub node	#starts just node which points to local hub
 ./hub node host:port	#starts just node, which points remote host:port hub; standard port is 4444
 
+note: some browser drivers create lots of logs which may cause disk shortage very soon.
+if that is a problem, you may need to schedule a purge or disable excess logging, see respective driver documentation.
+
+#simple purge job example
+(while true; do (date; echo cleanup chromedriver logs; find /cygdrive/d/tmp -mtime +2|xargs rm -rf)& sleep 1d; done)&
+
+
 -----------------
 
 USAGE
